@@ -61,8 +61,8 @@ const Navbar: React.FC = () => {
           <a href={`#${SECTION_IDS.home}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.home}`)} className="flex items-center space-x-2">
   <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
   <span className={`text-xl font-bold transition-colors duration-300`}>
-    <span className="text-primary-dark">ScanTo</span>
-    <span className="text-secondary-dark">Eat</span>
+    <span className="font-lexend text-primary-dark">ScanTo</span>
+    <span className="font-lexend text-secondary-dark">Eat</span>
   </span>
 </a>
 
