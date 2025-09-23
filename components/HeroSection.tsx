@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
 
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10">
-              Todo lo que tus productos esconden, ScanEat te lo cuenta.
+              Todo lo que tus productos esconden, ScanToEat te lo cuenta.
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4" style={{ animationDelay: '0.2s' }}>

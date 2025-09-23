@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../images/batata.png';
+import logo from '../images/Logo.png';
 import { APP_NAME, NAV_LINKS, SECTION_IDS } from '../constants';
 
 const Navbar: React.FC = () => {
@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
           <a href={`#${SECTION_IDS.home}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.home}`)} className="flex items-center space-x-2">
   <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
   <span className={`text-xl font-bold transition-colors duration-300`}>
-    <span className="text-primary-dark">Scan</span>
+    <span className="text-primary-dark">ScanTo</span>
     <span className="text-secondary-dark">Eat</span>
   </span>
 </a>

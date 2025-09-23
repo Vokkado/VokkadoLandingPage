@@ -72,7 +72,7 @@ const FeaturesSection: React.FC = () => {
             Todo lo que necesitas para <span className="text-primary-DEFAULT"></span><span className="text-secondary-dark">comer mejor</span>
           </h2>
           <p className="mt-4 text-lg text-neutral-dark max-w-2xl mx-auto">
-            Descubre las herramientas que ScanEat te ofrece para cuidar tu alimentación.
+            Descubre las herramientas que ScanToEat te ofrece para cuidar tu alimentación.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">

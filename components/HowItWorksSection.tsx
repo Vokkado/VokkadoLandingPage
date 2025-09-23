@@ -61,7 +61,7 @@ const HowItWorksSection: React.FC = () => {
             Simple, rápido y <span className="text-primary-DEFAULT"></span> <span className="text-secondary-dark">personalizado</span>
           </h2>
           <p className="mt-4 text-lg text-neutral-dark max-w-2xl mx-auto">
-            Entender las etiquetas nunca fue tan fácil. Así es como ScanEat te ayudará:
+            Entender las etiquetas nunca fue tan fácil. Así es como ScanToEat te ayudará:
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
