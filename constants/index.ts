@@ -5,7 +5,7 @@ export const SECTION_IDS = {
   participate: 'call-to-action', // Matches CallToAction section ID and Hero button target
 };
 
-export const APP_NAME = "ScanEat";
+export const APP_NAME = "ScanToEat";
 
 export const NAV_LINKS = [
   { name: 'Inicio', href: `#${SECTION_IDS.home}` },

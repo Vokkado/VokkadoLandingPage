@@ -7,6 +7,7 @@ const HeroSection: React.FC = () => {
   const PROTOTYPE_LINK = "https://www.figma.com/proto/jDJHP35LiVk29qi26zypAz/Prototipos?node-id=550-780&t=lQH05xwpzc4h3yu1-1&scaling=min-zoom&content-scaling=fixed&page-id=550%3A758&starting-point-node-id=550%3A780&show-proto-sidebar=1"; 
   const GOOGLE_FORM_LINK = "https://forms.gle/tDi9tpJgm2sNRhtx5";
 
+
   return (
     <section 
       id={SECTION_IDS.home}
@@ -49,7 +50,7 @@ const HeroSection: React.FC = () => {
               </Button>
             </div>
           </div>
-
+          
           {/* Right Column: iPhone Mockup */}
           <div className="md:col-span-2 mt-16 md:mt-0 flex items-center justify-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             {/* Container for the iPhone mockup, now without backdrop styling */}
@@ -65,32 +66,24 @@ const HeroSection: React.FC = () => {
                 <div className="absolute -left-[9px] sm:-left-[11px] top-[75px] sm:top-[80px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div> {/* Vol Up */}
                 <div className="absolute -left-[9px] sm:-left-[11px] top-[115px] sm:top-[122px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div> {/* Vol Down */}
 
-                {/* Screen Area */}
-                <a href={PROTOTYPE_LINK} target="_blank" rel="noopener noreferrer">
-                <div className="absolute inset-0 rounded-[28px] sm:rounded-[34px] bg-white flex items-center justify-center overflow-hidden">
-                  
-                  <img src={prototipoImg} alt="Prototipo" className="object-cover w-full h-full" />
-
-                </div>
-                </a>
+               
               </div>
               {/* iPhone 14 Pro Mockup END */}
             </div>
           </div>
+          
         </div>
       </div>
 
       {/* Decorative Elements - inspired by the example */}
       {/* Large Blurred Circles */}
-      <div aria-hidden="true" className="absolute top-20 -left-10 w-32 h-32 bg-secondary-light rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce"></div>
-      <div aria-hidden="true" className="absolute bottom-20 -right-10 w-32 h-32 bg-primary-light rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce animation-delay-2000"></div>
+      <div aria-hidden="true" className="absolute top-20 -left-10 w-32 h-32 bg-secondary-dark rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce"></div>
+      <div aria-hidden="true" className="absolute bottom-20 -right-10 w-32 h-32 bg-primary-dark rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce animation-delay-2000"></div>
       
       {/* Smaller Distinct Dots - Repositioned */}
-      <div aria-hidden="true" className="absolute top-[15%] left-[10%] w-16 h-16 bg-secondary-light rounded-full opacity-60 hidden md:block"></div>
-      <div aria-hidden="true" className="absolute bottom-[20%] left-[15%] w-12 h-12 border-[10px] border-secondary rounded-full border-l-transparent border-t-transparent rotate-45 opacity-50 hidden md:block"></div>
-      <div aria-hidden="true" className="absolute top-[65%] left-[8%] w-3 h-3 bg-blue-400 rounded-full opacity-70 hidden md:block"></div>
-      <div aria-hidden="true" className="absolute top-[25%] right-[10%] w-4 h-4 bg-blue-500 rounded-full opacity-70 hidden md:block"></div>
-      <div aria-hidden="true" className="absolute bottom-[10%] right-[8%] w-2 h-2 bg-yellow-300 rounded-full opacity-70 hidden md:block"></div>
+      <div aria-hidden="true" className="absolute top-[15%] left-[10%] w-16 h-16 bg-secondary-dark rounded-full opacity-60 hidden md:block"></div>
+      <div aria-hidden="true" className="absolute bottom-[20%] left-[15%] w-12 h-12 border-[10px] border-secondary-dark rounded-full border-l-transparent border-t-transparent rotate-45 opacity-50 hidden md:block"></div>
+      <div aria-hidden="true" className="absolute bottom-[10%] right-[8%] w-2 h-2 border-secondary-dark rounded-full opacity-70 hidden md:block"></div>
     </section>
   );
 };
