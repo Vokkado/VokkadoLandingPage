@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScanToEat Uruguay - Tu Guía de Alimentación Saludable</title>
+    
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -19,23 +23,23 @@
             },
             colors: {
               primary: {
-                DEFAULT: '#19433A', // New primary green
-                light: '#2A5C4F',   // Lighter shade of new primary
-                dark: '#5a8703ff',    // Darker shade of new primary
-                lightest: '#D4E0DD', // Very pale shade of new primary
+                DEFAULT: '#19433A',
+                light: '#2A5C4F',
+                dark: '#5a8703ff',
+                lightest: '#D4E0DD',
               },
               secondary: {
-                DEFAULT: '#F59E0B', // amber-500 (Orange)
-                light: '#FBBF24', // amber-400
-                dark: '#5a8703ff', // amber-600
+                DEFAULT: '#F59E0B',
+                light: '#FBBF24',
+                dark: '#5a8703ff',
               },
               neutral: { 
-                lightest: '#F9FAFB', // gray-50
-                light: '#F3F4F6',    // gray-100 (For hover:bg-neutral-light)
-                medium: '#9CA3AF',   // gray-400 (New)
-                DEFAULT: '#6B7280', // gray-500 
-                dark: '#374151',     // gray-700 (For text-neutral-dark)
-                darkest: '#1F2937',  // gray-800 (For BoniatoIcon consistency)
+                lightest: '#F9FAFB',
+                light: '#F3F4F6',
+                medium: '#9CA3AF',
+                DEFAULT: '#6B7280',
+                dark: '#374151',
+                darkest: '#1F2937',
               },
               black: '#000000',
               white: '#FFFFFF',
@@ -55,43 +59,32 @@
       }
     </script>
 
-<link rel="stylesheet" href="/index.css">
+    <!-- Importmap -->
 
-<!-- Google Tag Manager -->
-<!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PV4QWZK9');</script>
- End Google Tag Manager -->
 
- <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1WR8Q02XH9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <link rel="stylesheet" href="./index.css">
 
-  gtag('config', 'G-1WR8Q02XH9');
-</script>
-
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "react/": "https://esm.sh/react@^19.1.0/"
-  }
-}
-</script>
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1WR8Q02XH9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1WR8Q02XH9');
+    </script>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.1.0",
+        "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+        "react/": "https://esm.sh/react@^19.1.0/"
+      }
+    }
+    </script>
   <script type="module" crossorigin src="/ScanToEatLandingPage/assets/index-ehKZdwJr.js"></script>
 </head>
-<body class="bg-white font-sans">
-    <div id="root"></div>
 
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PV4QWZK9"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<body class="bg-white font-sans">
+    <div id="root"></div>  
 </body>
 </html>
