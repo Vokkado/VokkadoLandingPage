@@ -7,6 +7,17 @@ const HeroSection: React.FC = () => {
   const PROTOTYPE_LINK = "https://www.figma.com/proto/ROe6eiZatbkRH9MTtBt5Sv/ScanToEat?node-id=336-108&t=9YdBjZ01GJjIJFVT-1&scaling=scale-down&content-scaling=fixed&page-id=132%3A9&starting-point-node-id=281%3A71";
   const GOOGLE_FORM_LINK = "https://forms.gle/tDi9tpJgm2sNRhtx5";
 
+// Función para disparar evento GA4 y abrir link
+  const trackEventAndOpen = (eventName: string, url: string) => {
+    if (window.gtag) {
+      window.gtag('event', eventName, {
+        link_url: url,
+        section: 'HeroSection'
+      });
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <section
       id={SECTION_IDS.home}
