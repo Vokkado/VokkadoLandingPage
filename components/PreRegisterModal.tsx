@@ -3,7 +3,7 @@ import Button from './common/Button';
 
 // ⚠️ IMPORTANTE: Reemplaza esta URL con la de tu Google Apps Script
 // Instrucciones en: GOOGLE_SHEETS_SETUP.md
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxdYYtXQviNPw2BTESG12xhZm_DKMOoYV-C7ESPdbE8q0-N4VvhnOxqGku-Vpm5ouqigQ/exec';
+const GOOGLE_SCRIPT_URL = 'https://vercel-proxy-landing.vercel.app/api/preregister';
 
 interface PreRegisterModalProps {
   isOpen: boolean;
@@ -20,63 +20,63 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError(null);
 
-    try {
-      // Si no hay URL configurada, mostrar error
-      if (!GOOGLE_SCRIPT_URL) {
-        throw new Error('Google Script URL no configurada. Ver GOOGLE_SHEETS_SETUP.md');
-      }
+  try {
+    if (!GOOGLE_SCRIPT_URL) {
+      throw new Error('Google Script URL no configurada.');
+    }
 
-      console.log('Enviando datos:', {
+    console.log("Enviando datos:", {
+      nombre: formData.name,
+      email: formData.email,
+    });
+
+    // Enviar JSON (NO FormData)
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
         nombre: formData.name,
-        email: formData.email
-      });
+        email: formData.email,
+      })
+    });
 
-      // Crear un FormData para enviar (alternativa a JSON que funciona mejor con CORS)
-      const formDataToSend = new FormData();
-      formDataToSend.append('nombre', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('timestamp', new Date().toISOString());
+    const data = await response.json();
+    console.log("Respuesta del servidor:", data);
 
-      // Usar fetch con redirect: 'follow' y mode: 'no-cors'
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formDataToSend,
-        redirect: 'follow'
-      });
-
-      // Con no-cors no podemos leer la respuesta, pero si llegamos aquí sin error, asumimos éxito
-      console.log('Datos enviados exitosamente (mode: no-cors)');
-      
+    if (data.result === "success") {
       setSubmitSuccess(true);
-      
-      // Track event con Google Analytics
+
       if (window.gtag) {
-        window.gtag('event', 'pre_register_submit', {
+        window.gtag("event", "pre_register_submit", {
           user_name: formData.name,
         });
       }
 
-      // Resetear después de 2 segundos
       setTimeout(() => {
-        setFormData({ name: '', email: '' });
+        setFormData({ name: "", email: "" });
         setSubmitSuccess(false);
         setError(null);
         onClose();
       }, 2000);
 
-    } catch (err) {
-      console.error('Error al enviar pre-registro:', err);
-      setError('Hubo un error al enviar tu registro. Verifica tu conexión a internet.');
-      setSubmitSuccess(false);
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      setError(data.error || "Error desconocido.");
     }
-  };
+
+  } catch (err) {
+    console.error("Error enviando pre-registro:", err);
+    setError("Hubo un error de conexión. Intentá nuevamente.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({

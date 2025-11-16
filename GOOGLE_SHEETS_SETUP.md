@@ -20,135 +20,109 @@
 3. Pega este código:
 
 ```javascript
-const SHEET_ID = '1Z5bmSd7RkkzUKc91AQWfHjFTGiIIdqiQb92smWfYtts'; //EL LINK DE LA GOOGLE SHEET
+const SHEET_ID = '1Z5bmSd7RkkzUKc91AQWfHjFTGiIIdqiQb92smWfYtts';
+const SHEET_NAME = 'Pre-Registro';
+
+const ALLOWED_DOMAINS = [
+  "gmail.com", "outlook.com", "hotmail.com", "yahoo.com",
+  "icloud.com", "proton.me", "gmail.com.uy", "hotmail.com.uy", "fi365.ort.edu.uy"
+];
+
+const BANNED_DOMAINS = [
+  "mailinator.com", "tempmail.com", "10minutemail.com",
+  "guerrillamail.com", "discard.email", "trashmail.com"
+];
 
 function doPost(e) {
   try {
-    // === VALIDACIONES DE SEGURIDAD ===
-    
-    var data;
-    
-    // 1. Validar que lleguen datos (puede ser JSON o FormData)
-    if (e.postData && e.postData.contents) {
+    // Soportar JSON o form-urlencoded
+    var payload = null;
+    if (e.postData && e.postData.type && e.postData.type.indexOf('application/json') !== -1) {
       try {
-        data = JSON.parse(e.postData.contents);
-      } catch (jsonError) {
-        // Si no es JSON, intentar leer como parámetros de formulario
-        data = e.parameter;
+        payload = JSON.parse(e.postData.contents);
+      } catch (err) {
+        return respond({ result: "error", error: "Invalid JSON" });
       }
-    } else if (e.parameter) {
-      data = e.parameter;
     } else {
-      throw new Error('No data received');
+      // cuando llega application/x-www-form-urlencoded o multipart/form-data
+      payload = {
+        nombre: e.parameter.nombre,
+        email: e.parameter.email
+      };
     }
-    
-    Logger.log('Datos recibidos: ' + JSON.stringify(data));
-    
-    // 2. Validar campos requeridos
-    if (!data.nombre || !data.email) {
-      throw new Error('Missing required fields');
+
+    if (!payload) {
+      return respond({ result: "error", error: "No data received" });
     }
-    
-    // 3. Validar formato de email
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      throw new Error('Invalid email format');
+
+    Logger.log("Datos recibidos: " + JSON.stringify(payload));
+
+    var nombre = String(payload.nombre || "").trim();
+    var email = String(payload.email || "").trim().toLowerCase();
+
+    // Validaciones
+    if (nombre.length < 2 || nombre.length > 50) {
+      return respond({ result: "error", error: "Nombre inválido." });
     }
-    
-    // 4. Sanitizar inputs (prevenir inyección)
-    var nombre = String(data.nombre).substring(0, 100).trim();
-    var email = String(data.email).substring(0, 100).trim().toLowerCase();
-    
-    // 5. CONECTAR CON TU GOOGLE SHEET (usando el ID)
-    var spreadsheet = SpreadsheetApp.openById(SHEET_ID);
-    var sheet = spreadsheet.getSheetByName('Pre-Registro');
-    
-    if (!sheet) {
-      // Si no existe la hoja "Pre-Registro", usa la primera hoja
-      sheet = spreadsheet.getSheets()[0];
+    if (/^\d+$/.test(nombre) || nombre.toLowerCase().includes("test")) {
+      return respond({ result: "error", error: "Nombre inválido." });
     }
-    
-    // 6. Rate limiting básico (máximo 1 registro por email por hora)
-    var allData = sheet.getDataRange().getValues();
-    var now = new Date();
-    var oneHourAgo = new Date(now.getTime() - 60*60*1000);
-    
-    for (var i = 1; i < allData.length; i++) {
-      var rowEmail = allData[i][2];
-      var rowTimestamp = new Date(allData[i][0]);
-      
-      if (rowEmail === email && rowTimestamp > oneHourAgo) {
-        return createCORSResponse({ 
-          result: 'error', 
-          error: 'Ya te registraste recientemente. Por favor espera un momento.' 
-        });
+
+    var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return respond({ result: "error", error: "Email no válido." });
+    }
+
+    var domain = email.split("@")[1];
+    if (BANNED_DOMAINS.includes(domain)) {
+      return respond({ result: "error", error: "Email desechable detectado." });
+    }
+    if (!ALLOWED_DOMAINS.includes(domain)) {
+      return respond({
+        result: "error",
+        error: "Usá un correo real (gmail, outlook, hotmail...)"
+      });
+    }
+
+    // Verificar duplicados
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = ss.getSheetByName(SHEET_NAME);
+    if (!sheet) sheet = ss.getSheets()[0];
+
+    var rows = sheet.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      var rowEmail = String(rows[i][2] || "").trim().toLowerCase();
+      if (!rowEmail) continue;
+      if (rowEmail === email) {
+        return respond({ result: "error", error: "Este email ya está registrado." });
       }
     }
-    
-    // 7. Verificar que no sea spam (nombre muy corto)
-    if (nombre.length < 2) {
-      return createCORSResponse({ result: 'error', error: 'Nombre demasiado corto' });
-    }
-    
-    // === GUARDAR DATOS ===
+
+    // Guardar
     var now = new Date();
-    var uruguayTime = new Date(now.getTime() - (3 * 60 * 60 * 1000));
-    var timestampUruguay = uruguayTime.toISOString().replace('T', ' ').substring(0, 19);
-    
-    sheet.appendRow([
-      timestampUruguay,
-      nombre,
-      email
-    ]);
-    
-    // === LOGS DE SEGURIDAD ===
-    Logger.log('Registro exitoso: ' + email);
-    
-    // Retornar éxito con CORS
-    return createCORSResponse({ 
-      result: 'success',
-      message: 'Datos guardados correctamente'
-    });
-      
-  } catch (error) {
-    // Log del error para debugging
-    Logger.log('Error: ' + error.toString());
-    
-    // Retornar error con CORS
-    return createCORSResponse({ 
-      result: 'error', 
-      error: 'Error al procesar el registro'
-    });
+    var uy = new Date(now.getTime() - 3 * 3600000);
+    var timestamp = uy.toISOString().replace("T", " ").substring(0, 19);
+
+    sheet.appendRow([timestamp, nombre, email]);
+    Logger.log("Registro exitoso: " + email);
+
+    return respond({ result: "success", message: "Registro guardado correctamente." });
+
+  } catch (err) {
+    Logger.log("Error fatal: " + err);
+    return respond({ result: "error", error: "Error interno del servidor." });
   }
 }
 
-// Función para manejar OPTIONS request (CORS preflight)
+// No intenta inyectar headers. El proxy se encarga de CORS.
 function doOptions(e) {
-  return createCORSResponse({});
+  return respond({}); // responde 200 con body {} (proxy debería interceptar OPTIONS)
 }
 
-// Función auxiliar para crear respuestas con headers CORS
-function createCORSResponse(content) {
-  var output = ContentService.createTextOutput(JSON.stringify(content))
+function respond(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
-  
-  return output;
-}
-
-// Función de prueba
-function testPost() {
-  var testData = {
-    postData: {
-      contents: JSON.stringify({
-        timestamp: new Date().toISOString(),
-        nombre: "Test User",
-        email: "test@example.com"
-      })
-    }
-  };
-  
-  var result = doPost(testData);
-  Logger.log(result.getContent());
 }
 ```
 
