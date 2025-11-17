@@ -125,7 +125,6 @@ const HeroSection: React.FC = () => {
       {/* Decorative Elements */}
       <div aria-hidden="true" className="absolute top-20 -left-10 w-32 h-32 bg-secondary-dark rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce"></div>
       <div aria-hidden="true" className="absolute bottom-20 -right-10 w-32 h-32 bg-primary-dark rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce animation-delay-2000"></div>
-      <div aria-hidden="true" className="absolute bottom-[20%] left-[15%] w-12 h-12 border-[10px] border-secondary-dark rounded-full border-l-transparent border-t-transparent rotate-45 opacity-50 hidden md:block"></div>
       <div aria-hidden="true" className="absolute bottom-[10%] right-[8%] w-2 h-2 border-secondary-dark rounded-full opacity-70 hidden md:block"></div>
     </section>
   );

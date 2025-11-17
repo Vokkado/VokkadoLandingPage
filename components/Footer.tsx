@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { APP_NAME, SECTION_IDS } from '../constants';
 
 // Placeholder SVG icons for social media
@@ -47,7 +48,11 @@ export const Footer: React.FC = () => {
             <div>
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Legal</h2>
               <ul className="space-y-3">
-                <li><a href="#" className="hover:text-primary-light transition-colors">Política de Privacidad (Próximamente)</a></li>
+                <li>
+                  <Link to="/politica-privacidad" className="hover:text-primary-light transition-colors">
+                    Política de Privacidad
+                  </Link>
+                </li>
                 <li><a href="#" className="hover:text-primary-light transition-colors">Términos y Condiciones (Próximamente)</a></li>
               </ul>
             </div>

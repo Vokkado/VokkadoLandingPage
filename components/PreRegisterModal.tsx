@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from './common/Button';
 
 // ⚠️ IMPORTANTE: Reemplaza esta URL con la de tu Google Apps Script
@@ -14,6 +15,8 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    acceptsTerms: false,
+    acceptsPrivacy: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -25,6 +28,39 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
   setError(null);
 
   try {
+    // Validación manual de campos
+    if (!formData.name.trim()) {
+      setError('Por favor, ingresá tu nombre.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      setError('Por favor, ingresá tu email.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Validación de formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Por favor, ingresá un email válido.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.acceptsTerms) {
+      setError('Debes aceptar recibir novedades para continuar.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.acceptsPrivacy) {
+      setError('Debes aceptar la Política de Privacidad para continuar.');
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!GOOGLE_SCRIPT_URL) {
       throw new Error('Google Script URL no configurada.');
     }
@@ -59,7 +95,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
       }
 
       setTimeout(() => {
-        setFormData({ name: "", email: "" });
+        setFormData({ name: "", email: "", acceptsTerms: false, acceptsPrivacy: false });
         setSubmitSuccess(false);
         setError(null);
         onClose();
@@ -79,9 +115,10 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -130,7 +167,6 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  required
                   className="w-full px-4 py-3 border-2 border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT transition-colors"
                   placeholder="Tu nombre"
                 />
@@ -146,10 +182,45 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                   className="w-full px-4 py-3 border-2 border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT transition-colors"
                   placeholder="tu@email.com"
                 />
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="acceptsTerms"
+                  name="acceptsTerms"
+                  checked={formData.acceptsTerms}
+                  onChange={handleChange}
+                  className="flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark border-2 border-neutral-light rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer"
+                />
+                <label htmlFor="acceptsTerms" className="text-sm text-neutral-darkest cursor-pointer">
+                  Acepto que mi email sea usado para recibir novedades y ser notificado del lanzamiento de ScanToEat.
+                </label>
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="acceptsPrivacy"
+                  name="acceptsPrivacy"
+                  checked={formData.acceptsPrivacy}
+                  onChange={handleChange}
+                  className="flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark border-2 border-neutral-light rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer"
+                />
+                <label htmlFor="acceptsPrivacy" className="text-sm text-neutral-darkest cursor-pointer">
+                  He leído y acepto la{' '}
+                  <Link 
+                    to="/politica-privacidad" 
+                    target="_blank"
+                    className="text-secondary-dark hover:underline font-semibold"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Política de Privacidad
+                  </Link>.
+                </label>
               </div>
 
               <Button
@@ -157,7 +228,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                 variant="secondary"
                 size="md"
                 className="w-full shadow-lg hover:shadow-xl transform hover:scale-105"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !formData.acceptsTerms || !formData.acceptsPrivacy}
               >
                 {isSubmitting ? 'Enviando...' : 'Pre-registrarme'}
               </Button>

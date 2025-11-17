@@ -1,26 +1,40 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GoogleAnalytics from './components/GoogleAnalytics';
-import Navbar from './components/Navbar'; // Changed from named to default import
+import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection'; // Updated import
-import HowItWorksSection from './components/HowItWorksSection'; // Updated import
-import CallToActionSection from './components/CallToAction'; // Updated import name
+import FeaturesSection from './components/FeaturesSection';
+import HowItWorksSection from './components/HowItWorksSection';
+import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
+const HomePage: React.FC = () => {
+  return (
+    <>
+      <HeroSection />
+      <FeaturesSection /> 
+      <HowItWorksSection />
+      <CallToActionSection />
+    </>
+  );
+};
 
 const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen font-sans text-gray-700">
-      <GoogleAnalytics />
-      <Navbar />
-      <main className="flex-grow">
-        <HeroSection />
-        <FeaturesSection /> 
-        <HowItWorksSection />
-        <CallToActionSection /> {/* Updated usage */}
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="flex flex-col min-h-screen font-sans text-gray-700">
+        <GoogleAnalytics />
+        <Navbar />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 };
 
