@@ -21,11 +21,19 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showValidation, setShowValidation] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-  setIsSubmitting(true);
+  setShowValidation(true);
   setError(null);
+
+  // Validar checkboxes primero
+  if (!formData.acceptsTerms || !formData.acceptsPrivacy) {
+    return;
+  }
+
+  setIsSubmitting(true);
 
   try {
     // Validación manual de campos
@@ -144,11 +152,9 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
         {!submitSuccess ? (
           <>
             <h2 className="text-3xl font-bold text-primary-DEFAULT mb-2">
-              ¡Pre-regístrate!
-            </h2>
-            <p className="text-neutral-dark mb-6">
-              Sé de los primeros en conocer cuando lancemos ScanToEat.
-            </p>
+                🥑Acceso exclusivo
+              </h2>
+          
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
@@ -194,7 +200,11 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                   name="acceptsTerms"
                   checked={formData.acceptsTerms}
                   onChange={handleChange}
-                  className="flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark border-2 border-neutral-light rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer"
+                  className={`flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer ${
+                    showValidation && !formData.acceptsTerms 
+                      ? 'border-2 border-red-500' 
+                      : 'border-2 border-neutral-light'
+                  }`}
                 />
                 <label htmlFor="acceptsTerms" className="text-sm text-neutral-darkest cursor-pointer">
                   Acepto que mi email sea usado para recibir novedades y ser notificado del lanzamiento de ScanToEat.
@@ -208,7 +218,11 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                   name="acceptsPrivacy"
                   checked={formData.acceptsPrivacy}
                   onChange={handleChange}
-                  className="flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark border-2 border-neutral-light rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer"
+                  className={`flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer ${
+                    showValidation && !formData.acceptsPrivacy 
+                      ? 'border-2 border-red-500' 
+                      : 'border-2 border-neutral-light'
+                  }`}
                 />
                 <label htmlFor="acceptsPrivacy" className="text-sm text-neutral-darkest cursor-pointer">
                   He leído y acepto la{' '}
@@ -223,12 +237,22 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                 </label>
               </div>
 
+              {showValidation && (!formData.acceptsTerms || !formData.acceptsPrivacy) && (
+                <p className="text-red-600 text-sm text-center">
+                  {!formData.acceptsTerms && !formData.acceptsPrivacy 
+                    ? 'Debes aceptar ambas casillas para continuar'
+                    : !formData.acceptsTerms 
+                    ? 'Debes aceptar recibir novedades para continuar'
+                    : 'Debes aceptar la Política de Privacidad para continuar'}
+                </p>
+              )}
+
               <Button
                 type="submit"
                 variant="secondary"
                 size="md"
                 className="w-full shadow-lg hover:shadow-xl transform hover:scale-105"
-                disabled={isSubmitting || !formData.acceptsTerms || !formData.acceptsPrivacy}
+                disabled={isSubmitting}
               >
                 {isSubmitting ? 'Enviando...' : 'Pre-registrarme'}
               </Button>

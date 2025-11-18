@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight mb-6 leading-tight">
               <span className="text-primary-DEFAULT font-bold">
                 <span className="text-secondary-dark font-bold"> Saber </span>
-                lo que comes,
+                lo que comés,
               </span> <br />
               <span className="text-primary-DEFAULT font-bold"> es </span>
               <span className="text-secondary-dark font-bold">  cuidarte</span>
@@ -44,7 +44,7 @@ const HeroSection: React.FC = () => {
             {/* Pre-registro callout */}
             <div className="bg-white/80 backdrop-blur-sm border-2 border-secondary-dark/30 rounded-2xl p-6 mb-8 shadow-lg max-w-xl mx-auto md:mx-0" style={{ animationDelay: '0.2s' }}>
               <p className="text-neutral-darkest text-base md:text-lg mb-4">
-                🎉 <strong className="text-secondary-dark">¡Sé de los primeros!</strong> Pre-regístrate para contar con acceso anticipado y recibir novedades
+                🎉 <strong className="text-secondary-dark">Sumate al acceso exclusivo,</strong> dejanos tu mail y probá la app antes que nadie
               </p>
               <Button
                 variant="secondary"
@@ -52,7 +52,7 @@ const HeroSection: React.FC = () => {
                 className="shadow-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto"
                 onClick={() => setIsModalOpen(true)}
               >
-                Pre-registrarme
+               Quiero unirme
               </Button>
             </div>
 
@@ -63,7 +63,7 @@ const HeroSection: React.FC = () => {
                 className="shadow-lg hover:shadow-xl transform hover:scale-105"
                 onClick={() => window.open(PROTOTYPE_LINK, '_blank', 'noopener,noreferrer')}
               >
-                Probar el Prototipo
+                Probar el prototipo
               </Button>
               <Button
                 variant="secondary"
@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
                 className="shadow-lg hover:shadow-xl transform hover:scale-105"
                 onClick={() => window.open(GOOGLE_FORM_LINK, '_blank', 'noopener,noreferrer')}
               >
-                Dejar mi Opinión (Formulario)
+                Dejar mi opinión (formulario)
               </Button>
             </div>
           </div>

@@ -30,8 +30,8 @@ const HowItWorksSection: React.FC = () => {
           <ProfileIcon className="w-10 h-10 text-white" />
         </div>
       ),
-      title: '1. Crea tu perfil único',
-      description: 'Define tus preferencias dietéticas (vegana, vegetariana), intolerancias (gluten, lactosa, etc.), condiciones (insuficiencia renal) y edad.',
+      title: '1. Creá tu perfil único',
+      description: 'Definí tus preferencias dietéticas, intolerancias, condiciones y edad.',
     },
     {
       icon: (
@@ -39,8 +39,8 @@ const HowItWorksSection: React.FC = () => {
           <ScanIcon className="w-10 h-10 text-white" />
         </div>
       ),
-      title: '2. Escanea productos',
-      description: 'Utiliza la cámara de tu celular para escanear el código de barras de cualquier alimento o bebida.',
+      title: '2. Escaneá productos',
+      description: 'Utilizá la cámara de tu celular para escanear el código de barras de cualquier alimento o bebida.',
     },
     {
       icon: (
@@ -48,8 +48,8 @@ const HowItWorksSection: React.FC = () => {
           <AnalysisIcon className="w-10 h-10 text-white" />
         </div>
       ),
-      title: '3. Recibe análisis personalizados',
-      description: 'Obtén información clara y al instante sobre si el producto es adecuado para ti, basado en tu perfil completo.',
+      title: '3. Recibí análisis personalizados',
+      description: 'Obtené información clara y al instante sobre si el producto es adecuado para vos.',
     },
   ];
 
@@ -61,7 +61,7 @@ const HowItWorksSection: React.FC = () => {
             Simple, rápido y <span className="text-primary-DEFAULT"></span> <span className="text-secondary-dark">personalizado</span>
           </h2>
           <p className="mt-4 text-lg text-neutral-dark max-w-2xl mx-auto">
-            Entender las etiquetas nunca fue tan fácil. Así es como ScanToEat te ayudará:
+            Entender las etiquetas nunca fue tan fácil.
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-8 sm:gap-12">

@@ -33,7 +33,9 @@ export const Footer: React.FC = () => {
                <span className="text-xl font-semibold text-white">{APP_NAME}</span>
             </a>
             <p className="mt-2 text-sm max-w-xs">
-              Transformando la manera en que eliges tus alimentos.
+              Escaneá. 
+              Elegí. 
+              Cuidate.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">

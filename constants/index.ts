@@ -11,5 +11,5 @@ export const NAV_LINKS = [
   { name: 'Inicio', href: `#${SECTION_IDS.home}` },
   { name: 'Características', href: `#${SECTION_IDS.features}` },
   { name: 'Cómo Funciona', href: `#${SECTION_IDS.howItWorks}` },
-  { name: 'Participa', href: `#${SECTION_IDS.participate}` },
+  { name: 'Participá', href: `#${SECTION_IDS.participate}` },
 ];

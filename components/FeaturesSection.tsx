@@ -45,22 +45,22 @@ const FeaturesSection: React.FC = () => {
     {
       icon: <UserShieldIcon className="w-10 h-10 text-white" />,
       title: 'Perfiles detallados',
-      description: 'Configura múltiples restricciones: veganismo, vegetarianismo, celiaquía, alergias, insuficiencia renal, y más. Ajusta por edad para necesidades específicas.',
+      description: 'Configurá múltiples restricciones: vegetarianismo, celiaquía, alergias, insuficiencia renal, y más.',
     },
     {
       icon: <ZapIcon className="w-10 h-10 text-white" />,
       title: 'Análisis instantáneo',
-      description: 'Compara ingredientes y valores nutricionales contra tu perfil en segundos. (Funcionalidad de escaneo próximamente disponible).',
+      description: 'Compará productos, información y valores nutricionales contra tu perfil y obtené un análisis en segundos.',
     },
     {
       icon: <InfoIcon className="w-10 h-10 text-white" />,
-      title: 'Información clara y confiable',
+      title: 'Información transparente',
       description: 'Resultados fáciles de entender: "Apto", "Precaución", o "No Apto", con explicaciones detalladas y sencillas.',
     },
     {
       icon: <HeartIcon className="w-10 h-10 text-white" />,
       title: 'Bienestar a tu alcance',
-      description: 'Toma decisiones alimentarias informadas y alineadas con tu salud y estilo de vida, sin complicaciones.',
+      description: 'Tomá decisiones alimentarias informadas y alineadas con tu salud y estilo de vida, sin complicaciones.',
     },
   ];
 
@@ -69,10 +69,10 @@ const FeaturesSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest">
-            Todo lo que necesitas para <span className="text-primary-DEFAULT"></span><span className="text-secondary-dark">comer mejor</span>
+            Todo lo que necesitás para <span className="text-primary-DEFAULT"></span><span className="text-secondary-dark">comer mejor</span>
           </h2>
           <p className="mt-4 text-lg text-neutral-dark max-w-2xl mx-auto">
-            Descubre las herramientas que ScanToEat te ofrece para cuidar tu alimentación.
+            Descubrí las herramientas que ScanToEat te ofrece para cuidar tu alimentación.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -14,13 +14,13 @@ const CallToActionSection: React.FC = () => {
           ¡Prepárate para transformar tu alimentación!
         </h2>
         <p className="text-lg sm:text-xl text-primary-lightest max-w-2xl mx-auto mb-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          {APP_NAME} estará disponible muy pronto. Sé de los primeros en descubrir cómo comer mejor, de forma inteligente.
+          {APP_NAME} está cada vez más cerca. Sumate al acceso anticipado y descubrí cómo comer mejor, de forma inteligente.
         </p>
         
         {/* Email form removed */}
         
         <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}> {/* Adjusted animation delay */}
-          <p className="text-sm text-primary-lightest mb-2">Descárgala pronto en:</p>
+          <p className="text-sm text-primary-lightest mb-2">Descargala pronto en:</p>
           <div className="flex justify-center space-x-4">
             <a href="#" aria-label="Próximamente en App Store" className="bg-neutral-darkest text-white py-2 px-5 rounded-lg hover:bg-black transition-colors flex items-center space-x-2">
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Apple_Store_logo.svg/2048px-Apple_Store_logo.svg.png" alt="Apple Store" className="w-6 h-6" />
