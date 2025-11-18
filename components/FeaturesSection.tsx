@@ -45,7 +45,7 @@ const FeaturesSection: React.FC = () => {
     {
       icon: <UserShieldIcon className="w-10 h-10 text-white" />,
       title: 'Perfiles detallados',
-      description: 'Configurá múltiples restricciones: vegetarianismo, celiaquía, alergias, insuficiencia renal, y más.',
+      description: 'Configurá múltiples restricciones, preferencias y alergias alimentarias en detalle.',
     },
     {
       icon: <ZapIcon className="w-10 h-10 text-white" />,
