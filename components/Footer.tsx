@@ -60,7 +60,11 @@ export const Footer: React.FC = () => {
                     Eliminar cuenta
                   </Link>
                 </li>
-                <li><a href="#" className="hover:text-primary-light transition-colors">Términos y Condiciones (Próximamente)</a></li>
+                <li>
+                  <Link to="/terminos-y-condiciones" className="hover:text-primary-light transition-colors">
+                    Términos y Condiciones
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>

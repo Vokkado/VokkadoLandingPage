@@ -9,6 +9,7 @@ import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import DeleteAccount from './components/DeleteAccount';
+import TermsAndConditions from './components/TermsAndConditions';
 
 const HomePage: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const App: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
             <Route path="/eliminar-cuenta" element={<DeleteAccount />} />
+            <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
           </Routes>
         </main>
         <Footer />
