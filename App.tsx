@@ -8,6 +8,7 @@ import HowItWorksSection from './components/HowItWorksSection';
 import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import DeleteAccount from './components/DeleteAccount';
 
 const HomePage: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
+            <Route path="/eliminar-cuenta" element={<DeleteAccount />} />
           </Routes>
         </main>
         <Footer />

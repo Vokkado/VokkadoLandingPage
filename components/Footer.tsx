@@ -55,6 +55,11 @@ export const Footer: React.FC = () => {
                     Política de Privacidad
                   </Link>
                 </li>
+                <li>
+                  <Link to="/eliminar-cuenta" className="hover:text-primary-light transition-colors">
+                    Eliminar cuenta
+                  </Link>
+                </li>
                 <li><a href="#" className="hover:text-primary-light transition-colors">Términos y Condiciones (Próximamente)</a></li>
               </ul>
             </div>
