@@ -1,66 +1,209 @@
 import React from 'react';
-import IconCard from './common/IconCard';
+import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS } from '../constants';
 
-// Ionicons web components (loaded via CDN in index.html)
 declare namespace JSX {
   interface IntrinsicElements {
     'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
   }
 }
 
+// Import step images (placeholders — drop real screenshots into images/steps/)
+const stepModules = import.meta.glob('../images/steps/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
+const stepImages: Record<string, string> = {};
+for (const key of Object.keys(stepModules)) {
+  const filename = key.split('/').pop()?.split('.')[0] ?? '';
+  stepImages[filename] = stepModules[key];
+}
 
-const HowItWorksSection: React.FC = () => {
-  const steps = [
-    {
-      icon: (
-        <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center">
-          <ion-icon name="person-outline" style={{ fontSize: '40px', color: 'white' }} />
-        </div>
-      ),
-      title: '1. Creá tu perfil único',
-      description: 'Definí tus preferencias dietéticas, intolerancias, condiciones y edad.',
-    },
-    {
-      icon: (
-        <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center">
-          <span className="mdi mdi-barcode-scan" style={{ fontSize: '40px', color: 'white' }} />
-        </div>
-      ),
-      title: '2. Escaneá productos',
-      description: 'Utilizá la cámara de tu celular para escanear el código de barras de cualquier alimento o bebida.',
-    },
-    {
-      icon: (
-        <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center">
-          <ion-icon name="bar-chart-outline" style={{ fontSize: '40px', color: 'white' }} />
-        </div>
-      ),
-      title: '3. Recibí análisis personalizados',
-      description: 'Obtené información clara y al instante sobre si el producto es adecuado para vos.',
-    },
-  ];
+interface StepData {
+  tag: string;
+  tagIcon: string;
+  tagIconType: 'ion' | 'mdi';
+  title: string;
+  titleAccent: string;
+  description: string;
+  highlights: { icon: string; iconType: 'ion' | 'mdi'; text: string }[];
+  imageKey: string;
+  placeholderIcon: string;
+  placeholderIconType: 'ion' | 'mdi';
+}
 
+const steps: StepData[] = [
+  {
+    tag: 'Paso 1',
+    tagIcon: 'person-outline',
+    tagIconType: 'ion',
+    title: 'Creá tu ',
+    titleAccent: 'perfil único',
+    description:
+      'Configurá tus restricciones alimentarias, alergias, condiciones de salud y objetivos nutricionales. ScanToEat adapta cada análisis a vos.',
+    highlights: [
+      { icon: 'shield-checkmark-outline', iconType: 'ion', text: 'Alergias e intolerancias' },
+      { icon: 'fitness-outline', iconType: 'ion', text: 'Condiciones de salud' },
+      { icon: 'nutrition-outline', iconType: 'ion', text: 'Objetivos nutricionales' },
+    ],
+    imageKey: 'step-1-profile',
+    placeholderIcon: 'person-circle-outline',
+    placeholderIconType: 'ion',
+  },
+  {
+    tag: 'Paso 2',
+    tagIcon: 'barcode-scan',
+    tagIconType: 'mdi',
+    title: 'Escaneá ',
+    titleAccent: 'cualquier producto',
+    description:
+      'Apuntá la cámara de tu celular al código de barras y obtené información al instante. Así de simple.',
+    highlights: [
+      { icon: 'camera-outline', iconType: 'ion', text: 'Escaneo instantáneo' },
+      { icon: 'barcode-outline', iconType: 'ion', text: 'Miles de productos' },
+      { icon: 'flash-outline', iconType: 'ion', text: 'Resultados en segundos' },
+    ],
+    imageKey: 'step-2-scan',
+    placeholderIcon: 'scan-outline',
+    placeholderIconType: 'ion',
+  },
+  {
+    tag: 'Paso 3',
+    tagIcon: 'bar-chart-outline',
+    tagIconType: 'ion',
+    title: 'Recibí ',
+    titleAccent: 'análisis personalizados',
+    description:
+      'Descubrí si el producto es apto para vos con un puntaje claro, alertas sobre ingredientes y una explicación detallada adaptada a tu perfil.',
+    highlights: [
+      { icon: 'checkmark-circle-outline', iconType: 'ion', text: '"Apto", "Precaución" o "No Apto"' },
+      { icon: 'alert-circle-outline', iconType: 'ion', text: 'Alertas de alérgenos' },
+      { icon: 'list-outline', iconType: 'ion', text: 'Detalle nutricional completo' },
+    ],
+    imageKey: 'step-3-analysis',
+    placeholderIcon: 'analytics-outline',
+    placeholderIconType: 'ion',
+  },
+  {
+    tag: 'Paso 4',
+    tagIcon: 'cart-outline',
+    tagIconType: 'ion',
+    title: 'Evaluá que tan saludable son ',
+    titleAccent: 'tus compras',
+    description:
+      'Agregá productos a tu carrito y visualizá el impacto nutricional de toda tu compra. Tomá decisiones informadas antes de pagar.',
+    highlights: [
+      { icon: 'bag-check-outline', iconType: 'ion', text: 'Resumen de tu compra' },
+      { icon: 'trending-up-outline', iconType: 'ion', text: 'Estadísticas nutricionales' },
+      { icon: 'time-outline', iconType: 'ion', text: 'Historial de compras' },
+    ],
+    imageKey: 'step-4-cart',
+    placeholderIcon: 'cart-outline',
+    placeholderIconType: 'ion',
+  },
+];
+
+/* ── Reusable icon renderer ── */
+const IconEl: React.FC<{ name: string; type: 'ion' | 'mdi'; style?: React.CSSProperties; className?: string }> = ({
+  name,
+  type,
+  style,
+  className,
+}) =>
+  type === 'ion' ? (
+    <ion-icon name={name} style={style} className={className} />
+  ) : (
+    <span className={`mdi mdi-${name} ${className ?? ''}`} style={style} />
+  );
+
+/* ── Phone screen content (wraps IPhoneMockup) ── */
+const StepPhone: React.FC<{ imageSrc?: string; placeholderIcon: string; placeholderIconType: 'ion' | 'mdi'; alt: string }> = ({
+  imageSrc,
+  placeholderIcon,
+  placeholderIconType,
+  alt,
+}) => (
+  <IPhoneMockup>
+    {imageSrc ? (
+      <img src={imageSrc} alt={alt} className="w-full h-full object-cover" draggable={false} />
+    ) : (
+      <div className="w-full h-full bg-gradient-to-br from-primary-DEFAULT to-primary-light flex flex-col items-center justify-center text-white gap-3">
+        <IconEl name={placeholderIcon} type={placeholderIconType} style={{ fontSize: '56px', color: 'rgba(255,255,255,0.5)' }} />
+        <span className="text-xs font-medium opacity-50">Captura próximamente</span>
+      </div>
+    )}
+  </IPhoneMockup>
+);
+
+/* ── Single step row ── */
+const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = ({ step, index, reversed }) => {
   return (
-    <section id={SECTION_IDS.howItWorks} className="py-16 sm:py-24 bg-neutral-light">
+    <div className={`grid grid-cols-1 lg:grid-cols-12 items-center gap-10 lg:gap-16`}>
+      {/* Phone column */}
+      <div className={`lg:col-span-5 flex justify-center ${reversed ? 'lg:order-2' : 'lg:order-1'}`}>
+        <StepPhone
+          imageSrc={stepImages[step.imageKey]}
+          placeholderIcon={step.placeholderIcon}
+          placeholderIconType={step.placeholderIconType}
+          alt={`${step.tag} — ${step.titleAccent}`}
+        />
+      </div>
+
+      {/* Text column */}
+      <div className={`lg:col-span-7 flex flex-col justify-center ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}>
+        {/* Step tag */}
+        <div className="inline-flex items-center gap-2 bg-primary-DEFAULT/10 text-primary-DEFAULT rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit">
+          <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
+          {step.tag}
+        </div>
+
+        {/* Title */}
+        <h3 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-neutral-darkest leading-tight mb-4">
+          {step.title}
+          <span className="text-primary-dark">{step.titleAccent}</span>
+        </h3>
+
+        {/* Description */}
+        <p className="text-base sm:text-lg text-neutral-dark leading-relaxed mb-8 max-w-xl">
+          {step.description}
+        </p>
+
+        {/* Highlights */}
+        <div className="flex flex-col gap-3">
+          {step.highlights.map((h, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
+                <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: '#5a8703' }} />
+              </div>
+              <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Main section ── */
+const HowItWorksSection: React.FC = () => {
+  return (
+    <section id={SECTION_IDS.howItWorks} className="py-20 sm:py-28 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest">
-            Simple, rápido y <span className="text-primary-DEFAULT"></span> <span className="text-secondary-dark">personalizado</span>
+        {/* Section header */}
+        <div className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
+          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+            Cómo funciona
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
+            Simple, rápido y{' '}
+            <span className="text-primary-dark">personalizado</span>
           </h2>
-          <p className="mt-4 text-lg text-neutral-dark max-w-2xl mx-auto">
-            Entender las etiquetas nunca fue tan fácil.
+          <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
+            En solo unos pasos, ScanToEat te ayuda a entender lo que comés y a tomar mejores decisiones para tu salud.
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8 sm:gap-12">
-          {steps.map((step, index) => (
-            <IconCard
-              key={index}
-              icon={step.icon}
-              title={step.title}
-              description={step.description}
-              className="transform transition-transform duration-300 hover:scale-105"
-            />
+
+        {/* Steps */}
+        <div className="flex flex-col gap-20 sm:gap-28 lg:gap-32">
+          {steps.map((step, i) => (
+            <StepRow key={i} step={step} index={i} reversed={i % 2 !== 0} />
           ))}
         </div>
       </div>

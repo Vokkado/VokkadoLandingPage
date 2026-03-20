@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from './common/Button';
+import IPhoneMockup from './common/IPhoneMockup';
 import PreRegisterModal from './PreRegisterModal';
 import { SECTION_IDS } from '../constants';
 
@@ -53,40 +54,22 @@ const HeroSection: React.FC = () => {
 
           {/* Right Column: iPhone Mockup Gallery */}
           <div className="md:col-span-2 mt-16 md:mt-0 flex items-center justify-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <div className="relative w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[380px] mx-auto">
-              {/* iPhone 14 Pro Mockup START */}
-              <div className="relative mx-auto border-neutral-darkest bg-neutral-darkest border-[8px] sm:border-[10px] rounded-[36px] sm:rounded-[44px] w-full aspect-[9/19.5] shadow-2xl">
-                <div className="absolute inset-0 rounded-[28px] sm:rounded-[34px] overflow-hidden z-10">
-
-                  {/* Side Button Indicators */}
-                  <div className="absolute -right-[9px] sm:-right-[11px] top-[90px] sm:top-[100px] h-[45px] sm:h-[50px] w-0.5 bg-neutral-dark/60 rounded-r-sm"></div>
-                  <div className="absolute -left-[9px] sm:-left-[11px] top-[75px] sm:top-[80px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div>
-                  <div className="absolute -left-[9px] sm:-left-[11px] top-[115px] sm:top-[122px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div>
-
-                  {/* SCREEN: Gallery or placeholder */}
-                  {galleryImages.length > 0 ? (
-                    <img
-                      src={galleryImages[currentImageIndex]}
-                      alt={`ScanToEat captura ${currentImageIndex + 1}`}
-                      className="w-full h-full object-cover transition-opacity duration-500"
-                      draggable={false}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary-DEFAULT flex flex-col items-center justify-center text-white p-4">
-                      <span className="text-4xl mb-3">📱</span>
-                      <p className="text-sm font-semibold text-center">Próximamente</p>
-                      <p className="text-xs text-center opacity-80 mt-1">Capturas de la app</p>
-                    </div>
-                  )}
-
-                </div>
-
-                {/* Dynamic Island - over the screen */}
-                <div className="absolute top-[6px] sm:top-[8px] left-1/2 -translate-x-1/2 w-[90px] sm:w-[110px] h-[24px] sm:h-[28px] bg-black rounded-full z-20"></div>
-
-                {/* Home Indicator bar - over the screen */}
-                <div className="absolute bottom-[6px] sm:bottom-[8px] left-1/2 -translate-x-1/2 w-[100px] sm:w-[120px] h-[4px] sm:h-[5px] bg-black/30 rounded-full z-20"></div>
-              </div>
+            <div className="relative">
+              <IPhoneMockup>
+                {galleryImages.length > 0 ? (
+                  <img
+                    src={galleryImages[currentImageIndex]}
+                    alt={`ScanToEat captura ${currentImageIndex + 1}`}
+                    className="w-full h-full object-cover transition-opacity duration-500"
+                    draggable={false}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary-DEFAULT flex flex-col items-center justify-center text-white p-4">
+                    <p className="text-sm font-semibold text-center">Próximamente</p>
+                    <p className="text-xs text-center opacity-80 mt-1">Capturas de la app</p>
+                  </div>
+                )}
+              </IPhoneMockup>
 
               {/* Gallery Navigation Arrows */}
               {galleryImages.length > 1 && (
