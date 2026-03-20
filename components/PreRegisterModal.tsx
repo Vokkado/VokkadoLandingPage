@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './common/Button';
 
+declare namespace JSX {
+  interface IntrinsicElements {
+    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
+  }
+}
+
 // ⚠️ IMPORTANTE: Reemplaza esta URL con la de tu Google Apps Script
 // Instrucciones en: GOOGLE_SHEETS_SETUP.md
 const GOOGLE_SCRIPT_URL = 'https://vercel-proxy-landing.vercel.app/api/preregister';
@@ -135,7 +141,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 animate-fade-in" onClick={onClose}>
       <div 
-        className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative animate-fade-in-up"
+        className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative animate-fade-in-up text-neutral-darkest"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Botón cerrar */}
@@ -144,9 +150,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
           className="absolute top-4 right-4 text-neutral-dark hover:text-neutral-darkest transition-colors"
           aria-label="Cerrar"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <ion-icon name="close-outline" style={{ fontSize: '24px' }} />
         </button>
 
         {!submitSuccess ? (
@@ -261,9 +265,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
         ) : (
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-secondary-dark rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+              <ion-icon name="checkmark-outline" style={{ fontSize: '32px', color: 'white' }} />
             </div>
             <h3 className="text-2xl font-bold text-primary-DEFAULT mb-2">
               ¡Gracias!

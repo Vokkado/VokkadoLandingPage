@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 import Button from './common/Button';
 import PreRegisterModal from './PreRegisterModal';
-import pantallaCarga from '../images/Pantalla_de_carga_inicial.png';
 import { SECTION_IDS } from '../constants';
+
+// Importar todas las imágenes de la galería automáticamente
+const galleryModules = import.meta.glob('../images/gallery/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
+const galleryImages: string[] = Object.keys(galleryModules)
+  .sort()
+  .map((key) => galleryModules[key]);
 
 const HeroSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const PROTOTYPE_LINK = "https://www.figma.com/proto/ROe6eiZatbkRH9MTtBt5Sv/ScanToEat?node-id=336-108&t=9YdBjZ01GJjIJFVT-1&scaling=scale-down&content-scaling=fixed&page-id=132%3A9&starting-point-node-id=281%3A71";
-  const GOOGLE_FORM_LINK = "https://forms.gle/tDi9tpJgm2sNRhtx5";
-
-// Función para disparar evento GA4 y abrir link
-  const trackEventAndOpen = (eventName: string, url: string) => {
-    if (window.gtag) {
-      window.gtag('event', eventName, {
-        link_url: url,
-        section: 'HeroSection'
-      });
-    }
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   return (
     <section
@@ -56,64 +49,82 @@ const HeroSection: React.FC = () => {
               </Button>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4" style={{ animationDelay: '0.3s' }}>
-              <Button
-                variant="secondary"
-                size="md"
-                className="shadow-lg hover:shadow-xl transform hover:scale-105"
-                onClick={() => window.open(PROTOTYPE_LINK, '_blank', 'noopener,noreferrer')}
-              >
-                Probar el prototipo
-              </Button>
-              <Button
-                variant="secondary"
-                size="md"
-                className="shadow-lg hover:shadow-xl transform hover:scale-105"
-                onClick={() => window.open(GOOGLE_FORM_LINK, '_blank', 'noopener,noreferrer')}
-              >
-                Dejar mi opinión (formulario)
-              </Button>
-            </div>
           </div>
 
-          {/* Right Column: iPhone Mockup */}
-          
+          {/* Right Column: iPhone Mockup Gallery */}
           <div className="md:col-span-2 mt-16 md:mt-0 flex items-center justify-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                
-            <div className="relative w-full max-w-[280px] sm:max-w-[300px] mx-auto transform transition duration-300 hover:brightness-110 hover:scale-105 cursor-pointer">
+            <div className="relative w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[380px] mx-auto">
               {/* iPhone 14 Pro Mockup START */}
-
-              
-
               <div className="relative mx-auto border-neutral-darkest bg-neutral-darkest border-[8px] sm:border-[10px] rounded-[36px] sm:rounded-[44px] w-full aspect-[9/19.5] shadow-2xl">
-                {/* Dynamic Island */}
-                <a
-                  href={PROTOTYPE_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0 rounded-[28px] sm:rounded-[34px] overflow-hidden z-10 block"
-                >
-                <div className="absolute top-[16px] sm:top-[20px] left-1/2 -translate-x-1/2 z-20 w-[75px] h-[18px] sm:w-[90px] sm:h-[22px] bg-neutral-darkest rounded-full"></div>
+                <div className="absolute inset-0 rounded-[28px] sm:rounded-[34px] overflow-hidden z-10">
 
-                {/* Side Button Indicators */}
-                <div className="absolute -right-[9px] sm:-right-[11px] top-[90px] sm:top-[100px] h-[45px] sm:h-[50px] w-0.5 bg-neutral-dark/60 rounded-r-sm"></div> {/* Power */}
-                <div className="absolute -left-[9px] sm:-left-[11px] top-[75px] sm:top-[80px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div> {/* Vol Up */}
-                <div className="absolute -left-[9px] sm:-left-[11px] top-[115px] sm:top-[122px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div> {/* Vol Down */}
+                  {/* Side Button Indicators */}
+                  <div className="absolute -right-[9px] sm:-right-[11px] top-[90px] sm:top-[100px] h-[45px] sm:h-[50px] w-0.5 bg-neutral-dark/60 rounded-r-sm"></div>
+                  <div className="absolute -left-[9px] sm:-left-[11px] top-[75px] sm:top-[80px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div>
+                  <div className="absolute -left-[9px] sm:-left-[11px] top-[115px] sm:top-[122px] h-[28px] sm:h-[30px] w-0.5 bg-neutral-dark/60 rounded-l-sm"></div>
 
-                {/* SCREEN: ahora con link y hover effect */}
-              
-                  <img
-                    src={pantallaCarga}
-                    alt="Pantalla de carga inicial"
-                    className="w-full h-full object-cover"
-                    draggable={false}
-                  />  
-                  </a>
+                  {/* SCREEN: Gallery or placeholder */}
+                  {galleryImages.length > 0 ? (
+                    <img
+                      src={galleryImages[currentImageIndex]}
+                      alt={`ScanToEat captura ${currentImageIndex + 1}`}
+                      className="w-full h-full object-cover transition-opacity duration-500"
+                      draggable={false}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary-DEFAULT flex flex-col items-center justify-center text-white p-4">
+                      <span className="text-4xl mb-3">📱</span>
+                      <p className="text-sm font-semibold text-center">Próximamente</p>
+                      <p className="text-xs text-center opacity-80 mt-1">Capturas de la app</p>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* Dynamic Island - over the screen */}
+                <div className="absolute top-[6px] sm:top-[8px] left-1/2 -translate-x-1/2 w-[90px] sm:w-[110px] h-[24px] sm:h-[28px] bg-black rounded-full z-20"></div>
+
+                {/* Home Indicator bar - over the screen */}
+                <div className="absolute bottom-[6px] sm:bottom-[8px] left-1/2 -translate-x-1/2 w-[100px] sm:w-[120px] h-[4px] sm:h-[5px] bg-black/30 rounded-full z-20"></div>
               </div>
-              
+
+              {/* Gallery Navigation Arrows */}
+              {galleryImages.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
+                    className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-DEFAULT rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-colors"
+                    aria-label="Imagen anterior"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={() => setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length)}
+                    className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-DEFAULT rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-colors"
+                    aria-label="Imagen siguiente"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
+
+              {/* Gallery Dots Indicator */}
+              {galleryImages.length > 1 && (
+                <div className="flex justify-center gap-2 mt-4">
+                  {galleryImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                        index === currentImageIndex ? 'bg-secondary-dark' : 'bg-neutral-medium'
+                      }`}
+                      aria-label={`Ir a imagen ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
               {/* iPhone 14 Pro Mockup END */}
             </div>
-            
           </div>
           
         </div>

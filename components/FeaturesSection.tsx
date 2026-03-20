@@ -9,7 +9,7 @@ interface FeatureItemProps {
 
 const FeatureItem: React.FC<FeatureItemProps> = ({ icon, title, description }) => (
   <div className="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-    <div className="p-4 bg-primary-light rounded-full mb-4 inline-block">
+    <div className="w-16 h-16 bg-primary-light rounded-full mb-4 flex items-center justify-center">
       {icon}
     </div>
     <h3 className="text-xl font-semibold text-neutral-darkest mb-2">{title}</h3>
@@ -17,48 +17,33 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ icon, title, description }) =
   </div>
 );
 
-// Placeholder simple SVG icons
-const UserShieldIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-  </svg>
-);
-const ZapIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-  </svg>
-);
-const InfoIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-const HeartIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-    </svg>
-);
+// Ionicons web components (loaded via CDN in index.html)
+declare namespace JSX {
+  interface IntrinsicElements {
+    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
+  }
+}
 
 
 const FeaturesSection: React.FC = () => {
   const features = [
     {
-      icon: <UserShieldIcon className="w-10 h-10 text-white" />,
+      icon: <ion-icon name="shield-checkmark-outline" style={{ fontSize: '40px', color: 'white' }} />,
       title: 'Perfiles detallados',
       description: 'Configurá múltiples restricciones, preferencias y alergias alimentarias en detalle.',
     },
     {
-      icon: <ZapIcon className="w-10 h-10 text-white" />,
+      icon: <ion-icon name="flash-outline" style={{ fontSize: '40px', color: 'white' }} />,
       title: 'Análisis instantáneo',
       description: 'Compará productos, información y valores nutricionales contra tu perfil y obtené un análisis en segundos.',
     },
     {
-      icon: <InfoIcon className="w-10 h-10 text-white" />,
+      icon: <ion-icon name="information-circle-outline" style={{ fontSize: '40px', color: 'white' }} />,
       title: 'Información transparente',
       description: 'Resultados fáciles de entender: "Apto", "Precaución", o "No Apto", con explicaciones detalladas y sencillas.',
     },
     {
-      icon: <HeartIcon className="w-10 h-10 text-white" />,
+      icon: <ion-icon name="heart-outline" style={{ fontSize: '40px', color: 'white' }} />,
       title: 'Bienestar a tu alcance',
       description: 'Tomá decisiones alimentarias informadas y alineadas con tu salud y estilo de vida, sin complicaciones.',
     },

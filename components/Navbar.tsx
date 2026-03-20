@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import logo from '../images/Logo.png';
 import { APP_NAME, NAV_LINKS, SECTION_IDS } from '../constants';
 
+declare namespace JSX {
+  interface IntrinsicElements {
+    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
+  }
+}
+
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -89,13 +95,9 @@ const Navbar: React.FC = () => {
             >
               <span className="sr-only">Abrir menú principal</span>
               {isMobileMenuOpen ? (
-                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <ion-icon name="close-outline" style={{ fontSize: '24px' }} />
               ) : (
-                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
+                <ion-icon name="menu-outline" style={{ fontSize: '24px' }} />
               )}
             </button>
           </div>

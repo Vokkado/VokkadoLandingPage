@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { APP_NAME, SECTION_IDS } from '../constants';
-
-// Note: The Button component import is removed as it's no longer used here after form removal.
+import PreRegisterModal from './PreRegisterModal';
+import appstoreImg from '../images/appstore.png';
+import googleplayImg from '../images/googleplay.png';
 
 const CallToActionSection: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <section 
-      id={SECTION_IDS.participate} 
+    <section
+      id={SECTION_IDS.participate}
       className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-light py-16 sm:py-24 text-white"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -16,26 +19,30 @@ const CallToActionSection: React.FC = () => {
         <p className="text-lg sm:text-xl text-primary-lightest max-w-2xl mx-auto mb-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           {APP_NAME} está cada vez más cerca. Sumate al acceso anticipado y descubrí cómo comer mejor, de forma inteligente.
         </p>
-        
-        {/* Email form removed */}
-        
-        <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}> {/* Adjusted animation delay */}
+
+        <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
           <p className="text-sm text-primary-lightest mb-2">Descargala pronto en:</p>
           <div className="flex justify-center space-x-4">
-            <a href="#" aria-label="Próximamente en App Store" className="bg-neutral-darkest text-white py-2 px-5 rounded-lg hover:bg-black transition-colors flex items-center space-x-2">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Apple_Store_logo.svg/2048px-Apple_Store_logo.svg.png" alt="Apple Store" className="w-6 h-6" />
-              <span>App Store</span>
-            </a>
-            <a href="#" aria-label="Próximamente en Google Play" className="bg-neutral-darkest text-white py-2 px-5 rounded-lg hover:bg-black transition-colors flex items-center space-x-2">
-  <img src="https://cdn-icons-png.flaticon.com/512/732/732208.png" alt="Google Play" className="w-6 h-6" />
-  <span>Google Play</span>
-</a>
-
+            <button
+              onClick={() => setIsModalOpen(true)}
+              aria-label="Pre-registro para App Store"
+              className="cursor-pointer hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
+            >
+              <img src={appstoreImg} alt="App Store" className="h-10 sm:h-12 w-auto" />
+            </button>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              aria-label="Pre-registro para Google Play"
+              className="cursor-pointer hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
+            >
+              <img src={googleplayImg} alt="Google Play" className="h-10 sm:h-12 w-auto" />
+            </button>
           </div>
-           <p className="mt-4 text-xs text-primary-lightest">(Próximamente)</p>
+          <p className="mt-4 text-xs text-primary-lightest">(Próximamente)</p>
         </div>
-
       </div>
+
+      <PreRegisterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };
