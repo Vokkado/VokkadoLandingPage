@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanToEat Uruguay - Tu Guía de Alimentación Saludable</title>
+    <title>Vokkado Uruguay - Tu Guía de Alimentación Saludable</title>
     
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,17 +23,17 @@
             },
             colors: {
               primary: {
-                DEFAULT: '#19433A',
-                light: '#2A5C4F',
-                dark: '#5a8703ff',
-                lightest: '#D4E0DD',
+                DEFAULT: '#5B8806',
+                light: '#B8C445',
+                dark: '#22521D',
+                lightest: '#E8F0D4',
               },
               secondary: {
                 DEFAULT: '#885B02',
                 light: '#A67A2E',
-                dark: '#5a8703ff',
+                dark: '#6B4801',
               },
-              neutral: { 
+              neutral: {
                 lightest: '#F9FAFB',
                 light: '#F3F4F6',
                 medium: '#9CA3AF',
@@ -45,14 +45,45 @@
               white: '#FFFFFF',
             },
             animation: {
-              'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+              'fade-in-up': 'fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
+              'fade-in-down': 'fadeInDown 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
+              'fade-in-left': 'fadeInLeft 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
+              'fade-in-right': 'fadeInRight 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
+              'scale-in': 'scaleIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards',
               'bounce': 'bounce 1s infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'float-delayed': 'float 6s ease-in-out 3s infinite',
+              'pulse-soft': 'pulseSoft 4s ease-in-out infinite',
             },
             keyframes: {
               fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '0%': { opacity: '0', transform: 'translateY(40px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
-              }
+              },
+              fadeInDown: {
+                '0%': { opacity: '0', transform: 'translateY(-40px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              fadeInLeft: {
+                '0%': { opacity: '0', transform: 'translateX(-40px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              fadeInRight: {
+                '0%': { opacity: '0', transform: 'translateX(40px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              pulseSoft: {
+                '0%, 100%': { opacity: '0.4' },
+                '50%': { opacity: '0.7' },
+              },
             }
           }
         }
@@ -62,7 +93,6 @@
     <!-- Importmap -->
 
 
-    <link rel="stylesheet" href="./index.css">
 
     <!-- Ionicons -->
     <script type="importmap">
@@ -88,10 +118,11 @@
       gtag('js', new Date());
       gtag('config', 'G-1WR8Q02XH9');
     </script>
-  <script type="module" crossorigin src="/assets/index-C5r0liOI.js"></script>
+  <script type="module" crossorigin src="/assets/index-CrVcQtZX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-wvIFkNy2.css">
 </head>
 
 <body class="bg-white font-sans">
-    <div id="root"></div>  
+    <div id="root"></div>  
 </body>
 </html>
