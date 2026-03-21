@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from './common/Button';
 import IPhoneMockup from './common/IPhoneMockup';
 import PreRegisterModal from './PreRegisterModal';
@@ -13,6 +13,40 @@ const galleryImages: string[] = Object.keys(galleryModules)
 const HeroSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef<{ x: number; time: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleDragStart = (clientX: number) => {
+    dragStart.current = { x: clientX, time: Date.now() };
+    setIsDragging(true);
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!dragStart.current || !containerRef.current) return;
+    const width = containerRef.current.offsetWidth;
+    const diff = clientX - dragStart.current.x;
+    // Limit drag to ±1 image width
+    setDragOffset(Math.max(-width, Math.min(width, diff)));
+  };
+
+  const handleDragEnd = () => {
+    if (!dragStart.current || !containerRef.current) return;
+    const width = containerRef.current.offsetWidth;
+    const threshold = width * 0.2;
+    const offset = dragOffset;
+
+    if (offset < -threshold && currentImageIndex < galleryImages.length - 1) {
+      setCurrentImageIndex((prev) => prev + 1);
+    } else if (offset > threshold && currentImageIndex > 0) {
+      setCurrentImageIndex((prev) => prev - 1);
+    }
+
+    setDragOffset(0);
+    setIsDragging(false);
+    dragStart.current = null;
+  };
 
   return (
     <section
@@ -64,12 +98,32 @@ const HeroSection: React.FC = () => {
             <div className="relative">
               <IPhoneMockup>
                 {galleryImages.length > 0 ? (
-                  <img
-                    src={galleryImages[currentImageIndex]}
-                    alt={`Vokkado captura ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover transition-opacity duration-500"
-                    draggable={false}
-                  />
+                  <div
+                    ref={containerRef}
+                    className="w-full h-full overflow-hidden touch-pan-y"
+                    onMouseDown={(e) => { e.preventDefault(); handleDragStart(e.clientX); }}
+                    onMouseMove={(e) => { if (isDragging) handleDragMove(e.clientX); }}
+                    onMouseUp={handleDragEnd}
+                    onMouseLeave={() => { if (isDragging) handleDragEnd(); }}
+                    onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+                    onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+                    onTouchEnd={handleDragEnd}
+                  >
+                    <div
+                      className={`flex h-full ${isDragging ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]'}`}
+                      style={{ transform: `translateX(calc(-${currentImageIndex * 100}% + ${dragOffset}px))` }}
+                    >
+                      {galleryImages.map((src, i) => (
+                        <img
+                          key={i}
+                          src={src}
+                          alt={`Vokkado captura ${i + 1}`}
+                          className="w-full h-full object-cover flex-shrink-0 select-none pointer-events-none"
+                          draggable={false}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 ) : (
                   <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary-DEFAULT flex flex-col items-center justify-center text-white p-4">
                     <p className="text-sm font-semibold text-center">Próximamente</p>
