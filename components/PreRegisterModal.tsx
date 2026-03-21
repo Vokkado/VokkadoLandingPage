@@ -1,15 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
-import Button from './common/Button';
 
-declare namespace JSX {
-  interface IntrinsicElements {
-    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
-  }
-}
-
-// ⚠️ IMPORTANTE: Reemplaza esta URL con la de tu Google Apps Script
-// Instrucciones en: GOOGLE_SHEETS_SETUP.md
 const GOOGLE_SCRIPT_URL = 'https://vercel-proxy-landing.vercel.app/api/preregister';
 
 interface PreRegisterModalProps {
@@ -29,254 +21,174 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
   const [error, setError] = useState<string | null>(null);
   const [showValidation, setShowValidation] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setShowValidation(true);
-  setError(null);
-
-  // Validar checkboxes primero
-  if (!formData.acceptsTerms || !formData.acceptsPrivacy) {
-    return;
-  }
-
-  setIsSubmitting(true);
-
-  try {
-    // Validación manual de campos
-    if (!formData.name.trim()) {
-      setError('Por favor, ingresá tu nombre.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!formData.email.trim()) {
-      setError('Por favor, ingresá tu email.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    // Validación de formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setError('Por favor, ingresá un email válido.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!formData.acceptsTerms) {
-      setError('Debes aceptar recibir novedades para continuar.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!formData.acceptsPrivacy) {
-      setError('Debes aceptar la Política de Privacidad para continuar.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!GOOGLE_SCRIPT_URL) {
-      throw new Error('Google Script URL no configurada.');
-    }
-
-    console.log("Enviando datos:", {
-      nombre: formData.name,
-      email: formData.email,
-    });
-
-    // Enviar JSON (NO FormData)
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        nombre: formData.name,
-        email: formData.email,
-      })
-    });
-
-    const data = await response.json();
-    console.log("Respuesta del servidor:", data);
-
-    if (data.result === "success") {
-      setSubmitSuccess(true);
-
-      if (window.gtag) {
-        window.gtag("event", "pre_register_submit", {
-          user_name: formData.name,
-        });
-      }
-
-      setTimeout(() => {
-        setFormData({ name: "", email: "", acceptsTerms: false, acceptsPrivacy: false });
-        setSubmitSuccess(false);
-        setError(null);
-        onClose();
-      }, 2000);
-
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
     } else {
-      setError(data.error || "Error desconocido.");
+      document.body.style.overflow = '';
     }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
 
-  } catch (err) {
-    console.error("Error enviando pre-registro:", err);
-    setError("Hubo un error de conexión. Intentá nuevamente.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowValidation(true);
+    setError(null);
 
+    if (!formData.acceptsTerms || !formData.acceptsPrivacy) return;
+
+    setIsSubmitting(true);
+
+    try {
+      if (!formData.name.trim()) { setError('Por favor, ingresá tu nombre.'); setIsSubmitting(false); return; }
+      if (!formData.email.trim()) { setError('Por favor, ingresá tu email.'); setIsSubmitting(false); return; }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) { setError('Por favor, ingresá un email válido.'); setIsSubmitting(false); return; }
+
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: formData.name, email: formData.email }),
+      });
+      const data = await response.json();
+
+      if (data.result === 'success') {
+        setSubmitSuccess(true);
+        if (window.gtag) { window.gtag('event', 'pre_register_submit', { user_name: formData.name }); }
+        setTimeout(() => {
+          setFormData({ name: '', email: '', acceptsTerms: false, acceptsPrivacy: false });
+          setSubmitSuccess(false);
+          setError(null);
+          onClose();
+        }, 2500);
+      } else {
+        setError(data.error || 'Error desconocido.');
+      }
+    } catch {
+      setError('Hubo un error de conexión. Intentá nuevamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
   };
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 animate-fade-in" onClick={onClose}>
-      <div 
-        className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative animate-fade-in-up text-neutral-darkest"
+  return ReactDOM.createPortal(
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', backgroundColor: 'rgba(0,0,0,0.6)' }}
+    >
+      <div
+        className="bg-white rounded-2xl shadow-2xl w-full animate-fade-in-up"
+        style={{ maxWidth: '480px' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Botón cerrar */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-neutral-dark hover:text-neutral-darkest transition-colors"
-          aria-label="Cerrar"
-        >
-          <ion-icon name="close-outline" style={{ fontSize: '24px' }} />
-        </button>
-
         {!submitSuccess ? (
-          <>
-            <h2 className="text-3xl font-bold text-primary-DEFAULT mb-2">
-                🥑Acceso exclusivo
-              </h2>
-          
+          <div className="p-5 sm:p-7" style={{ position: 'relative' }}>
+            {/* Cerrar */}
+            <button
+              onClick={onClose}
+              className="flex items-center justify-center rounded-full hover:bg-neutral-lightest transition-all bg-transparent border-0 cursor-pointer"
+              style={{ position: 'absolute', top: '16px', right: '16px', width: '32px', height: '32px', zIndex: 10, color: '#666' }}
+              aria-label="Cerrar"
+            >
+              <ion-icon name="close-outline" style={{ fontSize: '22px' }} />
+            </button>
+
+            {/* Título con acento verde */}
+            <div className="mb-5 pr-10">
+              <h2 className="text-xl sm:text-2xl font-bold text-neutral-darkest">Acceso anticipado</h2>
+              <p className="text-sm text-neutral-DEFAULT mt-1">Sé de los primeros en probar<span style={{ color: '#5B8806' }}> Vokkado</span></p>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                  {error}
-                </div>
+                <div className="bg-red-50 border border-red-200 text-red-600 px-3 py-2 rounded-lg text-xs">{error}</div>
               )}
-              
+
               <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-neutral-darkest mb-2">
-                  Nombre
-                </label>
+                <label htmlFor="name" className="block text-sm font-semibold text-neutral-darkest mb-1.5">Nombre</label>
                 <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT transition-colors"
+                  type="text" id="name" name="name" value={formData.name} onChange={handleChange}
+                  className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/30 transition-all text-sm sm:text-base text-neutral-darkest bg-white"
+                  style={{ color: '#1a1a1a' }}
                   placeholder="Tu nombre"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-neutral-darkest mb-2">
-                  Email
-                </label>
+                <label htmlFor="email" className="block text-sm font-semibold text-neutral-darkest mb-1.5">Email</label>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT transition-colors"
+                  type="email" id="email" name="email" value={formData.email} onChange={handleChange}
+                  className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/30 transition-all text-sm sm:text-base text-neutral-darkest bg-white"
+                  style={{ color: '#1a1a1a' }}
                   placeholder="tu@email.com"
                 />
               </div>
 
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="acceptsTerms"
-                  name="acceptsTerms"
-                  checked={formData.acceptsTerms}
-                  onChange={handleChange}
-                  className={`flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer ${
-                    showValidation && !formData.acceptsTerms 
-                      ? 'border-2 border-red-500' 
-                      : 'border-2 border-neutral-light'
-                  }`}
-                />
-                <label htmlFor="acceptsTerms" className="text-sm text-neutral-darkest cursor-pointer">
-                  Acepto que mi email sea usado para recibir novedades y ser notificado del lanzamiento de Vokkado.
+              <div className="space-y-1.5 pt-0.5">
+                <label htmlFor="acceptsTerms" className="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="acceptsTerms" name="acceptsTerms" checked={formData.acceptsTerms} onChange={handleChange}
+                    className={`flex-shrink-0 mt-0.5 h-4 w-4 rounded cursor-pointer accent-primary-DEFAULT ${showValidation && !formData.acceptsTerms ? 'ring-2 ring-red-400 ring-offset-1' : ''}`}
+                  />
+                  <span className="text-xs sm:text-sm text-neutral-dark leading-relaxed">
+                    Acepto que mi email sea usado para recibir novedades y ser notificado del lanzamiento.
+                  </span>
                 </label>
-              </div>
-
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="acceptsPrivacy"
-                  name="acceptsPrivacy"
-                  checked={formData.acceptsPrivacy}
-                  onChange={handleChange}
-                  className={`flex-shrink-0 mt-1 mr-3 h-4 w-4 text-secondary-dark rounded focus:ring-2 focus:ring-secondary-dark cursor-pointer ${
-                    showValidation && !formData.acceptsPrivacy 
-                      ? 'border-2 border-red-500' 
-                      : 'border-2 border-neutral-light'
-                  }`}
-                />
-                <label htmlFor="acceptsPrivacy" className="text-sm text-neutral-darkest cursor-pointer">
-                  He leído y acepto la{' '}
-                  <Link 
-                    to="/politica-privacidad" 
-                    target="_blank"
-                    className="text-secondary-dark hover:underline font-semibold"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Política de Privacidad
-                  </Link>.
+                <label htmlFor="acceptsPrivacy" className="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="acceptsPrivacy" name="acceptsPrivacy" checked={formData.acceptsPrivacy} onChange={handleChange}
+                    className={`flex-shrink-0 mt-0.5 h-4 w-4 rounded cursor-pointer accent-primary-DEFAULT ${showValidation && !formData.acceptsPrivacy ? 'ring-2 ring-red-400 ring-offset-1' : ''}`}
+                  />
+                  <span className="text-xs sm:text-sm text-neutral-dark leading-relaxed">
+                    He leído y acepto la{' '}
+                    <Link to="/politica-privacidad" target="_blank" className="text-primary-DEFAULT hover:text-primary-dark font-semibold underline underline-offset-2" onClick={(e) => e.stopPropagation()}>
+                      Política de Privacidad
+                    </Link>.
+                  </span>
                 </label>
               </div>
 
               {showValidation && (!formData.acceptsTerms || !formData.acceptsPrivacy) && (
-                <p className="text-red-600 text-sm text-center">
-                  {!formData.acceptsTerms && !formData.acceptsPrivacy 
-                    ? 'Debes aceptar ambas casillas para continuar'
-                    : !formData.acceptsTerms 
-                    ? 'Debes aceptar recibir novedades para continuar'
-                    : 'Debes aceptar la Política de Privacidad para continuar'}
+                <p className="text-red-500 text-[11px] text-center">
+                  {!formData.acceptsTerms && !formData.acceptsPrivacy ? 'Debes aceptar ambas casillas' : !formData.acceptsTerms ? 'Debes aceptar recibir novedades' : 'Debes aceptar la Política de Privacidad'}
                 </p>
               )}
 
-              <Button
-                type="submit"
-                variant="secondary"
-                size="md"
-                className="w-full shadow-lg hover:shadow-xl transform hover:scale-105"
-                disabled={isSubmitting}
+              <button type="submit" disabled={isSubmitting}
+                className="w-full py-3 font-bold rounded-lg text-base active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
+                style={{ backgroundColor: '#5B8806', color: 'white', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#4a7005')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#5B8806')}
               >
                 {isSubmitting ? 'Enviando...' : 'Pre-registrarme'}
-              </Button>
+              </button>
             </form>
-          </>
+          </div>
         ) : (
-          <div className="text-center py-8">
-            <div className="w-16 h-16 bg-secondary-dark rounded-full flex items-center justify-center mx-auto mb-4">
-              <ion-icon name="checkmark-outline" style={{ fontSize: '32px', color: 'white' }} />
+          <div className="p-6 py-10 text-center" style={{ position: 'relative' }}>
+            <button
+              onClick={onClose}
+              className="flex items-center justify-center rounded-full hover:bg-neutral-lightest transition-all bg-transparent border-0 cursor-pointer"
+              style={{ position: 'absolute', top: '16px', right: '16px', width: '32px', height: '32px', color: '#666' }}
+              aria-label="Cerrar"
+            >
+              <ion-icon name="close-outline" style={{ fontSize: '22px' }} />
+            </button>
+            <div className="w-14 h-14 bg-primary-DEFAULT rounded-full flex items-center justify-center mx-auto mb-3">
+              <ion-icon name="checkmark-outline" style={{ fontSize: '28px', color: 'white' }} />
             </div>
-            <h3 className="text-2xl font-bold text-primary-DEFAULT mb-2">
-              ¡Gracias!
-            </h3>
-            <p className="text-neutral-dark">
-              Te avisaremos cuando estemos listos.
-            </p>
+            <h3 className="text-xl font-bold text-neutral-darkest mb-1">¡Gracias!</h3>
+            <p className="text-neutral-dark text-sm">Te avisaremos cuando estemos listos.</p>
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

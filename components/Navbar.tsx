@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import logo from '../images/Logo.png';
-import { APP_NAME, NAV_LINKS, SECTION_IDS } from '../constants';
-
-declare namespace JSX {
-  interface IntrinsicElements {
-    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
-  }
-}
+import { NAV_LINKS, SECTION_IDS } from '../constants';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);

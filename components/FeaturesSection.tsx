@@ -2,12 +2,6 @@ import React from 'react';
 import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-declare namespace JSX {
-  interface IntrinsicElements {
-    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
-  }
-}
-
 interface FeatureItemProps {
   icon: string;
   title: string;

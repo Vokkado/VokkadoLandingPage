@@ -3,12 +3,6 @@ import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS, COLORS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
-declare namespace JSX {
-  interface IntrinsicElements {
-    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
-  }
-}
-
 // Import step images (placeholders — drop real screenshots into images/steps/)
 const stepModules = import.meta.glob('../images/steps/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
 const stepImages: Record<string, string> = {};
@@ -134,7 +128,7 @@ const StepPhone: React.FC<{ imageSrc?: string; placeholderIcon: string; placehol
 );
 
 /* ── Single step row (con animaciones al scroll) ── */
-const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = ({ step, index, reversed }) => {
+const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = ({ step, index: _index, reversed }) => {
   const phoneAnim = useScrollAnimation({
     animation: reversed ? 'fade-right' : 'fade-left',
     delay: 0,

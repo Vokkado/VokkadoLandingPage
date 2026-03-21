@@ -2,12 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { APP_NAME, SECTION_IDS } from '../constants';
 
-declare namespace JSX {
-  interface IntrinsicElements {
-    'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { name: string; size?: string }, HTMLElement>;
-  }
-}
-
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
@@ -66,10 +60,10 @@ export const Footer: React.FC = () => {
             <div>
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Síguenos</h2>
               <div className="flex space-x-4 mt-2">
-                <a href="https://www.instagram.com/scantoeat.uy" className="text-neutral-medium hover:text-primary-light transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/vokkado.uy" className="text-neutral-medium hover:text-primary-light transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                   <ion-icon name="logo-instagram" style={{ fontSize: '24px' }} />
                 </a>
-                <a href="https://www.linkedin.com/company/scantoeat" className="text-neutral-medium hover:text-primary-light transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/company/vokkado" className="text-neutral-medium hover:text-primary-light transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                   <ion-icon name="logo-linkedin" style={{ fontSize: '24px' }} />
                 </a>
               </div>

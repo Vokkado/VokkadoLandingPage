@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const GA_MEASUREMENT_ID = 'G-Y8NKT8RHB8';
 
@@ -14,7 +14,7 @@ const GoogleAnalytics = () => {
       script.id = scriptTagId;
       script.onload = () => {
         window.dataLayer = window.dataLayer || [];
-        function gtag(...args) {
+        function gtag(...args: unknown[]) {
           window.dataLayer.push(args);
         }
         window.gtag = gtag;
