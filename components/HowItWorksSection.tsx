@@ -1,6 +1,7 @@
 import React from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS, COLORS } from '../constants';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 declare namespace JSX {
   interface IntrinsicElements {
@@ -132,12 +133,26 @@ const StepPhone: React.FC<{ imageSrc?: string; placeholderIcon: string; placehol
   </IPhoneMockup>
 );
 
-/* ── Single step row ── */
+/* ── Single step row (con animaciones al scroll) ── */
 const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = ({ step, index, reversed }) => {
+  const phoneAnim = useScrollAnimation({
+    animation: reversed ? 'fade-right' : 'fade-left',
+    delay: 0,
+    threshold: 0.15,
+  });
+  const textAnim = useScrollAnimation({
+    animation: reversed ? 'fade-left' : 'fade-right',
+    delay: 150,
+    threshold: 0.15,
+  });
+
   return (
-    <div className={`grid grid-cols-1 lg:grid-cols-12 items-center gap-10 lg:gap-16`}>
+    <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-10 lg:gap-16">
       {/* Phone column */}
-      <div className={`lg:col-span-5 flex justify-center ${reversed ? 'lg:order-2' : 'lg:order-1'}`}>
+      <div
+        ref={phoneAnim.ref}
+        className={`lg:col-span-5 flex justify-center ${reversed ? 'lg:order-2' : 'lg:order-1'}`}
+      >
         <StepPhone
           imageSrc={stepImages[step.imageKey]}
           placeholderIcon={step.placeholderIcon}
@@ -147,7 +162,10 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
       </div>
 
       {/* Text column */}
-      <div className={`lg:col-span-7 flex flex-col justify-center ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}>
+      <div
+        ref={textAnim.ref}
+        className={`lg:col-span-7 flex flex-col justify-center ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}
+      >
         {/* Step tag */}
         <div className="inline-flex items-center gap-2 bg-primary-DEFAULT/10 text-primary-DEFAULT rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit">
           <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
@@ -168,8 +186,8 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
         {/* Highlights */}
         <div className="flex flex-col gap-3">
           {step.highlights.map((h, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
+            <div key={i} className="flex items-center gap-3 group">
+              <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-primary-DEFAULT/15 transition-all duration-200">
                 <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} />
               </div>
               <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
@@ -183,11 +201,20 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
 
 /* ── Main section ── */
 const HowItWorksSection: React.FC = () => {
+  const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
+
   return (
-    <section id={SECTION_IDS.howItWorks} className="py-20 sm:py-28 bg-white">
+    <section id={SECTION_IDS.howItWorks} className="relative py-20 sm:py-28 overflow-hidden">
+      {/* ── Fondo limpio ── */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f4f8ec] to-white" />
+        {/* Línea decorativa vertical sutil */}
+        <div className="hidden lg:block absolute left-1/2 top-48 bottom-24 w-px bg-gradient-to-b from-transparent via-neutral-light to-transparent" />
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
-        <div className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
+        <div ref={headerAnim.ref} className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
           <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
             Cómo funciona
           </span>

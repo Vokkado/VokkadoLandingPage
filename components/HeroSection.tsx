@@ -17,8 +17,13 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id={SECTION_IDS.home}
-      className="relative bg-neutral-lightest text-black min-h-[calc(100vh-4rem)] md:min-h-screen flex md:items-center py-20 md:py-28 overflow-hidden" // Navbar is 4rem (h-16)
+      className="relative text-black min-h-[calc(100vh-4rem)] md:min-h-screen flex md:items-center py-20 md:py-28 overflow-hidden"
     >
+      {/* ── Fondo limpio ── */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-white to-white" />
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="md:grid md:grid-cols-5 md:gap-12 md:items-center">
           {/* Left Column: Text and CTAs */}
@@ -31,14 +36,17 @@ const HeroSection: React.FC = () => {
               <span className="text-primary-DEFAULT font-bold"> es </span>
               <span className="text-primary font-bold">  cuidarte</span>
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10">
+            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
               Todo lo que tus productos esconden, Vokkado te lo cuenta.
             </p>
 
             {/* Pre-registro callout */}
-            <div className="bg-white/80 backdrop-blur-sm border-2 border-primary/30 rounded-2xl p-6 mb-8 shadow-lg max-w-xl mx-auto md:mx-0" style={{ animationDelay: '0.2s' }}>
+            <div
+              className="bg-white/70 backdrop-blur-md border border-primary/20 rounded-2xl p-6 mb-8 shadow-xl max-w-xl mx-auto md:mx-0 animate-fade-in-up hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              style={{ animationDelay: '300ms' }}
+            >
               <p className="text-neutral-darkest text-base md:text-lg mb-4">
-                🎉 <strong className="text-primary-dark">Sumate al acceso exclusivo,</strong> dejanos tu mail y probá la app antes que nadie
+                🎉 <strong className="text-primary">Sumate al acceso exclusivo,</strong> dejanos tu mail y probá la app antes que nadie
               </p>
               <Button
                 variant="primary"
@@ -49,11 +57,10 @@ const HeroSection: React.FC = () => {
                Quiero unirme
               </Button>
             </div>
-
           </div>
 
           {/* Right Column: iPhone Mockup Gallery */}
-          <div className="md:col-span-2 mt-16 md:mt-0 flex items-center justify-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <div className="md:col-span-2 mt-16 md:mt-0 flex items-center justify-center animate-fade-in-right" style={{ animationDelay: '400ms' }}>
             <div className="relative">
               <IPhoneMockup>
                 {galleryImages.length > 0 ? (
@@ -76,14 +83,14 @@ const HeroSection: React.FC = () => {
                 <>
                   <button
                     onClick={() => setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
-                    className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-DEFAULT rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-colors"
+                    className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-DEFAULT rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-all hover:scale-110"
                     aria-label="Imagen anterior"
                   >
                     ‹
                   </button>
                   <button
                     onClick={() => setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length)}
-                    className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-DEFAULT rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-colors"
+                    className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-DEFAULT rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-all hover:scale-110"
                     aria-label="Imagen siguiente"
                   >
                     ›
@@ -98,28 +105,23 @@ const HeroSection: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                        index === currentImageIndex ? 'bg-secondary-dark' : 'bg-neutral-medium'
+                      className={`rounded-full transition-all duration-300 ${
+                        index === currentImageIndex
+                          ? 'bg-primary-DEFAULT w-6 h-2.5'
+                          : 'bg-neutral-medium w-2.5 h-2.5 hover:bg-primary-light'
                       }`}
                       aria-label={`Ir a imagen ${index + 1}`}
                     />
                   ))}
                 </div>
               )}
-              {/* iPhone 14 Pro Mockup END */}
             </div>
           </div>
-          
         </div>
       </div>
 
       {/* Modal de Pre-registro */}
       <PreRegisterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
-      {/* Decorative Elements */}
-      <div aria-hidden="true" className="absolute top-20 -left-10 w-32 h-32 bg-secondary-dark rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce"></div>
-      <div aria-hidden="true" className="absolute bottom-20 -right-10 w-32 h-32 bg-primary-dark rounded-full opacity-30 mix-blend-multiply filter blur-xl animate-bounce animation-delay-2000"></div>
-      <div aria-hidden="true" className="absolute bottom-[10%] right-[8%] w-2 h-2 border-secondary-dark rounded-full opacity-70 hidden md:block"></div>
     </section>
   );
 };

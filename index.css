@@ -1,0 +1,58 @@
+/* ─── Scroll Animations ─── */
+/* Cada clase define el estado INICIAL (oculto) con transitions.
+   Cuando se agrega .scroll-visible, transiciona al estado final. */
+
+.scroll-fade-up,
+.scroll-fade-down,
+.scroll-fade-left,
+.scroll-fade-right,
+.scroll-scale-in {
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Estado inicial: oculto + desplazado */
+.scroll-fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.scroll-fade-down {
+  opacity: 0;
+  transform: translateY(-32px);
+}
+.scroll-fade-left {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+.scroll-fade-right {
+  opacity: 0;
+  transform: translateX(32px);
+}
+.scroll-scale-in {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* Estado visible: todo vuelve a su lugar */
+.scroll-fade-up.scroll-visible,
+.scroll-fade-down.scroll-visible,
+.scroll-fade-left.scroll-visible,
+.scroll-fade-right.scroll-visible,
+.scroll-scale-in.scroll-visible {
+  opacity: 1;
+  transform: translate(0) scale(1);
+}
+
+/* Respetar prefer-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-fade-up,
+  .scroll-fade-down,
+  .scroll-fade-left,
+  .scroll-fade-right,
+  .scroll-scale-in {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
