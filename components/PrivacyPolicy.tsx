@@ -26,7 +26,7 @@ const PrivacyPolicy: React.FC = () => {
           </p>
 
           <p className="text-neutral-dark mb-8">
-            Esta Política de Privacidad explica cómo ScanToEat (en adelante, "la Aplicación" o "nosotros") recopila, utiliza y protege los datos personales proporcionados por los usuarios que se preregistran en nuestra landing page.
+            Esta Política de Privacidad explica cómo Vokkado (en adelante, "la Aplicación" o "nosotros") recopila, utiliza y protege los datos personales proporcionados por los usuarios que se preregistran en nuestra landing page.
           </p>
 
           <div className="space-y-8 text-neutral-darkest">
@@ -36,7 +36,7 @@ const PrivacyPolicy: React.FC = () => {
                 1. Responsable del tratamiento
               </h2>
               <p className="mb-4">
-                ScanToEat es el responsable del tratamiento de los datos personales ingresados en el formulario de preregistro.
+                Vokkado es el responsable del tratamiento de los datos personales ingresados en el formulario de preregistro.
 
                 Correo de contacto: scantoeat.life@gmail.com
               </p>
@@ -65,7 +65,7 @@ const PrivacyPolicy: React.FC = () => {
                 Los datos proporcionados serán utilizados exclusivamente para:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Enviar novedades, noticias y actualizaciones relacionadas con el desarrollo de ScanToEat.</li>
+                <li>Enviar novedades, noticias y actualizaciones relacionadas con el desarrollo de Vokkado.</li>
                 <li>Notificar al usuario sobre el lanzamiento de la Aplicación y el acceso anticipado.</li>
             </ul>
             <p className="mt-4">

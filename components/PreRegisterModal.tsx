@@ -211,7 +211,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                   }`}
                 />
                 <label htmlFor="acceptsTerms" className="text-sm text-neutral-darkest cursor-pointer">
-                  Acepto que mi email sea usado para recibir novedades y ser notificado del lanzamiento de ScanToEat.
+                  Acepto que mi email sea usado para recibir novedades y ser notificado del lanzamiento de Vokkado.
                 </label>
               </div>
 

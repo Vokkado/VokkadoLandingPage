@@ -26,7 +26,7 @@ const TermsAndConditions: React.FC = () => {
           </p>
 
           <p className="text-neutral-dark mb-8">
-            Bienvenido a ScanToEat. Estos Términos y Condiciones rigen tu acceso y uso de nuestra aplicación, incluyendo todos sus contenidos, funcionalidades y servicios proporcionados a través de la misma.
+            Bienvenido a Vokkado. Estos Términos y Condiciones rigen tu acceso y uso de nuestra aplicación, incluyendo todos sus contenidos, funcionalidades y servicios proporcionados a través de la misma.
           </p>
 
           <div className="space-y-8 text-neutral-darkest">
@@ -36,7 +36,7 @@ const TermsAndConditions: React.FC = () => {
                 1. Aceptación de los Términos
               </h2>
               <p>
-                Al descargar, instalar y usar ScanToEat, aceptás plenamente estos Términos y Condiciones. Si no estás de acuerdo con cualquier parte de estos términos, no debés usar la aplicación.
+                Al descargar, instalar y usar Vokkado, aceptás plenamente estos Términos y Condiciones. Si no estás de acuerdo con cualquier parte de estos términos, no debés usar la aplicación.
               </p>
             </section>
 
@@ -46,7 +46,7 @@ const TermsAndConditions: React.FC = () => {
                 2. Versión temprana
               </h2>
               <p>
-                ScanToEat se encuentra actualmente en una fase temprana de desarrollo. Esto significa que algunas funcionalidades pueden estar incompletas, la información de ciertos productos puede no estar validada y los análisis nutricionales pueden contener imprecisiones. Trabajamos constantemente para mejorar la calidad de los datos y la experiencia del usuario.
+                Vokkado se encuentra actualmente en una fase temprana de desarrollo. Esto significa que algunas funcionalidades pueden estar incompletas, la información de ciertos productos puede no estar validada y los análisis nutricionales pueden contener imprecisiones. Trabajamos constantemente para mejorar la calidad de los datos y la experiencia del usuario.
               </p>
             </section>
 
@@ -56,7 +56,7 @@ const TermsAndConditions: React.FC = () => {
                 3. Licencia de Uso
               </h2>
               <p className="mb-4">
-                Te otorgamos una licencia limitada, no exclusiva y revocable para usar ScanToEat únicamente con propósitos personales, no comerciales. No está permitido:
+                Te otorgamos una licencia limitada, no exclusiva y revocable para usar Vokkado únicamente con propósitos personales, no comerciales. No está permitido:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Reproducir, modificar o distribuir el contenido de la aplicación.</li>
@@ -72,7 +72,7 @@ const TermsAndConditions: React.FC = () => {
                 4. Registro de Cuenta
               </h2>
               <p className="mb-4">
-                Para usar ciertas funcionalidades de ScanToEat, debés crear una cuenta proporcionando información precisa y actualizada. Sos responsable de:
+                Para usar ciertas funcionalidades de Vokkado, debés crear una cuenta proporcionando información precisa y actualizada. Sos responsable de:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Mantener la confidencialidad de tu contraseña.</li>
@@ -97,7 +97,7 @@ const TermsAndConditions: React.FC = () => {
                 6. Uso Prohibido
               </h2>
               <p className="mb-4">
-                No podés usar ScanToEat para:
+                No podés usar Vokkado para:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Violar leyes o regulaciones aplicables.</li>
@@ -113,7 +113,7 @@ const TermsAndConditions: React.FC = () => {
                 7. Información de Productos y Análisis
               </h2>
               <p>
-                ScanToEat proporciona información nutricional y análisis basados en datos disponibles públicamente y generados mediante inteligencia artificial. Si bien nos esforzamos por mantener la precisión, no garantizamos que toda la información sea exacta o esté siempre actualizada. La información proporcionada por ScanToEat no constituye asesoramiento médico, nutricional ni profesional de ningún tipo. Ante cualquier duda sobre tu alimentación o salud, consultá con un profesional calificado.
+                Vokkado proporciona información nutricional y análisis basados en datos disponibles públicamente y generados mediante inteligencia artificial. Si bien nos esforzamos por mantener la precisión, no garantizamos que toda la información sea exacta o esté siempre actualizada. La información proporcionada por Vokkado no constituye asesoramiento médico, nutricional ni profesional de ningún tipo. Ante cualquier duda sobre tu alimentación o salud, consultá con un profesional calificado.
               </p>
             </section>
 
@@ -123,7 +123,7 @@ const TermsAndConditions: React.FC = () => {
                 8. Limitación de Responsabilidad
               </h2>
               <p className="mb-4">
-                ScanToEat se proporciona tal cual, sin garantías. No nos hacemos responsables por:
+                Vokkado se proporciona tal cual, sin garantías. No nos hacemos responsables por:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Errores o imprecisiones en la información o análisis.</li>
@@ -139,7 +139,7 @@ const TermsAndConditions: React.FC = () => {
                 9. Modificaciones de los Términos
               </h2>
               <p>
-                Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Los cambios entrarán en vigor cuando publiquemos la versión actualizada. Tu uso continuado de ScanToEat constituye aceptación de los términos modificados.
+                Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Los cambios entrarán en vigor cuando publiquemos la versión actualizada. Tu uso continuado de Vokkado constituye aceptación de los términos modificados.
               </p>
             </section>
 
@@ -149,7 +149,7 @@ const TermsAndConditions: React.FC = () => {
                 10. Terminación
               </h2>
               <p>
-                Podemos terminar o suspender tu acceso a ScanToEat en cualquier momento, sin previo aviso, por violación de estos términos.
+                Podemos terminar o suspender tu acceso a Vokkado en cualquier momento, sin previo aviso, por violación de estos términos.
               </p>
             </section>
 

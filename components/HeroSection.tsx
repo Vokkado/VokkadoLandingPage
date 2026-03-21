@@ -25,23 +25,23 @@ const HeroSection: React.FC = () => {
           <div className="md:col-span-3 text-center md:text-left animate-fade-in-up">
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight mb-6 leading-tight">
               <span className="text-primary-DEFAULT font-bold">
-                <span className="text-secondary-dark font-bold"> Saber </span>
+                <span className="text-primary font-bold"> Saber </span>
                 lo que comés,
               </span> <br />
               <span className="text-primary-DEFAULT font-bold"> es </span>
-              <span className="text-secondary-dark font-bold">  cuidarte</span>
+              <span className="text-primary font-bold">  cuidarte</span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10">
-              Todo lo que tus productos esconden, ScanToEat te lo cuenta.
+              Todo lo que tus productos esconden, Vokkado te lo cuenta.
             </p>
 
             {/* Pre-registro callout */}
-            <div className="bg-white/80 backdrop-blur-sm border-2 border-secondary-dark/30 rounded-2xl p-6 mb-8 shadow-lg max-w-xl mx-auto md:mx-0" style={{ animationDelay: '0.2s' }}>
+            <div className="bg-white/80 backdrop-blur-sm border-2 border-primary/30 rounded-2xl p-6 mb-8 shadow-lg max-w-xl mx-auto md:mx-0" style={{ animationDelay: '0.2s' }}>
               <p className="text-neutral-darkest text-base md:text-lg mb-4">
-                🎉 <strong className="text-secondary-dark">Sumate al acceso exclusivo,</strong> dejanos tu mail y probá la app antes que nadie
+                🎉 <strong className="text-primary-dark">Sumate al acceso exclusivo,</strong> dejanos tu mail y probá la app antes que nadie
               </p>
               <Button
-                variant="secondary"
+                variant="primary"
                 size="lg"
                 className="shadow-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto"
                 onClick={() => setIsModalOpen(true)}
@@ -59,7 +59,7 @@ const HeroSection: React.FC = () => {
                 {galleryImages.length > 0 ? (
                   <img
                     src={galleryImages[currentImageIndex]}
-                    alt={`ScanToEat captura ${currentImageIndex + 1}`}
+                    alt={`Vokkado captura ${currentImageIndex + 1}`}
                     className="w-full h-full object-cover transition-opacity duration-500"
                     draggable={false}
                   />

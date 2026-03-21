@@ -25,7 +25,7 @@ const DeleteAccount: React.FC = () => {
           </p>
 
           <p className="text-neutral-dark mb-8">
-            En ScanToEat respetamos tu derecho a controlar tus datos personales. En esta página
+            En Vokkado respetamos tu derecho a controlar tus datos personales. En esta página
             encontrás toda la información sobre cómo solicitar la eliminación de tu cuenta y/o
             tus datos.
           </p>
@@ -41,7 +41,7 @@ const DeleteAccount: React.FC = () => {
                 Podés realizar tu solicitud directamente desde la aplicación siguiendo estos pasos:
               </p>
               <ol className="list-decimal list-inside space-y-3 ml-4">
-                <li>Abrí la app <strong>ScanToEat</strong> e ingresá a tu cuenta.</li>
+                <li>Abrí la app <strong>Vokkado</strong> e ingresá a tu cuenta.</li>
                 <li>Tocá el ícono de menú (<strong>☰</strong>) en la esquina superior derecha de la pantalla y seleccioná <strong>Otras funciones</strong>.</li>
                 <li>Seleccioná <strong>Ayuda y reportes</strong>.</li>
                 <li>Tocá <strong>Solicitar eliminación de cuenta</strong>.</li>

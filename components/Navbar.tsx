@@ -47,9 +47,7 @@ const Navbar: React.FC = () => {
     isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
   }`;
   
-  // logoTextColor is no longer needed for the app name itself, but could be kept for other potential logo elements.
-  // For simplicity, we'll directly apply colors to "Scan" and "Eat".
-  // const logoTextColor = isScrolled ? 'text-primary-DEFAULT' : 'text-primary-DEFAULT'; 
+  // Logo text color handled inline
   
   const linkTextColor = isScrolled 
     ? 'text-neutral-dark hover:text-primary-DEFAULT' 
@@ -66,9 +64,8 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           <a href={`#${SECTION_IDS.home}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.home}`)} className="flex items-center space-x-2">
   <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
-  <span className={`text-xl font-bold transition-colors duration-300`}>
-    <span className="font-lexend text-primary-dark">ScanTo</span>
-    <span className="font-lexend text-secondary-dark">Eat</span>
+  <span className={`text-xl font-bold font-lexend text-primary-dark transition-colors duration-300`}>
+    Vokkado
   </span>
 </a>
 

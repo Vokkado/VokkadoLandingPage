@@ -1,3 +1,5 @@
+export { COLORS } from './colors';
+
 export const SECTION_IDS = {
   home: 'inicio', // Matches Navbar and Hero section ID
   features: 'características', // Matches Navbar and Features section ID
@@ -5,7 +7,7 @@ export const SECTION_IDS = {
   participate: 'call-to-action', // Matches CallToAction section ID and Hero button target
 };
 
-export const APP_NAME = "ScanToEat";
+export const APP_NAME = "Vokkado";
 
 export const NAV_LINKS = [
   { name: 'Inicio', href: `#${SECTION_IDS.home}` },

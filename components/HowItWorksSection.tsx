@@ -1,6 +1,6 @@
 import React from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
-import { SECTION_IDS } from '../constants';
+import { SECTION_IDS, COLORS } from '../constants';
 
 declare namespace JSX {
   interface IntrinsicElements {
@@ -37,7 +37,7 @@ const steps: StepData[] = [
     title: 'Creá tu ',
     titleAccent: 'perfil único',
     description:
-      'Configurá tus restricciones alimentarias, alergias, condiciones de salud y objetivos nutricionales. ScanToEat adapta cada análisis a vos.',
+      'Configurá tus restricciones alimentarias, alergias, condiciones de salud y objetivos nutricionales. Vokkado adapta cada análisis a vos.',
     highlights: [
       { icon: 'shield-checkmark-outline', iconType: 'ion', text: 'Alergias e intolerancias' },
       { icon: 'fitness-outline', iconType: 'ion', text: 'Condiciones de salud' },
@@ -157,7 +157,7 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
         {/* Title */}
         <h3 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-neutral-darkest leading-tight mb-4">
           {step.title}
-          <span className="text-primary-dark">{step.titleAccent}</span>
+          <span className="text-primary">{step.titleAccent}</span>
         </h3>
 
         {/* Description */}
@@ -170,7 +170,7 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
           {step.highlights.map((h, i) => (
             <div key={i} className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-                <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: '#5a8703' }} />
+                <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} />
               </div>
               <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
             </div>
@@ -196,7 +196,7 @@ const HowItWorksSection: React.FC = () => {
             <span className="text-primary-dark">personalizado</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
-            En solo unos pasos, ScanToEat te ayuda a entender lo que comés y a tomar mejores decisiones para tu salud.
+            En solo unos pasos, Vokkado te ayuda a entender lo que comés y a tomar mejores decisiones para tu salud.
           </p>
         </div>
 
