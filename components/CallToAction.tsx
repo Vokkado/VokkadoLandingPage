@@ -10,7 +10,7 @@ const CallToActionSection: React.FC = () => {
   return (
     <section
       id={SECTION_IDS.participate}
-      className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-light py-16 sm:py-24 text-white"
+      className="bg-gradient-to-br from-primary-dark via-primary to-primary-light py-16 sm:py-24 text-white"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-4xl sm:text-5xl font-bold mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
