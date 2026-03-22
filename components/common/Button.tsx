@@ -19,13 +19,13 @@ const Button: React.FC<ButtonProps> = ({
   let variantStyle = '';
   switch (variant) {
     case 'primary':
-      variantStyle = 'bg-primary text-white hover:bg-primary-dark focus:ring-primary';
+      variantStyle = 'bg-primary-dark text-white hover:bg-primary focus:ring-primary-dark';
       break;
     case 'secondary':
       variantStyle = 'bg-secondary-dark text-white hover:bg-secondary focus:ring-secondary';
       break;
     case 'outline-primary':
-      variantStyle = 'bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white focus:ring-primary';
+      variantStyle = 'bg-transparent text-primary-dark border-2 border-primary-dark hover:bg-primary-dark hover:text-white focus:ring-primary-dark';
       break;
     case 'outline-secondary':
         variantStyle = 'bg-transparent text-secondary border-2 border-secondary hover:bg-secondary hover:text-white focus:ring-secondary';

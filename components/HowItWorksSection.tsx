@@ -169,7 +169,7 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
         {/* Title */}
         <h3 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-neutral-darkest leading-tight mb-4">
           {step.title}
-          <span className="text-primary">{step.titleAccent}</span>
+          <span className="text-primary-dark">{step.titleAccent}</span>
         </h3>
 
         {/* Description */}
@@ -201,7 +201,7 @@ const HowItWorksSection: React.FC = () => {
     <section id={SECTION_IDS.howItWorks} className="relative py-20 sm:py-28 overflow-hidden">
       {/* ── Fondo limpio ── */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f4f8ec] to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />
         {/* Línea decorativa vertical sutil */}
         <div className="hidden lg:block absolute left-1/2 top-48 bottom-24 w-px bg-gradient-to-b from-transparent via-neutral-light to-transparent" />
       </div>

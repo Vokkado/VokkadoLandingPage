@@ -115,7 +115,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                 <label htmlFor="name" className="block text-sm font-semibold text-neutral-darkest mb-1.5">Nombre</label>
                 <input
                   type="text" id="name" name="name" value={formData.name} onChange={handleChange}
-                  className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/30 transition-all text-sm sm:text-base text-neutral-darkest bg-white"
+                  className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:border-primary-dark focus:ring-1 focus:ring-primary-dark/30 transition-all text-sm sm:text-base text-neutral-darkest bg-white"
                   style={{ color: '#1a1a1a' }}
                   placeholder="Tu nombre"
                 />
@@ -125,7 +125,7 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
                 <label htmlFor="email" className="block text-sm font-semibold text-neutral-darkest mb-1.5">Email</label>
                 <input
                   type="email" id="email" name="email" value={formData.email} onChange={handleChange}
-                  className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT/30 transition-all text-sm sm:text-base text-neutral-darkest bg-white"
+                  className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:border-primary-dark focus:ring-1 focus:ring-primary-dark/30 transition-all text-sm sm:text-base text-neutral-darkest bg-white"
                   style={{ color: '#1a1a1a' }}
                   placeholder="tu@email.com"
                 />

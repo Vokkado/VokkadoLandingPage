@@ -61,17 +61,17 @@ const FeaturesSection: React.FC = () => {
     <section id={SECTION_IDS.features} className="relative py-20 sm:py-28 overflow-hidden">
       {/* ── Fondo limpio ── */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7faf2] to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-friendlyWhite via-[#f7faf2] to-friendlyWhite" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnim.ref} className="text-center mb-14">
-          <span className="inline-block text-sm font-semibold text-primary tracking-widest uppercase mb-3">
+          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
             Características
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest">
             Todo lo que necesitás para{' '}
-            <span className="text-primary">comer mejor</span>
+            <span className="text-primary-dark">comer mejor</span>
           </h2>
           <p className="mt-4 text-lg text-neutral-dark max-w-2xl mx-auto">
             Descubrí las herramientas que Vokkado te ofrece para cuidar tu alimentación.

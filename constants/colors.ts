@@ -1,9 +1,10 @@
 // ─── Paleta de colores centralizada de Vokkado ───
+// Alineada con la paleta del frontend (ScanToEat-Frontend/src/theme/colors.ts)
 // Modificá los valores acá y se actualizan en toda la landing.
 
 export const COLORS = {
   primary: {
-    DEFAULT: '#22521D', 
+    DEFAULT: '#5B8806',
     light: '#B8C445',
     dark: '#22521D',
     lightest: '#E8F0D4',
@@ -13,6 +14,7 @@ export const COLORS = {
     light: '#A67A2E',
     dark: '#6B4801',
   },
+  alternative: '#A7BECE',
   neutral: {
     lightest: '#F9FAFB',
     light: '#F3F4F6',
@@ -22,5 +24,8 @@ export const COLORS = {
     darkest: '#1F2937',
   },
   black: '#000000',
-  white: '#FFFFFF',
+  white: '#FCFCFC',
+  friendlyWhite: '#F1F1F1',
+  dark: '#161616',
+  grey: '#727272',
 };
