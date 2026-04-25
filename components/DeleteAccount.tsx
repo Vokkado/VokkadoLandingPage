@@ -57,10 +57,10 @@ const DeleteAccount: React.FC = () => {
               <p className="mt-4">
                 También podés enviar tu solicitud directamente por correo electrónico a{' '}
                 <a
-                  href="mailto:scantoeat.life@gmail.com?subject=Solicitud%20de%20eliminación%20de%20cuenta"
+                  href="mailto:contact@vokkado.com?subject=Solicitud%20de%20eliminación%20de%20cuenta"
                   className="text-primary-DEFAULT underline hover:text-primary-dark"
                 >
-                  scantoeat.life@gmail.com
+                  contact@vokkado.com
                 </a>{' '}
                 con el asunto <em>"Solicitud de eliminación de cuenta"</em>.
               </p>
@@ -124,10 +124,10 @@ const DeleteAccount: React.FC = () => {
               <p>
                 Si tenés dudas sobre este proceso o sobre el manejo de tus datos, podés escribirnos a{' '}
                 <a
-                  href="mailto:scantoeat.life@gmail.com"
+                  href="mailto:contact@vokkado.com"
                   className="text-primary-DEFAULT underline hover:text-primary-dark"
                 >
-                  scantoeat.life@gmail.com
+                  contact@vokkado.com
                 </a>.
               </p>
             </section>

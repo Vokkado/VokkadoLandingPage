@@ -38,7 +38,7 @@ const PrivacyPolicy: React.FC = () => {
               <p className="mb-4">
                 Vokkado es el responsable del tratamiento de los datos personales ingresados en el formulario de preregistro.
 
-                Correo de contacto: scantoeat.life@gmail.com
+                Correo de contacto: contact@vokkado.com
               </p>
             </section>
 
@@ -115,7 +115,7 @@ const PrivacyPolicy: React.FC = () => {
                 <li>Retirar su consentimiento.</li>
               </ul>
               <p className="mt-4">
-                Para ejercer estos derechos, el usuario puede escribir a: scantoeat.life@gmail.com.
+                Para ejercer estos derechos, el usuario puede escribir a: contact@vokkado.com.
               </p>
             </section>
 
@@ -185,7 +185,7 @@ const PrivacyPolicy: React.FC = () => {
                 Para consultas sobre esta Política o sobre el manejo de tus datos personales podés escribir a:
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>scantoeat.life@gmail.com</li>
+                <li>contact@vokkado.com</li>
               </ul>
             </section>
           
