@@ -102,8 +102,11 @@ const PreRegisterModal: React.FC<PreRegisterModalProps> = ({ isOpen, onClose }) 
 
             {/* Título con acento verde */}
             <div className="mb-5 pr-10">
-              <h2 className="text-xl sm:text-2xl font-bold text-neutral-darkest">Acceso anticipado</h2>
-              <p className="text-sm text-neutral-DEFAULT mt-1">Sé de los primeros en probar<span style={{ color: '#5B8806' }}> Vokkado</span></p>
+              <h2 className="text-xl sm:text-2xl font-bold text-neutral-darkest">Vokkado en iOS</h2>
+              <p className="text-sm text-neutral-DEFAULT mt-1">
+                Estamos trabajando para que <span style={{ color: '#5B8806' }}>Vokkado</span> esté disponible en App Store. Mientras tanto,
+                podés unirte al acceso anticipado para recibir novedades y ser de los primeros en probar Vokkado en iOS.
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">

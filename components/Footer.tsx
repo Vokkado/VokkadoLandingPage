@@ -33,7 +33,6 @@ export const Footer: React.FC = () => {
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Recursos</h2>
               <ul className="space-y-3">
                 <li><a href={`#${SECTION_IDS.howItWorks}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.howItWorks}`)} className="hover:text-primary-light transition-colors">Cómo Funciona</a></li>
-                <li><a href={`#${SECTION_IDS.features}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.features}`)} className="hover:text-primary-light transition-colors">Características</a></li>
                 <li><a href={`#${SECTION_IDS.participate}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.participate}`)} className="hover:text-primary-light transition-colors">Participa</a></li>
               </ul>
             </div>

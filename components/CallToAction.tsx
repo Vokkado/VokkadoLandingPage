@@ -46,39 +46,38 @@ const CallToActionSection: React.FC = () => {
           ref={subtitleAnim.ref}
           className="text-lg sm:text-xl text-primary-lightest max-w-2xl mx-auto mb-10"
         >
-          {APP_NAME} está cada vez más cerca. Sumate al acceso anticipado y descubrí cómo comer mejor, de forma inteligente.
+          {APP_NAME} ya está disponible como beta pública en Google Play. En App Store llegará próximamente, y podés dejar tu mail para recibir novedades apenas esté lista.
         </p>
 
         <div ref={badgesAnim.ref} className="mt-12">
-          <p className="text-sm text-primary-lightest mb-4">Descargala pronto en:</p>
+          <p className="text-sm text-primary-lightest mb-4">Disponible ahora en:</p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             {/* App Store button */}
             <button
               onClick={() => setIsModalOpen(true)}
               className="group flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-lg px-4 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[180px]"
-              aria-label="Pre-registro para App Store"
+              aria-label="Recibir novedades para App Store"
             >
               <AppleLogo className="w-6 h-6 flex-shrink-0" />
               <div className="text-left leading-tight">
-                <span className="block text-[9px] font-normal tracking-wide opacity-80">Disponible en</span>
+                <span className="block text-[9px] font-normal tracking-wide opacity-80">Próximamente en</span>
                 <span className="block text-base font-semibold -mt-0.5">App Store</span>
               </div>
             </button>
 
             {/* Google Play button */}
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
               className="group flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-lg px-4 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[180px]"
-              aria-label="Pre-registro para Google Play"
+              aria-label="Descargar beta pública en Google Play"
             >
               <GooglePlayLogo className="w-6 h-6 flex-shrink-0" />
               <div className="text-left leading-tight">
-                <span className="block text-[9px] font-normal tracking-wide opacity-80">Disponible en</span>
+                <span className="block text-[9px] font-normal tracking-wide opacity-80">Beta pública en</span>
                 <span className="block text-base font-semibold -mt-0.5">Google Play</span>
               </div>
             </button>
           </div>
-          <p className="mt-5 text-xs text-primary-lightest">(Próximamente)</p>
         </div>
       </div>
 

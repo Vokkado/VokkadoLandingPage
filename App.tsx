@@ -3,7 +3,6 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
 import HowItWorksSection from './components/HowItWorksSection';
 import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
@@ -15,7 +14,6 @@ const HomePage: React.FC = () => {
   return (
     <>
       <HeroSection />
-      <FeaturesSection /> 
       <HowItWorksSection />
       <CallToActionSection />
     </>
