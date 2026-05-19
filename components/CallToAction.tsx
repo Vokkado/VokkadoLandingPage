@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { APP_NAME, SECTION_IDS } from '../constants';
-import PreRegisterModal from './PreRegisterModal';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 /* ── Inline SVG logos ── */
@@ -20,7 +19,6 @@ const GooglePlayLogo: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const CallToActionSection: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
   const subtitleAnim = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.2 });
   const badgesAnim = useScrollAnimation({ animation: 'scale', delay: 300, threshold: 0.2 });
@@ -46,7 +44,7 @@ const CallToActionSection: React.FC = () => {
           ref={subtitleAnim.ref}
           className="text-lg sm:text-xl text-primary-lightest max-w-2xl mx-auto mb-10"
         >
-          {APP_NAME} ya está disponible como beta pública en Google Play. En App Store llegará próximamente, y podés dejar tu mail para recibir novedades apenas esté lista.
+          {APP_NAME} ya está disponible como beta pública en Google Play y App Store. Descargala y empezá a escanear tus productos.
         </p>
 
         <div ref={badgesAnim.ref} className="mt-12">
@@ -54,13 +52,13 @@ const CallToActionSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             {/* App Store button */}
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
               className="group flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-lg px-4 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[180px]"
-              aria-label="Recibir novedades para App Store"
+              aria-label="Descargar beta pública en App Store"
             >
               <AppleLogo className="w-6 h-6 flex-shrink-0" />
               <div className="text-left leading-tight">
-                <span className="block text-[9px] font-normal tracking-wide opacity-80">Próximamente en</span>
+                <span className="block text-[9px] font-normal tracking-wide opacity-80">Beta pública en</span>
                 <span className="block text-base font-semibold -mt-0.5">App Store</span>
               </div>
             </button>
@@ -81,7 +79,6 @@ const CallToActionSection: React.FC = () => {
         </div>
       </div>
 
-      <PreRegisterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };

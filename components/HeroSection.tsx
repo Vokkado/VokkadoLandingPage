@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
-import PreRegisterModal from './PreRegisterModal';
 import { SECTION_IDS } from '../constants';
 
 // Importar todas las imágenes de la galería automáticamente
@@ -25,7 +24,6 @@ const GooglePlayLogo: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const HeroSection: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -96,13 +94,13 @@ const HeroSection: React.FC = () => {
             >
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-5">
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
                   className="group flex items-center gap-3.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-6 py-3.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
-                  aria-label="Recibir novedades para App Store"
+                  aria-label="Descargar beta pública en App Store"
                 >
                   <AppleLogo className="w-8 h-8 flex-shrink-0" />
                   <div className="text-left leading-tight">
-                    <span className="block text-[11px] font-normal tracking-wide opacity-80">Próximamente en</span>
+                    <span className="block text-[11px] font-normal tracking-wide opacity-80">Beta pública en</span>
                     <span className="block text-[20px] font-semibold -mt-0.5">App Store</span>
                   </div>
                 </button>
@@ -203,8 +201,6 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal de Pre-registro */}
-      <PreRegisterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };
