@@ -34,6 +34,7 @@ export const Footer: React.FC = () => {
               <ul className="space-y-3">
                 <li><a href={`#${SECTION_IDS.howItWorks}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.howItWorks}`)} className="hover:text-primary-light transition-colors">Cómo Funciona</a></li>
                 <li><a href={`#${SECTION_IDS.participate}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.participate}`)} className="hover:text-primary-light transition-colors">Participa</a></li>
+                <li><Link to="/equipo" className="hover:text-primary-light transition-colors">Nosotros</Link></li>
               </ul>
             </div>
             <div>

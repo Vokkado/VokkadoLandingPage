@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png';
 import { NAV_LINKS, SECTION_IDS } from '../constants';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,12 +32,17 @@ const Navbar: React.FC = () => {
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionHref: string) => {
     e.preventDefault();
-    const sectionId = sectionHref.substring(1); // Remove #
-    const element = document.getElementById(sectionId); 
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    const sectionId = sectionHref.substring(1);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     }
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); 
   };
 
   const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
@@ -56,15 +64,15 @@ const Navbar: React.FC = () => {
     <nav className={navClasses}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href={`#${SECTION_IDS.home}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.home}`)} className="flex items-center space-x-2">
-  <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
-  <span className={`text-xl font-bold font-lexend text-primary-dark transition-colors duration-300`}>
-    Vokkado
-  </span>
-</a>
+          <Link to="/" className="flex items-center space-x-2">
+            <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
+            <span className="text-xl font-alan text-primary-dark transition-colors duration-300 tracking-tight" style={{ fontWeight: 800 }}>
+              Vokkado
+            </span>
+          </Link>
 
           
-          <div className="hidden md:flex space-x-4">
+          <div className="hidden md:flex items-center space-x-1">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
@@ -75,6 +83,12 @@ const Navbar: React.FC = () => {
                 {link.name}
               </a>
             ))}
+            <Link
+              to="/equipo"
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${linkTextColor}`}
+            >
+              Nosotros
+            </Link>
           </div>
 
           <div className="md:hidden">
@@ -108,6 +122,13 @@ const Navbar: React.FC = () => {
                 {link.name}
               </a>
             ))}
+            <Link
+              to="/equipo"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-md text-base font-medium text-neutral-dark hover:text-primary-DEFAULT hover:bg-neutral-light"
+            >
+              Nosotros
+            </Link>
           </div>
         </div>
       )}
