@@ -1,16 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { APP_NAME, SECTION_IDS } from '../constants';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionHref: string) => {
     e.preventDefault();
-    const sectionId = sectionHref.substring(1); // Remove #
-    const element = document.getElementById(sectionId); 
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    const sectionId = sectionHref.substring(1);
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -19,9 +25,9 @@ export const Footer: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
-            <a href={`#${SECTION_IDS.home}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.home}`)} className="flex items-center">
-               <span className="text-xl font-semibold text-white">{APP_NAME}</span>
-            </a>
+            <Link to="/" className="flex items-center">
+              <span className="text-xl font-semibold text-white">{APP_NAME}</span>
+            </Link>
             <p className="mt-2 text-sm max-w-xs">
               Escaneá. 
               Elegí. 
@@ -72,7 +78,7 @@ export const Footer: React.FC = () => {
         </div>
         <hr className="my-6 border-neutral-dark sm:mx-auto lg:my-8" />
         <div className="text-center text-sm">
-          &copy; {currentYear} <a href={`#${SECTION_IDS.home}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.home}`)} className="hover:underline">{APP_NAME}™</a>. Todos los derechos reservados.
+          &copy; {currentYear} <Link to="/" className="hover:underline">{APP_NAME}™</Link>. Todos los derechos reservados.
         </div>
       </div>
     </footer>

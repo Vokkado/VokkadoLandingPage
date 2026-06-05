@@ -1,6 +1,12 @@
-import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import GoogleAnalytics from './components/GoogleAnalytics';
+
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+};
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import HowItWorksSection from './components/HowItWorksSection';
@@ -25,6 +31,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen font-sans text-gray-700">
+        <ScrollToTop />
         <GoogleAnalytics />
         <Navbar />
         <main className="flex-grow">

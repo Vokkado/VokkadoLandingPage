@@ -153,22 +153,28 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
   const photoAnim = useScrollAnimation({ animation: 'scale', delay: index * 120 + 80, threshold: 0.15 });
 
   return (
-    <div ref={cardAnim.ref} className="group flex flex-col items-center w-full">
+    <div ref={cardAnim.ref} className="group flex flex-col items-center w-full h-full transition-transform duration-300 group-hover:-translate-y-1">
       {/* Foto */}
       <div
         ref={photoAnim.ref}
-        className="relative z-10 w-36 h-36 rounded-full overflow-hidden ring-4 ring-white shadow-lg group-hover:scale-105 group-hover:shadow-xl transition-all duration-300 flex-shrink-0"
+        className="relative z-10 w-36 h-36 rounded-full overflow-hidden flex-shrink-0
+          ring-1 ring-white shadow-lg
+          transition-all duration-300
+          group-hover:ring-primary-light"
       >
         <img
           src={member.photo}
           alt={member.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           style={{ objectPosition: 'center', transform: 'scale(1.35)', transformOrigin: 'center' }}
         />
       </div>
 
-      {/* Card — sube para solaparse con la foto */}
-      <div className="w-full -mt-16 bg-white rounded-2xl shadow-sm border border-neutral-light px-6 pt-20 pb-7 text-center flex flex-col group-hover:shadow-xl group-hover:-translate-y-1 transition-all duration-300">
+      {/* Card */}
+      <div className="relative w-full flex-grow -mt-16 bg-white rounded-2xl border border-neutral-light px-6 pt-20 pb-7 text-center flex flex-col
+        shadow-sm transition-all duration-300
+        group-hover:shadow-[0_8px_32px_rgba(34,82,29,0.15)] group-hover:border-primary-light/50"
+      >
         <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary-dark bg-primary-lightest px-3 py-1 rounded-full mb-3 self-center border border-primary-light/40">
           {member.role}
         </span>
@@ -231,7 +237,7 @@ const Team: React.FC = () => {
             Lideramos Vokkado con foco en salud, tecnología y experiencia real para el usuario.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 max-w-4xl mx-auto justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4xl mx-auto items-stretch">
           {MEMBERS.map((member, i) => (
             <MemberCard key={member.name} member={member} index={i} />
           ))}
@@ -242,15 +248,9 @@ const Team: React.FC = () => {
       <AboutSection sectionRef={missionAnim.ref} headerRef={aboutHeaderAnim.ref} />
 
       {/* ── CTA ── */}
-      <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-16 text-center px-4 text-white">
+      <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-14 text-center px-4 text-white">
         <p className="font-bold text-3xl mb-2">Escaneá. Elegí. Cuidate.</p>
-        <p className="text-primary-lightest text-sm mb-7">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
-        <Link
-          to="/"
-          className="inline-block bg-white text-primary-dark font-semibold text-sm px-7 py-3 rounded-xl hover:bg-primary-lightest hover:scale-105 transition-all duration-200 shadow-md"
-        >
-          Conocé la app
-        </Link>
+        <p className="text-primary-lightest text-sm">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
       </div>
     </div>
   );
