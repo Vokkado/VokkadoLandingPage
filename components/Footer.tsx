@@ -29,9 +29,7 @@ export const Footer: React.FC = () => {
               <span className="text-xl font-semibold text-white">{APP_NAME}</span>
             </Link>
             <p className="mt-2 text-sm max-w-xs">
-              Escaneá. 
-              Elegí. 
-              Cuidate.
+              Saber lo que comés, es cuidarte.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -41,6 +39,7 @@ export const Footer: React.FC = () => {
                 <li><a href={`#${SECTION_IDS.howItWorks}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.howItWorks}`)} className="hover:text-primary-light transition-colors">Cómo Funciona</a></li>
                 <li><a href={`#${SECTION_IDS.participate}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.participate}`)} className="hover:text-primary-light transition-colors">Participa</a></li>
                 <li><Link to="/equipo" className="hover:text-primary-light transition-colors">Nosotros</Link></li>
+                <li><Link to="/independencia" className="hover:text-primary-light transition-colors">Independencia</Link></li>
               </ul>
             </div>
             <div>

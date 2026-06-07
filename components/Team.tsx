@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 import photo1 from '../images/team/1.png';
@@ -126,6 +127,37 @@ const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement | null
   );
 };
 
+const IndependenciaTeaser: React.FC = () => {
+  const ref = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  return (
+    <section className="py-12 border-t border-neutral-100 bg-primary-dark">
+      <div
+        ref={ref}
+        className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl flex flex-col sm:flex-row items-center gap-6 sm:gap-10"
+      >
+        <div className="flex-grow text-center sm:text-left">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-light mb-2">
+            Independencia
+          </p>
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+            Sin influencias. Solo la verdad.
+          </h3>
+          <p className="text-white/65 text-sm leading-relaxed max-w-xl">
+            Vokkado no recibe dinero de marcas. Cada análisis es objetivo, transparente y libre de conflictos de interés.
+          </p>
+        </div>
+        <Link
+          to="/independencia"
+          className="flex-shrink-0 inline-flex items-center gap-2 bg-white text-primary-dark font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-lightest hover:scale-105 transition-all duration-200 shadow-sm whitespace-nowrap"
+        >
+          Conocer más
+          <ion-icon name="arrow-forward-outline" style={{ fontSize: '15px' }} />
+        </Link>
+      </div>
+    </section>
+  );
+};
+
 const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ member, index }) => {
   const cardAnim = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.15 });
   const photoAnim = useScrollAnimation({ animation: 'scale', delay: index * 120 + 80, threshold: 0.15 });
@@ -221,6 +253,9 @@ const Team: React.FC = () => {
 
       {/* ── Misión · Visión · Valores ── */}
       <AboutSection sectionRef={missionAnim.ref} headerRef={aboutHeaderAnim.ref} />
+
+      {/* ── Teaser Independencia ── */}
+      <IndependenciaTeaser />
 
       {/* ── CTA ── */}
       <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-14 text-center px-4 text-white">

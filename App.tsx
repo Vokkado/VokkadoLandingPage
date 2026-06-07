@@ -17,6 +17,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import DeleteAccount from './components/DeleteAccount';
 import TermsAndConditions from './components/TermsAndConditions';
 import Team from './components/Team';
+import IndependenciaPage from './components/Independencia';
 
 const HomePage: React.FC = () => {
   return (
@@ -43,6 +44,7 @@ const App: React.FC = () => {
             <Route path="/eliminar-cuenta" element={<DeleteAccount />} />
             <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
             <Route path="/equipo" element={<Team />} />
+            <Route path="/independencia" element={<IndependenciaPage />} />
           </Routes>
         </main>
         <Footer />

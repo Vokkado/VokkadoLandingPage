@@ -48,16 +48,31 @@ const Navbar: React.FC = () => {
   const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
     isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
   }`;
-  
-  // Logo text color handled inline
-  
-  const linkTextColor = isScrolled 
-    ? 'text-neutral-dark hover:text-primary-DEFAULT' 
-    : 'text-neutral-dark hover:text-primary-DEFAULT'; 
-  
-  const mobileIconColor = isScrolled 
-    ? 'text-neutral-dark hover:text-primary-DEFAULT' 
-    : 'text-neutral-dark hover:text-primary-DEFAULT';
+
+  const mobileIconColor = 'text-neutral-dark hover:text-primary-DEFAULT';
+
+  // Returns classes for a nav link — active = verde + bold, inactive = gris normal
+  const linkClass = (activePath: string | null) => {
+    const isActive = activePath
+      ? location.pathname === activePath
+      : location.pathname === '/';
+    return `px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
+      isActive
+        ? 'text-primary-dark font-bold'
+        : 'font-medium text-neutral-dark hover:text-primary-DEFAULT'
+    }`;
+  };
+
+  const mobileLinkClass = (activePath: string | null) => {
+    const isActive = activePath
+      ? location.pathname === activePath
+      : location.pathname === '/';
+    return `block px-3 py-2 rounded-md text-base transition-colors duration-200 ${
+      isActive
+        ? 'text-primary-dark font-bold bg-primary-lightest'
+        : 'font-medium text-neutral-dark hover:text-primary-DEFAULT hover:bg-neutral-light'
+    }`;
+  };
 
 
   return (
@@ -78,16 +93,16 @@ const Navbar: React.FC = () => {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${linkTextColor}`}
+                className={linkClass(null)}
               >
                 {link.name}
               </a>
             ))}
-            <Link
-              to="/equipo"
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${linkTextColor}`}
-            >
+            <Link to="/equipo" className={linkClass('/equipo')}>
               Nosotros
+            </Link>
+            <Link to="/independencia" className={linkClass('/independencia')}>
+              Independencia
             </Link>
           </div>
 
@@ -117,7 +132,7 @@ const Navbar: React.FC = () => {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-neutral-dark hover:text-primary-DEFAULT hover:bg-neutral-light"
+                className={mobileLinkClass(null)}
               >
                 {link.name}
               </a>
@@ -125,9 +140,16 @@ const Navbar: React.FC = () => {
             <Link
               to="/equipo"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-neutral-dark hover:text-primary-DEFAULT hover:bg-neutral-light"
+              className={mobileLinkClass('/equipo')}
             >
               Nosotros
+            </Link>
+            <Link
+              to="/independencia"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={mobileLinkClass('/independencia')}
+            >
+              Independencia
             </Link>
           </div>
         </div>
