@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
 type AnimationType = 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'scale';
 
@@ -44,7 +44,14 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             el.classList.add('scroll-visible');
-            if (once) observer.unobserve(el);
+            if (once) {
+              observer.unobserve(el);
+              // Reset delay after the entrance animation finishes
+              // so hover transitions are instantaneous and in sync
+              setTimeout(() => {
+                el.style.transitionDelay = '0ms';
+              }, delay + 750);
+            }
           } else if (!once) {
             el.classList.remove('scroll-visible');
           }
@@ -57,5 +64,5 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
     return () => observer.disconnect();
   }, [animation, delay, once, threshold]);
 
-  return { ref };
+  return { ref: ref as RefObject<T> };
 }

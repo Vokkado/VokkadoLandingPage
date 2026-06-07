@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 import photo1 from '../images/team/1.png';
@@ -39,17 +38,6 @@ const VALUES = [
   { title: 'Confianza', desc: 'Brindamos recomendaciones transparentes, fáciles de entender y respaldadas por datos.' },
   { title: 'Innovación', desc: 'Utilizamos la tecnología para resolver problemas cotidianos de forma inteligente.' },
   { title: 'Compromiso', desc: 'Trabajamos con pasión para generar un impacto positivo en la salud y bienestar de las personas.' },
-];
-
-const PURPOSES = [
-  {
-    label: 'Misión',
-    text: 'Empoderar a las personas para que tomen mejores decisiones alimentarias, transformando información nutricional compleja en recomendaciones claras, personalizadas y fáciles de entender según sus necesidades y objetivos.',
-  },
-  {
-    label: 'Visión',
-    text: 'Ser la plataforma de referencia en alimentación personalizada, ayudando a millones de personas a comprender mejor lo que consumen y a elegir alimentos con mayor confianza y tranquilidad.',
-  },
 ];
 
 type TabKey = 'mision' | 'vision' | 'valores';
@@ -94,7 +82,7 @@ const TAB_CONTENT: Record<TabKey, React.ReactNode> = {
   ),
 };
 
-const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement>; headerRef: React.RefObject<HTMLDivElement> }> = ({ sectionRef, headerRef }) => {
+const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement | null>; headerRef: React.RefObject<HTMLDivElement | null> }> = ({ sectionRef, headerRef }) => {
   const [active, setActive] = useState<TabKey>('mision');
 
   return (
@@ -110,38 +98,28 @@ const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement>; head
           <div className="flex-grow h-px bg-neutral-200" />
         </div>
 
-        {/* Layout: tabs izquierda | contenido derecha — altura fija */}
-        <div className="flex flex-col md:flex-row gap-0" style={{ height: '280px' }}>
+        {/* Pills horizontales */}
+        <div className="flex gap-2 mb-8">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActive(tab.key)}
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                active === tab.key
+                  ? 'bg-primary-dark text-white'
+                  : 'bg-neutral-100 text-neutral-DEFAULT hover:bg-neutral-200 hover:text-neutral-dark'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-          {/* Tabs — texto puro + separadores */}
-          <div className="md:w-48 flex-shrink-0 flex md:flex-col justify-around md:justify-center border-b md:border-b-0 md:border-r border-neutral-200 pr-0 md:pr-0">
-            {TABS.map((tab, i) => (
-              <React.Fragment key={tab.key}>
-                {i > 0 && <div className="hidden md:block h-px bg-neutral-200 mx-0" />}
-                <button
-                  onClick={() => setActive(tab.key)}
-                  className="group flex items-center gap-2 py-5 md:py-6 px-2 md:px-0 text-left transition-colors duration-200"
-                >
-                  <span className={`text-base md:text-lg font-semibold transition-colors duration-200 ${
-                    active === tab.key ? 'text-primary-dark' : 'text-neutral-medium hover:text-neutral-dark'
-                  }`}>
-                    {tab.label}
-                  </span>
-                  <span className={`transition-all duration-200 text-primary-dark ${active === tab.key ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-1'}`}>
-                    →
-                  </span>
-                </button>
-              </React.Fragment>
-            ))}
+        {/* Contenido — altura fija para que no cambie el tamaño del bloque */}
+        <div style={{ minHeight: '160px' }} className="flex items-start">
+          <div key={active} className="animate-fade-in-up w-full">
+            {TAB_CONTENT[active]}
           </div>
-
-          {/* Contenido — overflow hidden para que no crezca */}
-          <div className="flex-grow md:pl-14 flex items-center overflow-hidden">
-            <div key={active} className="animate-fade-in-up w-full">
-              {TAB_CONTENT[active]}
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
@@ -208,9 +186,6 @@ const Team: React.FC = () => {
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div ref={heroTitleAnim.ref}>
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.28em] text-primary-dark/70 mb-5">
-              Nosotros
-            </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight">
               Más que una app,
               <br className="hidden sm:block" />
@@ -229,7 +204,7 @@ const Team: React.FC = () => {
       {/* ── Equipo ── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-14 sm:pb-20">
         <div ref={teamHeaderAnim.ref} className="text-center mb-14">
-          <span className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">
+          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
             El equipo
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">Co-fundadores</h2>

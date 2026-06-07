@@ -12,6 +12,7 @@ import HeroSection from './components/HeroSection';
 import HowItWorksSection from './components/HowItWorksSection';
 import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
+import TeamTeaser from './components/TeamTeaser';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import DeleteAccount from './components/DeleteAccount';
 import TermsAndConditions from './components/TermsAndConditions';
@@ -22,6 +23,7 @@ const HomePage: React.FC = () => {
     <>
       <HeroSection />
       <HowItWorksSection />
+      <TeamTeaser />
       <CallToActionSection />
     </>
   );

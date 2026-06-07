@@ -145,7 +145,7 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
       {/* Phone column */}
       <div
         ref={phoneAnim.ref}
-        className={`lg:col-span-5 flex justify-center ${reversed ? 'lg:order-2' : 'lg:order-1'}`}
+        className={`lg:col-span-5 flex justify-center order-2 ${reversed ? 'lg:order-2' : 'lg:order-1'}`}
       >
         <StepPhone
           imageSrc={stepImages[step.imageKey]}
@@ -158,7 +158,7 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
       {/* Text column */}
       <div
         ref={textAnim.ref}
-        className={`lg:col-span-7 flex flex-col justify-center ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}
+        className={`lg:col-span-7 flex flex-col justify-center order-1 ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}
       >
         {/* Step tag */}
         <div className="inline-flex items-center gap-2 bg-primary-DEFAULT/10 text-primary-DEFAULT rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit">
