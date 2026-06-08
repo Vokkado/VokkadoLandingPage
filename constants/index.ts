@@ -9,7 +9,6 @@ export const SECTION_IDS = {
 export const APP_NAME = "Vokkado";
 
 export const NAV_LINKS = [
-  { name: 'Inicio', href: `#${SECTION_IDS.home}` },
-  { name: 'Cómo Funciona', href: `#${SECTION_IDS.howItWorks}` },
-  { name: 'Participá', href: `#${SECTION_IDS.participate}` },
+  { name: 'Inicio', href: `#${SECTION_IDS.home}`, sectionId: SECTION_IDS.home },
+  { name: 'Cómo Funciona', href: `#${SECTION_IDS.howItWorks}`, sectionId: SECTION_IDS.howItWorks },
 ];

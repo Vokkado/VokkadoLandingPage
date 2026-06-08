@@ -128,30 +128,25 @@ const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement | null
 };
 
 const IndependenciaTeaser: React.FC = () => {
-  const ref = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   return (
-    <section className="py-12 border-t border-neutral-100 bg-primary-dark">
-      <div
-        ref={ref}
-        className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl flex flex-col sm:flex-row items-center gap-6 sm:gap-10"
-      >
-        <div className="flex-grow text-center sm:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-light mb-2">
-            Independencia
-          </p>
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-            Sin influencias. Solo la verdad.
-          </h3>
-          <p className="text-white/65 text-sm leading-relaxed max-w-xl">
-            Vokkado no recibe dinero de marcas. Cada análisis es objetivo, transparente y libre de conflictos de interés.
-          </p>
-        </div>
+    <section className="py-14 bg-[#f4f8ec] border-t border-primary-light/20 text-center">
+      <div ref={ref} className="container mx-auto px-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">
+          Independencia
+        </p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
+          Sin influencias. Solo la verdad.
+        </h2>
+        <p className="text-neutral-DEFAULT mb-7 max-w-md mx-auto text-sm">
+          Vokkado no recibe dinero de marcas. Cada análisis es objetivo, transparente y libre de conflictos de interés.
+        </p>
         <Link
           to="/independencia"
-          className="flex-shrink-0 inline-flex items-center gap-2 bg-white text-primary-dark font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-lightest hover:scale-105 transition-all duration-200 shadow-sm whitespace-nowrap"
+          className="inline-flex items-center gap-2 bg-primary-dark text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
         >
           Conocer más
-          <ion-icon name="arrow-forward-outline" style={{ fontSize: '15px' }} />
+          <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
         </Link>
       </div>
     </section>

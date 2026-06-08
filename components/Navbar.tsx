@@ -30,9 +30,8 @@ const Navbar: React.FC = () => {
   }, [isMobileMenuOpen]);
 
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionHref: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
-    const sectionId = sectionHref.substring(1);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
 
     if (location.pathname !== '/') {
@@ -91,8 +90,8 @@ const Navbar: React.FC = () => {
             {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
-                href={link.href}
-                onClick={(e) => scrollToSection(e, link.href)}
+                href="/#/"
+                onClick={(e) => scrollToSection(e, link.sectionId)}
                 className={linkClass(null)}
               >
                 {link.name}
@@ -130,8 +129,8 @@ const Navbar: React.FC = () => {
             {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
-                href={link.href}
-                onClick={(e) => scrollToSection(e, link.href)}
+                href="/#/"
+                onClick={(e) => scrollToSection(e, link.sectionId)}
                 className={mobileLinkClass(null)}
               >
                 {link.name}

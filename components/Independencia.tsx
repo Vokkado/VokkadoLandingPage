@@ -57,8 +57,9 @@ const IndependenciaPage: React.FC = () => {
           <div ref={heroRef} className="md:grid md:grid-cols-5 md:gap-12 md:items-center">
             <div className="md:col-span-3 text-center md:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight mb-6">
-              Saber lo que comés<br className="hidden sm:block" />
-                <span className="text-primary-dark"> es cuidarte</span>
+                 <span className="text-primary-dark"> Saber </span>
+               lo que comés, es <br className="hidden sm:block" />
+                <span className="text-primary-dark"> cuidarte</span>
               </h1>
               <p className="text-lg md:text-xl text-neutral-dark leading-relaxed max-w-2xl mx-auto md:mx-0">
                 Por eso te damos información clara y confiable para que tomes decisiones libres de cualquier influencia comercial.

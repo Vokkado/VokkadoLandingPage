@@ -7,9 +7,8 @@ export const Footer: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionHref: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
-    const sectionId = sectionHref.substring(1);
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => {
@@ -36,8 +35,7 @@ export const Footer: React.FC = () => {
             <div>
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Recursos</h2>
               <ul className="space-y-3">
-                <li><a href={`#${SECTION_IDS.howItWorks}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.howItWorks}`)} className="hover:text-primary-light transition-colors">Cómo Funciona</a></li>
-                <li><a href={`#${SECTION_IDS.participate}`} onClick={(e) => scrollToSection(e, `#${SECTION_IDS.participate}`)} className="hover:text-primary-light transition-colors">Participa</a></li>
+                <li><a href="/#/" onClick={(e) => scrollToSection(e, SECTION_IDS.howItWorks)} className="hover:text-primary-light transition-colors">Cómo Funciona</a></li>
                 <li><Link to="/equipo" className="hover:text-primary-light transition-colors">Nosotros</Link></li>
                 <li><Link to="/independencia" className="hover:text-primary-light transition-colors">Independencia</Link></li>
               </ul>
