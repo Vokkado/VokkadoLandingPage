@@ -80,7 +80,7 @@ const HeroSection: React.FC = () => {
 
   useEffect(() => {
     if (isPaused || n <= 1) return;
-    const id = setInterval(goNext, 5000);
+    const id = setInterval(goNext, 4000);
     return () => clearInterval(id);
   }, [isPaused, n, goNext, trackIdx]);
 
