@@ -17,6 +17,37 @@ const GooglePlayLogo: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
+// Bandera de Uruguay (SVG inline para que se vea bien en todas las plataformas, incl. Windows).
+const UruguayFlag: React.FC<{ className?: string }> = ({ className }) => {
+  const sun = 6.667; // centro del Sol de Mayo (dentro del cantón)
+  return (
+    <svg className={className} viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg">
+      <rect width="36" height="24" fill="#FFFFFF" />
+      {[2.667, 8, 13.333, 18.667].map((y, i) => (
+        <rect key={i} y={y} width="36" height="2.667" fill="#0038A8" />
+      ))}
+      {/* Cantón blanco (cubre las primeras 5 franjas) */}
+      <rect width="13.333" height="13.333" fill="#FFFFFF" />
+      {/* Sol de Mayo: rayos + disco */}
+      <g stroke="#F6B40E" strokeWidth="0.6">
+        {Array.from({ length: 16 }).map((_, i) => {
+          const a = (i * Math.PI) / 8;
+          return (
+            <line
+              key={i}
+              x1={sun + Math.cos(a) * 2.1}
+              y1={sun + Math.sin(a) * 2.1}
+              x2={sun + Math.cos(a) * 4}
+              y2={sun + Math.sin(a) * 4}
+            />
+          );
+        })}
+      </g>
+      <circle cx={sun} cy={sun} r="2.1" fill="#F6B40E" />
+    </svg>
+  );
+};
+
 import photo1 from '../images/team/1.png';
 import photo2 from '../images/team/2.png';
 import photo3 from '../images/team/3.png';
@@ -202,7 +233,7 @@ const UruguaySection: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div ref={card1Ref} className="bg-[#f4f8ec] rounded-2xl p-7 border border-primary-light/20">
             <div className="w-11 h-11 rounded-xl bg-primary-light/20 flex items-center justify-center mb-4">
-              <ion-icon name="location-outline" style={{ fontSize: '22px', color: '#22521D' }} />
+              <UruguayFlag className="w-[26px] h-[18px] rounded-[3px] ring-1 ring-black/10" />
             </div>
             <h3 className="font-bold text-neutral-darkest mb-2">Hoy, enfocados en Uruguay</h3>
             <p className="text-sm text-neutral-DEFAULT leading-relaxed">
