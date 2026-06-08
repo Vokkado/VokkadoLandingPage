@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS } from '../constants';
 
@@ -24,37 +24,71 @@ const GooglePlayLogo: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const HeroSection: React.FC = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef<{ x: number; time: number } | null>(null);
+  const n = galleryImages.length;
+
+  // Track infinito: [último, ...reales, primero]
+  // trackIndex=0 → clon del último | trackIndex=1..n → reales | trackIndex=n+1 → clon del primero
+  const trackImages = n > 1
+    ? [galleryImages[n - 1], ...galleryImages, galleryImages[0]]
+    : galleryImages;
+
+  const [trackIndex, setTrackIndex]           = useState(n > 1 ? 1 : 0);
+  const [enableTransition, setEnableTransition] = useState(true);
+  const [dragOffset, setDragOffset]           = useState(0);
+  const [isDragging, setIsDragging]           = useState(false);
+  const dragStart  = useRef<{ x: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Índice real para los dots (0-based sobre galleryImages)
+  const realIndex = n > 1 ? (trackIndex - 1 + n) % n : 0;
+
+  // Cuando la transición llega a un clon, salta silenciosamente al real
+  const handleTransitionEnd = useCallback(() => {
+    if (!n || n <= 1) return;
+    if (trackIndex === 0) {
+      setEnableTransition(false);
+      setTrackIndex(n);
+    } else if (trackIndex === n + 1) {
+      setEnableTransition(false);
+      setTrackIndex(1);
+    }
+  }, [trackIndex, n]);
+
+  // Re-habilita la transición en el siguiente frame tras el salto silencioso
+  useEffect(() => {
+    if (!enableTransition) {
+      const id = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setEnableTransition(true));
+      });
+      return () => cancelAnimationFrame(id);
+    }
+  }, [enableTransition]);
+
+  const goNext = useCallback(() => setTrackIndex((i) => i + 1), []);
+  const goPrev = useCallback(() => setTrackIndex((i) => i - 1), []);
+  const goTo   = useCallback((realIdx: number) => {
+    setEnableTransition(true);
+    setTrackIndex(realIdx + 1);
+  }, []);
+
   const handleDragStart = (clientX: number) => {
-    dragStart.current = { x: clientX, time: Date.now() };
+    dragStart.current = { x: clientX };
     setIsDragging(true);
   };
 
   const handleDragMove = (clientX: number) => {
     if (!dragStart.current || !containerRef.current) return;
     const width = containerRef.current.offsetWidth;
-    const diff = clientX - dragStart.current.x;
-    // Limit drag to ±1 image width
+    const diff  = clientX - dragStart.current.x;
     setDragOffset(Math.max(-width, Math.min(width, diff)));
   };
 
   const handleDragEnd = () => {
     if (!dragStart.current || !containerRef.current) return;
-    const width = containerRef.current.offsetWidth;
+    const width     = containerRef.current.offsetWidth;
     const threshold = width * 0.2;
-    const offset = dragOffset;
-
-    if (offset < -threshold && currentImageIndex < galleryImages.length - 1) {
-      setCurrentImageIndex((prev) => prev + 1);
-    } else if (offset > threshold && currentImageIndex > 0) {
-      setCurrentImageIndex((prev) => prev - 1);
-    }
-
+    if      (dragOffset < -threshold) goNext();
+    else if (dragOffset >  threshold) goPrev();
     setDragOffset(0);
     setIsDragging(false);
     dragStart.current = null;
@@ -137,14 +171,15 @@ const HeroSection: React.FC = () => {
                     onTouchEnd={handleDragEnd}
                   >
                     <div
-                      className={`flex h-full ${isDragging ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]'}`}
-                      style={{ transform: `translateX(calc(-${currentImageIndex * 100}% + ${dragOffset}px))` }}
+                      className={`flex h-full ${isDragging || !enableTransition ? '' : 'transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]'}`}
+                      style={{ transform: `translateX(calc(-${trackIndex * 100}% + ${dragOffset}px))` }}
+                      onTransitionEnd={handleTransitionEnd}
                     >
-                      {galleryImages.map((src, i) => (
+                      {trackImages.map((src, i) => (
                         <img
                           key={i}
                           src={src}
-                          alt={`Vokkado captura ${i + 1}`}
+                          alt={`Vokkado captura ${i}`}
                           className="w-full h-full object-cover flex-shrink-0 select-none pointer-events-none"
                           draggable={false}
                         />
@@ -163,14 +198,14 @@ const HeroSection: React.FC = () => {
               {galleryImages.length > 1 && (
                 <>
                   <button
-                    onClick={() => setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
+                    onClick={goPrev}
                     className="absolute left-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-dark rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-all hover:scale-110"
                     aria-label="Imagen anterior"
                   >
                     ‹
                   </button>
                   <button
-                    onClick={() => setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length)}
+                    onClick={goNext}
                     className="absolute right-[-40px] top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white text-primary-dark rounded-full w-8 h-8 flex items-center justify-center shadow-md transition-all hover:scale-110"
                     aria-label="Imagen siguiente"
                   >
@@ -185,9 +220,9 @@ const HeroSection: React.FC = () => {
                   {galleryImages.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentImageIndex(index)}
+                      onClick={() => goTo(index)}
                       className={`rounded-full transition-all duration-300 ${
-                        index === currentImageIndex
+                        index === realIndex
                           ? 'bg-primary-dark w-6 h-2.5'
                           : 'bg-neutral-medium w-2.5 h-2.5 hover:bg-primary-light'
                       }`}
