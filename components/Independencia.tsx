@@ -7,7 +7,7 @@ const PILLARS = [
   {
     icon: 'ban-outline',
     title: 'Sin publicidad',
-    desc: 'Vokkado no muestra publicidad ni recibe dinero de marcas por aparecer en la app. Punto.',
+    desc: 'Vokkado no muestra publicidad ni recibe dinero de marcas por aparecer en la app.',
   },
   {
     icon: 'shield-checkmark-outline',
@@ -28,90 +28,147 @@ const HOW = [
     desc: 'Nuestro modelo de negocio es simple: usuarios que eligen pagar por funcionalidades avanzadas. Sin intermediarios, sin marcas.',
   },
   {
-    icon: 'people-outline',
-    title: 'Comunidad de usuarios',
-    desc: 'Vokkado crece gracias a quienes lo usan y lo comparten. La mejor publicidad es que funcione de verdad.',
+    icon: 'bar-chart-outline',
+    title: 'Tendencias para la industria',
+    desc: 'Compartimos tendencias y preferencias de consumo de forma anónima para ayudar a marcas y supermercados a mejorar sus productos, sin comprometer la privacidad de las personas.',
   },
 ];
 
+/* ── Tarjeta individual pillar — tiene su propio hook para la animación escalonada ── */
+const PillarCard: React.FC<{ pillar: typeof PILLARS[0]; index: number }> = ({ pillar, index }) => {
+  const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 110, threshold: 0.1 });
+  return (
+    <div
+      ref={ref}
+      className="group bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg border border-neutral-100 hover:border-primary-light/40 transition-all duration-300"
+    >
+      <div className="w-14 h-14 rounded-2xl bg-primary-light/15 flex items-center justify-center mb-6 group-hover:bg-primary-light/30 transition-colors duration-300">
+        <ion-icon name={pillar.icon} style={{ fontSize: '26px', color: '#22521D' }} />
+      </div>
+      <h3 className="text-lg font-bold text-neutral-darkest mb-3">{pillar.title}</h3>
+      <p className="text-sm text-neutral-DEFAULT leading-relaxed">{pillar.desc}</p>
+    </div>
+  );
+};
+
+/* ── Tarjeta individual HOW ── */
+const HowCard: React.FC<{ item: typeof HOW[0]; index: number }> = ({ item, index }) => {
+  const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.1 });
+  return (
+    <div
+      ref={ref}
+      className="group bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg border border-neutral-100 hover:border-primary-light/40 transition-all duration-300 flex items-start gap-5"
+    >
+      <div className="w-12 h-12 rounded-2xl bg-primary-light/15 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-light/30 transition-colors duration-300">
+        <ion-icon name={item.icon} style={{ fontSize: '22px', color: '#22521D' }} />
+      </div>
+      <div>
+        <h3 className="font-bold text-neutral-darkest mb-2">{item.title}</h3>
+        <p className="text-sm text-neutral-DEFAULT leading-relaxed">{item.desc}</p>
+      </div>
+    </div>
+  );
+};
+
 const IndependenciaPage: React.FC = () => {
-  const { ref: heroRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
-  const { ref: pillarsRef } = useScrollAnimation({ animation: 'fade-up', delay: 80, threshold: 0.15 });
-  const { ref: howRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
-  const { ref: ctaRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: heroTextRef }  = useScrollAnimation({ animation: 'fade-right', threshold: 0.15 });
+  const { ref: heroImgRef }   = useScrollAnimation({ animation: 'fade-left', delay: 120, threshold: 0.15 });
+  const { ref: pillarsTitleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: quoteRef }     = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: howTitleRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: ctaRef }       = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
 
   return (
-    <div className="bg-friendlyWhite text-neutral-dark">
+    <div className="relative bg-friendlyWhite text-neutral-dark overflow-hidden">
+
+      {/* ── Fondo continuo ── */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white" />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: 'linear-gradient(#22521D 1px, transparent 1px), linear-gradient(90deg, #22521D 1px, transparent 1px)',
+            backgroundSize: '44px 44px',
+          }}
+        />
+        <div className="absolute -top-28 right-[-120px] w-96 h-96 rounded-full bg-primary-light/20 blur-3xl" />
+        <div className="absolute top-[40%] left-[-160px] w-80 h-80 rounded-full bg-primary-lightest/60 blur-3xl" />
+      </div>
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32 sm:pb-20">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white" />
-          <div className="absolute inset-0 opacity-[0.04]"
-            style={{ backgroundImage: 'linear-gradient(#22521D 1px, transparent 1px), linear-gradient(90deg, #22521D 1px, transparent 1px)', backgroundSize: '44px 44px' }} />
-          <div className="absolute -top-28 right-[-120px] w-80 h-80 rounded-full bg-primary-light/25 blur-3xl" />
-          <div className="absolute -bottom-24 left-[-120px] w-72 h-72 rounded-full bg-primary-lightest blur-3xl" />
-        </div>
-
+      <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div ref={heroRef} className="md:grid md:grid-cols-5 md:gap-12 md:items-center">
-            <div className="md:col-span-3 text-center md:text-left">
+          <div className="md:grid md:grid-cols-5 md:gap-12 md:items-center">
+
+            {/* Texto */}
+            <div ref={heroTextRef} className="md:col-span-3 text-center md:text-left">
+           <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+                Nuestra promesa
+              </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight mb-6">
-                 <span className="text-primary-dark"> Saber </span>
-               lo que comés, es <br className="hidden sm:block" />
-                <span className="text-primary-dark"> cuidarte</span>
+                La independencia<br className="hidden sm:block" />
+                es <span className="text-primary-dark">clave</span> en<br className="hidden sm:block" />
+                nuestra misión
               </h1>
               <p className="text-lg md:text-xl text-neutral-dark leading-relaxed max-w-2xl mx-auto md:mx-0">
-                Por eso te damos información clara y confiable para que tomes decisiones libres de cualquier influencia comercial.
+                Te damos información clara y confiable para que tomes decisiones libres de cualquier influencia comercial.
               </p>
             </div>
 
-            <div className="md:col-span-2 mt-12 md:mt-0 flex justify-center md:justify-end">
-              <div className="relative isolate">
-                <div className="absolute -inset-6 rounded-[2rem] bg-primary-light/20 blur-3xl" />
-                <div className="relative rounded-[2rem] border border-primary-light/20 bg-white/70 backdrop-blur-sm p-5 shadow-[0_24px_60px_rgba(34,82,29,0.12)]">
-                  <img
-                    src={independientePng}
-                    alt="Vokkado independiente"
-                    className="w-56 sm:w-64 md:w-[19rem] max-w-full drop-shadow-[0_18px_30px_rgba(34,82,29,0.12)]"
-                  />
-                </div>
+            {/* Imagen — flota sobre aura circular, sin caja rectangular */}
+            <div ref={heroImgRef} className="md:col-span-2 mt-16 md:mt-0 flex justify-center md:justify-end">
+              <div className="relative flex items-center justify-center w-72 h-72 sm:w-80 sm:h-80">
+                {/* Aura de fondo */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-light/30 via-[#d6eabf]/40 to-primary-lightest/20 blur-2xl" />
+                {/* Círculo decorativo */}
+                <div className="absolute inset-4 rounded-full border border-primary-light/25 border-dashed" />
+                {/* Puntos decorativos flotantes */}
+                <div className="absolute top-3 right-10 w-3 h-3 rounded-full bg-primary-light/50" />
+                <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-primary-DEFAULT/40" />
+                <div className="absolute top-1/2 right-2 w-2 h-2 rounded-full bg-primary-light/60" />
+                {/* Imagen */}
+                <img
+                  src={independientePng}
+                  alt="Vokkado independiente"
+                  className="relative z-10 w-52 sm:w-60 md:w-64 max-w-full drop-shadow-[0_20px_40px_rgba(34,82,29,0.18)]"
+                />
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* ── 3 pilares ── */}
-      <section className="py-16 sm:py-20 bg-white border-t border-neutral-100">
-        <div ref={pillarsRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-          <div className="text-center mb-12">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">Nuestros compromisos</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">Tres principios que no negociamos</h2>
+      <section className="relative pb-20 sm:pb-28">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+          <div ref={pillarsTitleRef} className="text-center mb-14">
+             <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+              Nuestros compromisos
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">
+              Tres principios que no negociamos
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PILLARS.map((p) => (
-              <div key={p.title} className="bg-[#f4f8ec] rounded-2xl p-7 border border-primary-light/20">
-                <div className="w-11 h-11 rounded-xl bg-primary-dark flex items-center justify-center mb-5">
-                  <ion-icon name={p.icon} style={{ fontSize: '22px', color: '#B8C445' }} />
-                </div>
-                <h3 className="text-lg font-bold text-neutral-darkest mb-2">{p.title}</h3>
-                <p className="text-sm text-neutral-DEFAULT leading-relaxed">{p.desc}</p>
-              </div>
+            {PILLARS.map((p, i) => (
+              <PillarCard key={p.title} pillar={p} index={i} />
             ))}
           </div>
         </div>
       </section>
 
       {/* ── Bloque oscuro: por qué importa ── */}
-      <section className="relative py-16 sm:py-20 overflow-hidden bg-primary-dark">
-        <div className="absolute inset-0 opacity-[0.05]"
-          style={{ backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }} />
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center relative">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-light mb-5">Por qué importa</p>
+      <section className="relative py-20 sm:py-28 overflow-hidden bg-primary-dark">
+        <div
+          className="absolute inset-0 opacity-[0.05]"
+          style={{ backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }}
+        />
+        <div ref={quoteRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center relative">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-light mb-6">Por qué importa</p>
           <blockquote className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug">
-            "Un análisis nutricional solo vale si la persona que lo hace<br className="hidden md:block" />
-            <span className="text-primary-light"> no tiene nada que ganar</span> con el resultado."
+           La información en la que confiás no debería estar 
+            <span className="text-primary-light"> influenciada </span> por quien se beneficia     <span className="text-primary-light">de tu elección </span>
           </blockquote>
           <p className="mt-8 text-white/65 text-base leading-relaxed max-w-xl mx-auto">
             La industria alimentaria mueve miles de millones al año. Nuestra promesa es que ese dinero no cambia lo que te decimos.
@@ -120,35 +177,29 @@ const IndependenciaPage: React.FC = () => {
       </section>
 
       {/* ── Cómo nos sostenemos ── */}
-      <section className="py-16 sm:py-20 bg-white border-t border-neutral-100">
-        <div ref={howRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <div className="text-center mb-12">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">Transparencia</span>
+      <section className="relative py-20 sm:py-28">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+          <div ref={howTitleRef} className="text-center mb-14">
+            <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+              Transparencia
+            </span>
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">¿Cómo nos sostenemos?</h2>
             <p className="mt-4 text-neutral-DEFAULT max-w-2xl mx-auto">
               Creemos que la transparencia sobre nuestro modelo de negocio es parte de ser independientes.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {HOW.map((h) => (
-              <div key={h.title} className="flex items-start gap-4 p-6 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 rounded-xl bg-primary-lightest flex items-center justify-center flex-shrink-0">
-                  <ion-icon name={h.icon} style={{ fontSize: '20px', color: '#22521D' }} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-neutral-darkest mb-1">{h.title}</h3>
-                  <p className="text-sm text-neutral-DEFAULT leading-relaxed">{h.desc}</p>
-                </div>
-              </div>
+            {HOW.map((h, i) => (
+              <HowCard key={h.title} item={h} index={i} />
             ))}
           </div>
         </div>
       </section>
 
       {/* ── CTA → equipo ── */}
-      <section className="py-14 bg-[#f4f8ec] border-t border-primary-light/20 text-center">
+      <section className="py-14 text-center">
         <div ref={ctaRef} className="container mx-auto px-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">El equipo</p>
+         <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">El equipo</span>
           <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
             Conocé a quienes están detrás de este compromiso
           </h2>

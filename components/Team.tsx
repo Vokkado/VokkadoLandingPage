@@ -51,22 +51,18 @@ const TABS: { key: TabKey; label: string }[] = [
 
 const TAB_CONTENT: Record<TabKey, React.ReactNode> = {
   mision: (
-    <div>
-      <p className="text-neutral-dark leading-relaxed text-base md:text-lg">
-        Empoderar a las personas para que tomen mejores decisiones alimentarias, transformando
-        información nutricional compleja en recomendaciones claras, personalizadas y fáciles de
-        entender según sus necesidades y objetivos.
-      </p>
-    </div>
+    <p className="text-neutral-dark leading-relaxed text-base md:text-lg">
+      Empoderar a las personas para que tomen mejores decisiones alimentarias, transformando
+      información nutricional compleja en recomendaciones claras, personalizadas y fáciles de
+      entender según sus necesidades y objetivos.
+    </p>
   ),
   vision: (
-    <div>
-      <p className="text-neutral-dark leading-relaxed text-base md:text-lg">
-        Ser la plataforma de referencia en alimentación personalizada, ayudando a millones de
-        personas a comprender mejor lo que consumen y a elegir alimentos con mayor confianza y
-        tranquilidad.
-      </p>
-    </div>
+    <p className="text-neutral-dark leading-relaxed text-base md:text-lg">
+      Ser la plataforma de referencia en alimentación personalizada, ayudando a millones de
+      personas a comprender mejor lo que consumen y a elegir alimentos con mayor confianza y
+      tranquilidad.
+    </p>
   ),
   valores: (
     <ul className="space-y-5">
@@ -83,24 +79,28 @@ const TAB_CONTENT: Record<TabKey, React.ReactNode> = {
   ),
 };
 
-const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement | null>; headerRef: React.RefObject<HTMLDivElement | null> }> = ({ sectionRef, headerRef }) => {
+/* ── AboutSection — animaciones internas propias ── */
+const AboutSection: React.FC = () => {
   const [active, setActive] = useState<TabKey>('mision');
+  const { ref: headerRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
+  const { ref: pillsRef }  = useScrollAnimation({ animation: 'fade-up', delay: 120, threshold: 0.2 });
+  const { ref: contentRef } = useScrollAnimation({ animation: 'fade-up', delay: 240, threshold: 0.2 });
 
   return (
     <section className="bg-white border-t border-neutral-100 py-16 sm:py-20">
-      <div ref={sectionRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
 
-        {/* Título estilo Swiggy — texto uppercase con líneas a los lados */}
+        {/* Header con líneas */}
         <div ref={headerRef} className="flex items-center gap-4 mb-14">
           <div className="flex-grow h-px bg-neutral-200" />
-          <h2 className="text-xl md:text-2xl font-extrabold font-lexend uppercase tracking-widest text-primary-dark whitespace-nowrap">
+          <h2 className="text-xl md:text-2xl font-extrabold uppercase tracking-widest text-primary-dark whitespace-nowrap">
             Conocenos
           </h2>
           <div className="flex-grow h-px bg-neutral-200" />
         </div>
 
-        {/* Pills horizontales */}
-        <div className="flex gap-2 mb-8">
+        {/* Pills */}
+        <div ref={pillsRef} className="flex gap-2 mb-8">
           {TABS.map((tab) => (
             <button
               key={tab.key}
@@ -116,8 +116,8 @@ const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement | null
           ))}
         </div>
 
-        {/* Contenido — altura fija para que no cambie el tamaño del bloque */}
-        <div style={{ minHeight: '160px' }} className="flex items-start">
+        {/* Contenido */}
+        <div ref={contentRef} style={{ minHeight: '160px' }} className="flex items-start">
           <div key={active} className="animate-fade-in-up w-full">
             {TAB_CONTENT[active]}
           </div>
@@ -127,35 +127,43 @@ const AboutSection: React.FC<{ sectionRef: React.RefObject<HTMLDivElement | null
   );
 };
 
+/* ── IndependenciaTeaser — animaciones internas propias ── */
 const IndependenciaTeaser: React.FC = () => {
-  const { ref } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: badgeRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: titleRef }  = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.15 });
+  const { ref: descRef }   = useScrollAnimation({ animation: 'fade-up', delay: 200, threshold: 0.15 });
+  const { ref: btnRef }    = useScrollAnimation({ animation: 'fade-up', delay: 300, threshold: 0.15 });
+
   return (
     <section className="py-14 bg-[#f4f8ec] border-t border-primary-light/20 text-center">
-      <div ref={ref} className="container mx-auto px-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">
+      <div className="container mx-auto px-4">
+        <p ref={badgeRef} className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">
           Independencia
         </p>
-        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
+        <h2 ref={titleRef} className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
           Sin influencias. Solo la verdad.
         </h2>
-        <p className="text-neutral-DEFAULT mb-7 max-w-md mx-auto text-sm">
+        <p ref={descRef} className="text-neutral-DEFAULT mb-7 max-w-md mx-auto text-sm">
           Vokkado no recibe dinero de marcas. Cada análisis es objetivo, transparente y libre de conflictos de interés.
         </p>
-        <Link
-          to="/independencia"
-          className="inline-flex items-center gap-2 bg-primary-dark text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
-        >
-          Conocer más
-          <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
-        </Link>
+        <div ref={btnRef}>
+          <Link
+            to="/independencia"
+            className="inline-flex items-center gap-2 bg-primary-dark text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
+          >
+            Conocer más
+            <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
+          </Link>
+        </div>
       </div>
     </section>
   );
 };
 
+/* ── MemberCard ── */
 const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ member, index }) => {
-  const cardAnim = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.15 });
-  const photoAnim = useScrollAnimation({ animation: 'scale', delay: index * 120 + 80, threshold: 0.15 });
+  const cardAnim  = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.15 });
+  const photoAnim = useScrollAnimation({ animation: 'scale',   delay: index * 120 + 80, threshold: 0.15 });
 
   return (
     <div ref={cardAnim.ref} className="group flex flex-col items-center w-full h-full transition-transform duration-300 group-hover:-translate-y-1">
@@ -190,15 +198,25 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
   );
 };
 
+/* ── Team page ── */
 const Team: React.FC = () => {
-  const heroTitleAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
-  const heroBodyAnim = useScrollAnimation({ animation: 'fade-up', delay: 120, threshold: 0.2 });
-  const teamHeaderAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
-  const aboutHeaderAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
-  const missionAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
+  // Hero — cada elemento entra escalonado
+  const { ref: heroBadgeRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
+  const { ref: heroTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.2 });
+  const { ref: heroBodyRef  } = useScrollAnimation({ animation: 'fade-up', delay: 220, threshold: 0.2 });
+
+  // Sección equipo — header desglosado
+  const { ref: teamBadgeRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
+  const { ref: teamTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 90,  threshold: 0.2 });
+  const { ref: teamDescRef  } = useScrollAnimation({ animation: 'fade-up', delay: 180, threshold: 0.2 });
+
+  // CTA final
+  const { ref: ctaTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
+  const { ref: ctaDescRef  } = useScrollAnimation({ animation: 'fade-up', delay: 120, threshold: 0.2 });
 
   return (
     <div className="bg-friendlyWhite text-neutral-dark">
+
       {/* ── Hero ── */}
       <section className="relative overflow-hidden pt-24 pb-10 sm:pt-28 sm:pb-12 text-center">
         <div className="absolute inset-0 -z-10">
@@ -212,17 +230,15 @@ const Team: React.FC = () => {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div ref={heroTitleAnim.ref}>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight">
-              Más que una app,
-              <br className="hidden sm:block" />
-              <span className="text-primary-dark"> un propósito</span>
-            </h1>
-          </div>
-          <p
-            ref={heroBodyAnim.ref}
-            className="mt-5 text-lg md:text-xl text-neutral-dark max-w-2xl mx-auto"
-          >
+          <span ref={heroBadgeRef} className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-4">
+            El equipo
+          </span>
+          <h1 ref={heroTitleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight">
+            Más que una app,
+            <br className="hidden sm:block" />
+            <span className="text-primary-dark"> un propósito</span>
+          </h1>
+          <p ref={heroBodyRef} className="mt-5 text-lg md:text-xl text-neutral-dark max-w-2xl mx-auto">
             Somos un equipo de cuatro amigos que cree que entender lo que comés no debería ser complicado. Conocé quiénes somos, qué nos mueve y hacia dónde vamos.
           </p>
         </div>
@@ -230,12 +246,14 @@ const Team: React.FC = () => {
 
       {/* ── Equipo ── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-14 sm:pb-20">
-        <div ref={teamHeaderAnim.ref} className="text-center mb-14">
-          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            El equipo
+        <div className="text-center mb-14">
+          <span ref={teamBadgeRef} className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+            Co-fundadores
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">Co-fundadores</h2>
-          <p className="mt-4 text-base sm:text-lg text-neutral-dark max-w-2xl mx-auto">
+          <h2 ref={teamTitleRef} className="text-3xl md:text-4xl font-bold text-neutral-darkest">
+            Las personas detrás de Vokkado
+          </h2>
+          <p ref={teamDescRef} className="mt-4 text-base sm:text-lg text-neutral-dark max-w-2xl mx-auto">
             Lideramos Vokkado con foco en salud, tecnología y experiencia real para el usuario.
           </p>
         </div>
@@ -247,16 +265,17 @@ const Team: React.FC = () => {
       </section>
 
       {/* ── Misión · Visión · Valores ── */}
-      <AboutSection sectionRef={missionAnim.ref} headerRef={aboutHeaderAnim.ref} />
+      <AboutSection />
 
       {/* ── Teaser Independencia ── */}
       <IndependenciaTeaser />
 
       {/* ── CTA ── */}
       <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-14 text-center px-4 text-white">
-        <p className="font-bold text-3xl mb-2">Escaneá. Elegí. Cuidate.</p>
-        <p className="text-primary-lightest text-sm">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
+        <p ref={ctaTitleRef} className="font-bold text-3xl mb-2">Escaneá. Elegí. Cuidate.</p>
+        <p ref={ctaDescRef} className="text-primary-lightest text-sm">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
       </div>
+
     </div>
   );
 };

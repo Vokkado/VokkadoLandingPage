@@ -24,7 +24,7 @@ const TeamTeaser: React.FC = () => {
 
         {/* Título */}
         <div ref={titleRef}>
-          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+            <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
             El equipo
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight mb-12">
