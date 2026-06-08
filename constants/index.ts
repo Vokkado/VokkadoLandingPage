@@ -4,6 +4,7 @@ export const SECTION_IDS = {
   home: 'inicio', // Matches Navbar and Hero section ID
   howItWorks: 'cómo-funciona', // Matches Navbar, HowItWorks section ID, and Hero scroll link
   participate: 'call-to-action', // Matches CallToAction section ID and Hero button target
+  contact: 'contacto',
 };
 
 export const APP_NAME = "Vokkado";

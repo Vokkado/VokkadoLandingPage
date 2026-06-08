@@ -18,6 +18,7 @@ import DeleteAccount from './components/DeleteAccount';
 import TermsAndConditions from './components/TermsAndConditions';
 import Team from './components/Team';
 import IndependenciaPage from './components/Independencia';
+import ContactSection from './components/ContactSection';
 
 const HomePage: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ const App: React.FC = () => {
             <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
             <Route path="/equipo" element={<Team />} />
             <Route path="/independencia" element={<IndependenciaPage />} />
+            <Route path="/contacto" element={<ContactSection />} />
           </Routes>
         </main>
         <Footer />

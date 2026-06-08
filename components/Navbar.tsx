@@ -99,6 +99,9 @@ const Navbar: React.FC = () => {
             <Link to="/independencia" className={linkClass('/independencia')}>
               Nuestra Promesa
             </Link>
+            <Link to="/contacto" className={linkClass('/contacto')}>
+              Contacto
+            </Link>
           </div>
 
           {/* Mobile toggle */}
@@ -138,6 +141,9 @@ const Navbar: React.FC = () => {
             </Link>
             <Link to="/independencia" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass('/independencia')}>
               Nuestra Promesa
+            </Link>
+            <Link to="/contacto" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass('/contacto')}>
+              Contacto
             </Link>
           </div>
         </div>
