@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png';
-import { NAV_LINKS, SECTION_IDS } from '../constants';
+import { NAV_LINKS } from '../constants';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -50,6 +50,10 @@ const Navbar: React.FC = () => {
 
   const mobileIconColor = 'text-neutral-dark hover:text-primary-DEFAULT';
 
+  const sectionLinks = NAV_LINKS.filter(
+    (link) => link.name.toLowerCase() !== 'inicio' && link.sectionId !== 'home'
+  );
+
   // Returns classes for a nav link — active = verde + bold, inactive = gris normal
   const linkClass = (activePath: string | null) => {
     const isActive = activePath
@@ -87,7 +91,7 @@ const Navbar: React.FC = () => {
 
           
           <div className="hidden md:flex items-center space-x-1">
-            {NAV_LINKS.map((link) => (
+            {sectionLinks.map((link) => (
               <a
                 key={link.name}
                 href="/#/"
@@ -126,7 +130,7 @@ const Navbar: React.FC = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white shadow-lg"> {/* Mobile menu always has white background */}
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {NAV_LINKS.map((link) => (
+            {sectionLinks.map((link) => (
               <a
                 key={link.name}
                 href="/#/"

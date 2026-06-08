@@ -38,7 +38,7 @@ const CallToActionSection: React.FC = () => {
           ref={headerAnim.ref}
           className="text-4xl sm:text-5xl font-bold mb-6"
         >
-          ¡Prepárate para transformar tu alimentación!
+          ¡Preparate para transformar tu alimentación!
         </h2>
         <p
           ref={subtitleAnim.ref}

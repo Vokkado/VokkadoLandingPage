@@ -216,13 +216,11 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
 /* ── Team page ── */
 const Team: React.FC = () => {
   // Hero — cada elemento entra escalonado
-  const { ref: heroBadgeRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
-  const { ref: heroTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.2 });
-  const { ref: heroBodyRef  } = useScrollAnimation({ animation: 'fade-up', delay: 220, threshold: 0.2 });
+  const { ref: heroTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
+  const { ref: heroBodyRef  } = useScrollAnimation({ animation: 'fade-up', delay: 120, threshold: 0.2 });
 
   // Sección equipo — header desglosado
-  const { ref: teamBadgeRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
-  const { ref: teamTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 90,  threshold: 0.2 });
+  const { ref: teamTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
   const { ref: teamDescRef  } = useScrollAnimation({ animation: 'fade-up', delay: 180, threshold: 0.2 });
 
   // CTA final
@@ -246,9 +244,7 @@ const Team: React.FC = () => {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <span ref={heroBadgeRef} className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-4">
-            El equipo
-          </span>
+
           <h1 ref={heroTitleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight">
             Más que una app,
             <br className="hidden sm:block" />
@@ -263,9 +259,6 @@ const Team: React.FC = () => {
       {/* ── Equipo ── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-14 sm:pb-20">
         <div className="text-center mb-14">
-          <span ref={teamBadgeRef} className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            Co-fundadores
-          </span>
           <h2 ref={teamTitleRef} className="text-3xl md:text-4xl font-bold text-neutral-darkest">
             Las personas detrás de Vokkado
           </h2>

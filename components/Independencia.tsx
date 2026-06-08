@@ -102,12 +102,9 @@ const IndependenciaPage: React.FC = () => {
 
             {/* Texto */}
             <div ref={heroTextRef} className="md:col-span-3 text-center md:text-left">
-           <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-                Nuestra promesa
-              </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight mb-6">
-                La independencia<br className="hidden sm:block" />
-                es <span className="text-primary-dark">clave</span> en<br className="hidden sm:block" />
+                La independencia <br className="hidden sm:block" />
+                es <span className="text-primary-dark">clave</span> en <br className="hidden sm:block" />
                 nuestra misión
               </h1>
               <p className="text-lg md:text-xl text-neutral-dark leading-relaxed max-w-2xl mx-auto md:mx-0">
@@ -143,9 +140,6 @@ const IndependenciaPage: React.FC = () => {
       <section className="relative pb-20 sm:pb-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div ref={pillarsTitleRef} className="text-center mb-14">
-             <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-              Nuestros compromisos
-            </span>
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">
               Tres principios que no negociamos
             </h2>
@@ -165,7 +159,6 @@ const IndependenciaPage: React.FC = () => {
           style={{ backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }}
         />
         <div ref={quoteRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center relative">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-light mb-6">Por qué importa</p>
           <blockquote className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug">
            La información en la que confiás no debería estar 
             <span className="text-primary-light"> influenciada </span> por quien se beneficia     <span className="text-primary-light">de tu elección </span>
@@ -180,9 +173,6 @@ const IndependenciaPage: React.FC = () => {
       <section className="relative py-20 sm:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div ref={howTitleRef} className="text-center mb-14">
-            <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-              Transparencia
-            </span>
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">¿Cómo nos sostenemos?</h2>
             <p className="mt-4 text-neutral-DEFAULT max-w-2xl mx-auto">
               Creemos que la transparencia sobre nuestro modelo de negocio es parte de ser independientes.
@@ -199,7 +189,6 @@ const IndependenciaPage: React.FC = () => {
       {/* ── CTA → equipo ── */}
       <section className="py-14 text-center">
         <div ref={ctaRef} className="container mx-auto px-4">
-         <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">El equipo</span>
           <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
             Conocé a quienes están detrás de este compromiso
           </h2>

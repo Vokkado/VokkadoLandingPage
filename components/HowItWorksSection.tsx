@@ -209,9 +209,6 @@ const HowItWorksSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div ref={headerAnim.ref} className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
-          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            Cómo funciona
-          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
             Simple, rápido y{' '}
             <span className="text-primary-dark">personalizado</span>
