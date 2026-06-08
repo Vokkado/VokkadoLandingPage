@@ -10,6 +10,8 @@ const ContactSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const EMAIL = 'contact@vokkado.com';
+  const SUBJECT = 'Consulta desde Vokkado';
+  const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su=${encodeURIComponent(SUBJECT)}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(EMAIL).then(() => {
@@ -59,8 +61,10 @@ const ContactSection: React.FC = () => {
           <div>
             <p className="text-sm sm:text-base text-neutral-DEFAULT mb-3 font-medium">Mandanos un email a</p>
             <a
-              href={`mailto:${EMAIL}`}
-              title={`Enviar email a ${EMAIL}`}
+              href={GMAIL_COMPOSE}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Escribir a ${EMAIL} por Gmail`}
               className="text-2xl sm:text-3xl font-bold text-primary-dark hover:text-primary-light transition-colors duration-200 break-all"
             >
               {EMAIL}
@@ -73,8 +77,10 @@ const ContactSection: React.FC = () => {
           {/* Botones */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
             <a
-              href={`mailto:${EMAIL}`}
-              title={`Abrir cliente de email para enviar a ${EMAIL}`}
+              href={GMAIL_COMPOSE}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Escribir a ${EMAIL} por Gmail`}
               className="inline-flex items-center justify-center gap-2.5 bg-primary-dark text-white font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap"
             >
               <ion-icon name="send-outline" style={{ fontSize: '16px' }} />
