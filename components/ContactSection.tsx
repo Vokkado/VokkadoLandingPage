@@ -5,7 +5,7 @@ const ContactSection: React.FC = () => {
   const { ref: tagRef }   = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   const { ref: titleRef } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.15 });
   const { ref: descRef  } = useScrollAnimation({ animation: 'fade-up', delay: 200, threshold: 0.15 });
-  const { ref: cardRef  } = useScrollAnimation({ animation: 'scale', delay: 300, threshold: 0.15 });
+  const { ref: cardRef  } = useScrollAnimation({ animation: 'fade-up', delay: 300, threshold: 0.15 });
 
   const [copied, setCopied] = useState(false);
 
@@ -60,7 +60,8 @@ const ContactSection: React.FC = () => {
             <p className="text-sm sm:text-base text-neutral-DEFAULT mb-3 font-medium">Mandanos un email a</p>
             <a
               href={`mailto:${EMAIL}`}
-              className="text-2xl sm:text-3xl font-bold text-primary-dark hover:text-primary-light transition-colors duration-200 select-all break-all"
+              title={`Enviar email a ${EMAIL}`}
+              className="text-2xl sm:text-3xl font-bold text-primary-dark hover:text-primary-light transition-colors duration-200 break-all"
             >
               {EMAIL}
             </a>
@@ -73,6 +74,7 @@ const ContactSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
             <a
               href={`mailto:${EMAIL}`}
+              title={`Abrir cliente de email para enviar a ${EMAIL}`}
               className="inline-flex items-center justify-center gap-2.5 bg-primary-dark text-white font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap"
             >
               <ion-icon name="send-outline" style={{ fontSize: '16px' }} />
@@ -81,6 +83,7 @@ const ContactSection: React.FC = () => {
 
             <button
               onClick={handleCopy}
+              title={`Copiar email: ${EMAIL}`}
               className="inline-flex items-center justify-center gap-2.5 bg-neutral-50 text-neutral-dark font-semibold text-sm px-7 py-3.5 rounded-xl border border-neutral-200 hover:border-primary-light/50 hover:bg-primary-light/5 hover:text-primary-dark hover:scale-105 transition-all duration-200 whitespace-nowrap"
             >
               <ion-icon name={copied ? 'checkmark-done-outline' : 'copy-outline'} style={{ fontSize: '16px' }} />

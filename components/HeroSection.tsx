@@ -78,33 +78,37 @@ const HeroSection: React.FC = () => {
   const goNext = useCallback(() => setTrackIdx(i => i + 1), []);
   const goPrev = useCallback(() => setTrackIdx(i => i - 1), []);
 
-  // Al volver a la pestaña visible, avanza la imagen y el intervalo se reinicia solo
-  useEffect(() => {
-    if (n <= 1) return;
-    const onVisible = () => {
-      if (document.visibilityState === 'visible') goNext();
-    };
-    document.addEventListener('visibilitychange', onVisible);
-    return () => document.removeEventListener('visibilitychange', onVisible);
-  }, [n, goNext]);
-
+  // ── Auto-avance y manejo de visibilidad ──────────────────────────────────
+  // Se ejecuta cada 4s cuando no está pausado y hay más de 1 imagen.
+  // Al volver a la pestaña visible, reinicia el intervalo para no esperar un ciclo completo.
   useEffect(() => {
     if (isPaused || n <= 1) return;
-    const id = setInterval(goNext, 4000);
 
-    // Al volver a la pestaña/página, reinicia el intervalo para no esperar un ciclo completo
-    const onVisible = () => {
+    const goNextAndRestart = () => {
+      goNext();
+    };
+
+    // Inicia el intervalo
+    const intervalId = setInterval(goNextAndRestart, 4000);
+
+    // Reinicia el intervalo al volver a la pestaña visible
+    const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        clearInterval(id);
+        clearInterval(intervalId);
+        // Reinicia el intervalo después de que goNext se ejecute
+        setTimeout(() => {
+          goNext();
+        }, 0);
       }
     };
-    document.addEventListener('visibilitychange', onVisible);
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
-      clearInterval(id);
-      document.removeEventListener('visibilitychange', onVisible);
+      clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
-  }, [isPaused, n, goNext, trackIdx]);
+  }, [isPaused, n, goNext]);
 
   const handleTransitionEnd = useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
     if (e.target !== e.currentTarget || e.propertyName !== 'transform') return;
@@ -172,6 +176,8 @@ const HeroSection: React.FC = () => {
                 <button
                   onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
                   className="group flex items-center gap-3.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-6 py-3.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
+                  aria-label="Descargar Vokkado en App Store"
+                  title="Descargar Vokkado beta pública en App Store"
                 >
                   <AppleLogo className="w-8 h-8 flex-shrink-0" />
                   <div className="text-left leading-tight">
@@ -182,6 +188,8 @@ const HeroSection: React.FC = () => {
                 <button
                   onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
                   className="group flex items-center gap-3.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-6 py-3.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
+                  aria-label="Descargar Vokkado en Google Play"
+                  title="Descargar Vokkado beta pública en Google Play"
                 >
                   <GooglePlayLogo className="w-8 h-8 flex-shrink-0" />
                   <div className="text-left leading-tight">
