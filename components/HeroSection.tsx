@@ -78,10 +78,32 @@ const HeroSection: React.FC = () => {
   const goNext = useCallback(() => setTrackIdx(i => i + 1), []);
   const goPrev = useCallback(() => setTrackIdx(i => i - 1), []);
 
+  // Al volver a la pestaña visible, avanza la imagen y el intervalo se reinicia solo
+  useEffect(() => {
+    if (n <= 1) return;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') goNext();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [n, goNext]);
+
   useEffect(() => {
     if (isPaused || n <= 1) return;
     const id = setInterval(goNext, 4000);
-    return () => clearInterval(id);
+
+    // Al volver a la pestaña/página, reinicia el intervalo para no esperar un ciclo completo
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') {
+        clearInterval(id);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, [isPaused, n, goNext, trackIdx]);
 
   const handleTransitionEnd = useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
@@ -90,10 +112,12 @@ const HeroSection: React.FC = () => {
     if (trackIdx === n + 1) { setAnimated(false); setTrackIdx(1);     }
   }, [trackIdx, n]);
 
+  // setTimeout en lugar de doble RAF — el RAF se pausa en tabs en background,
+  // lo que deja animated=false bloqueado y congela el carrusel al volver.
   useEffect(() => {
     if (!animated) {
-      const id = requestAnimationFrame(() => requestAnimationFrame(() => setAnimated(true)));
-      return () => cancelAnimationFrame(id);
+      const id = setTimeout(() => setAnimated(true), 20);
+      return () => clearTimeout(id);
     }
   }, [animated]);
 

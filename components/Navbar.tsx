@@ -12,16 +12,14 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const shouldBeOpaque = window.scrollY > 20 || isMobileMenuOpen;
-      if (isScrolled !== shouldBeOpaque) {
-        setIsScrolled(shouldBeOpaque);
-      }
+      if (isScrolled !== shouldBeOpaque) setIsScrolled(shouldBeOpaque);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobileMenuOpen, isScrolled]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (isMobileMenuOpen) {
       setIsScrolled(true);
     } else if (window.scrollY <= 20) {
@@ -29,10 +27,16 @@ const Navbar: React.FC = () => {
     }
   }, [isMobileMenuOpen]);
 
-
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const handleNavLink = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+
+    if (!sectionId) {
+      // Link directo a la página principal (igual que el logo)
+      navigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
     if (location.pathname !== '/') {
       navigate('/');
@@ -48,28 +52,15 @@ const Navbar: React.FC = () => {
     isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
   }`;
 
-  const mobileIconColor = 'text-neutral-dark hover:text-primary-DEFAULT';
-
-  const sectionLinks = NAV_LINKS.filter(
-    (link) => link.name.toLowerCase() !== 'inicio' && link.sectionId !== 'home'
-  );
-
-  // Returns classes for a nav link — active = verde + bold, inactive = gris normal
   const linkClass = (activePath: string | null) => {
-    const isActive = activePath
-      ? location.pathname === activePath
-      : location.pathname === '/';
+    const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
     return `px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
-      isActive
-        ? 'text-primary-dark font-bold'
-        : 'font-medium text-neutral-dark hover:text-primary-DEFAULT'
+      isActive ? 'text-primary-dark font-bold' : 'font-medium text-neutral-dark hover:text-primary-DEFAULT'
     }`;
   };
 
   const mobileLinkClass = (activePath: string | null) => {
-    const isActive = activePath
-      ? location.pathname === activePath
-      : location.pathname === '/';
+    const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
     return `block px-3 py-2 rounded-md text-base transition-colors duration-200 ${
       isActive
         ? 'text-primary-dark font-bold bg-primary-lightest'
@@ -77,11 +68,12 @@ const Navbar: React.FC = () => {
     }`;
   };
 
-
   return (
     <nav className={navClasses}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+
+          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
             <span className="text-xl font-alan text-primary-dark transition-colors duration-300 tracking-tight" style={{ fontWeight: 800 }}>
@@ -89,13 +81,13 @@ const Navbar: React.FC = () => {
             </span>
           </Link>
 
-          
+          {/* Desktop links */}
           <div className="hidden md:flex items-center space-x-1">
-            {sectionLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
-                href="/#/"
-                onClick={(e) => scrollToSection(e, link.sectionId)}
+                href={link.href}
+                onClick={(e) => handleNavLink(e, link.sectionId)}
                 className={linkClass(null)}
               >
                 {link.name}
@@ -105,54 +97,47 @@ const Navbar: React.FC = () => {
               Nosotros
             </Link>
             <Link to="/independencia" className={linkClass('/independencia')}>
-              Independencia
+              Nuestra Promesa
             </Link>
           </div>
 
+          {/* Mobile toggle */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors duration-300 ${mobileIconColor}`}
+              className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors duration-300 text-neutral-dark hover:text-primary-DEFAULT`}
               aria-label="Abrir menú principal"
               aria-expanded={isMobileMenuOpen}
             >
               <span className="sr-only">Abrir menú principal</span>
-              {isMobileMenuOpen ? (
-                <ion-icon name="close-outline" style={{ fontSize: '24px' }} />
-              ) : (
-                <ion-icon name="menu-outline" style={{ fontSize: '24px' }} />
-              )}
+              {isMobileMenuOpen
+                ? <ion-icon name="close-outline" style={{ fontSize: '24px' }} />
+                : <ion-icon name="menu-outline" style={{ fontSize: '24px' }} />
+              }
             </button>
           </div>
         </div>
       </div>
 
+      {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg"> {/* Mobile menu always has white background */}
+        <div className="md:hidden bg-white shadow-lg">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {sectionLinks.map((link) => (
+            {NAV_LINKS.map((link) => (
               <a
                 key={link.name}
-                href="/#/"
-                onClick={(e) => scrollToSection(e, link.sectionId)}
+                href={link.href}
+                onClick={(e) => handleNavLink(e, link.sectionId)}
                 className={mobileLinkClass(null)}
               >
                 {link.name}
               </a>
             ))}
-            <Link
-              to="/equipo"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={mobileLinkClass('/equipo')}
-            >
+            <Link to="/equipo" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass('/equipo')}>
               Nosotros
             </Link>
-            <Link
-              to="/independencia"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={mobileLinkClass('/independencia')}
-            >
-              Independencia
+            <Link to="/independencia" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass('/independencia')}>
+              Nuestra Promesa
             </Link>
           </div>
         </div>

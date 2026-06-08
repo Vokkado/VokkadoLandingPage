@@ -44,9 +44,6 @@ const IndependenciaSection: React.FC = () => {
 
           {/* Texto */}
           <div ref={textRef}>
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-light mb-5">
-              Independencia
-            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
               Sin influencias.<br />
               <span className="text-primary-light">Solo la verdad.</span>

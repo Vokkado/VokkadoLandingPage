@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import Teaser from './Teaser';
 import independientePng from '../images/independiente.png';
 
 const PILLARS = [
@@ -76,7 +76,6 @@ const IndependenciaPage: React.FC = () => {
   const { ref: pillarsTitleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   const { ref: quoteRef }     = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   const { ref: howTitleRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
-  const { ref: ctaRef }       = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
 
   return (
     <div className="relative bg-friendlyWhite text-neutral-dark overflow-hidden">
@@ -164,7 +163,7 @@ const IndependenciaPage: React.FC = () => {
             <span className="text-primary-light"> influenciada </span> por quien se beneficia     <span className="text-primary-light">de tu elección </span>
           </blockquote>
           <p className="mt-8 text-white/65 text-base leading-relaxed max-w-xl mx-auto">
-            La industria alimentaria mueve miles de millones al año. Nuestra promesa es que ese dinero no cambia lo que te decimos.
+            La industria alimentaria mueve miles de millones al año. Nuestra promesa es que ese dinero no va a cambiar lo que te decimos.
           </p>
         </div>
       </section>
@@ -187,23 +186,13 @@ const IndependenciaPage: React.FC = () => {
       </section>
 
       {/* ── CTA → equipo ── */}
-      <section className="py-14 text-center">
-        <div ref={ctaRef} className="container mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
-            Conocé a quienes están detrás de este compromiso
-          </h2>
-          <p className="text-neutral-DEFAULT mb-7 max-w-md mx-auto text-sm">
-            Cuatro co-fundadores que decidieron hacer esto bien, desde el principio.
-          </p>
-          <Link
-            to="/equipo"
-            className="inline-flex items-center gap-2 bg-primary-dark text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
-          >
-            Conocer al equipo
-            <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
-          </Link>
-        </div>
-      </section>
+      <Teaser
+        badge="Nosotros"
+        title="Conocé quiénes están detrás de este compromiso"
+        desc="Cuatro co-fundadores que decidieron hacer esto bien, desde el principio."
+        linkTo="/equipo"
+        linkText="Conocer al equipo"
+      />
 
     </div>
   );
