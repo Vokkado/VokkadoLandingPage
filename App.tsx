@@ -12,19 +12,18 @@ import HeroSection from './components/HeroSection';
 import HowItWorksSection from './components/HowItWorksSection';
 import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
-import TeamTeaser from './components/TeamTeaser';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import DeleteAccount from './components/DeleteAccount';
 import TermsAndConditions from './components/TermsAndConditions';
 import Team from './components/Team';
-import IndependenciaPage from './components/Independencia';
+import IndependenciaPage from './components/Independence';
+import ContactSection from './components/ContactSection';
 
 const HomePage: React.FC = () => {
   return (
     <>
       <HeroSection />
       <HowItWorksSection />
-      <TeamTeaser />
       <CallToActionSection />
     </>
   );
@@ -45,6 +44,7 @@ const App: React.FC = () => {
             <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
             <Route path="/equipo" element={<Team />} />
             <Route path="/independencia" element={<IndependenciaPage />} />
+            <Route path="/contacto" element={<ContactSection />} />
           </Routes>
         </main>
         <Footer />

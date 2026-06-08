@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import Teaser from './Teaser';
 
 const AppleLogo: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -102,11 +102,11 @@ const AboutSection: React.FC = () => {
   const { ref: contentRef } = useScrollAnimation({ animation: 'fade-up', delay: 240, threshold: 0.2 });
 
   return (
-    <section className="bg-white border-t border-neutral-100 py-16 sm:py-20">
+    <section className="bg-white border-t border-neutral-100 pt-8 pb-16 sm:pt-10 sm:pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
 
         {/* Header con líneas */}
-        <div ref={headerRef} className="flex items-center gap-4 mb-14">
+        <div ref={headerRef} className="flex items-center gap-4 mb-10">
           <div className="flex-grow h-px bg-neutral-200" />
           <h2 className="text-xl md:text-2xl font-extrabold uppercase tracking-widest text-primary-dark whitespace-nowrap">
             Conocenos
@@ -142,38 +142,6 @@ const AboutSection: React.FC = () => {
   );
 };
 
-/* ── IndependenciaTeaser — animaciones internas propias ── */
-const IndependenciaTeaser: React.FC = () => {
-  const { ref: badgeRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
-  const { ref: titleRef }  = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.15 });
-  const { ref: descRef }   = useScrollAnimation({ animation: 'fade-up', delay: 200, threshold: 0.15 });
-  const { ref: btnRef }    = useScrollAnimation({ animation: 'fade-up', delay: 300, threshold: 0.15 });
-
-  return (
-    <section className="py-14 bg-[#f4f8ec] border-t border-primary-light/20 text-center">
-      <div className="container mx-auto px-4">
-        <p ref={badgeRef} className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-3">
-          Independencia
-        </p>
-        <h2 ref={titleRef} className="text-2xl sm:text-3xl font-bold text-neutral-darkest mb-3">
-          Sin influencias. Solo la verdad.
-        </h2>
-        <p ref={descRef} className="text-neutral-DEFAULT mb-7 max-w-md mx-auto text-sm">
-          Vokkado no recibe dinero de marcas. Cada análisis es objetivo, transparente y libre de conflictos de interés.
-        </p>
-        <div ref={btnRef}>
-          <Link
-            to="/independencia"
-            className="inline-flex items-center gap-2 bg-primary-dark text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
-          >
-            Conocer más
-            <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 /* ── MemberCard ── */
 const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ member, index }) => {
@@ -213,16 +181,59 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
   );
 };
 
+/* ── UruguaySection ── */
+const UruguaySection: React.FC = () => {
+  const { ref: titleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const { ref: card1Ref } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.15 });
+  const { ref: card2Ref } = useScrollAnimation({ animation: 'fade-up', delay: 220, threshold: 0.15 });
+
+  return (
+    <section className="bg-white border-t border-neutral-100 pt-16 pb-10 sm:pt-20 sm:pb-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+
+        <div ref={titleRef} className="text-center mb-12">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-primary-dark/70 mb-3">
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest">
+            Nacimos en <span className="text-primary-dark">Uruguay</span>, pensando en el mundo
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div ref={card1Ref} className="bg-[#f4f8ec] rounded-2xl p-7 border border-primary-light/20">
+            <div className="w-11 h-11 rounded-xl bg-primary-light/20 flex items-center justify-center mb-4">
+              <ion-icon name="location-outline" style={{ fontSize: '22px', color: '#22521D' }} />
+            </div>
+            <h3 className="font-bold text-neutral-darkest mb-2">Hoy, enfocados en Uruguay</h3>
+            <p className="text-sm text-neutral-DEFAULT leading-relaxed">
+              Somos un equipo uruguayo y estamos comenzando por casa. Hoy nuestro foco está en Uruguay: construir una base sólida, escuchar a nuestros usuarios y adaptar la app a la realidad local de los productos y el mercado.
+            </p>
+          </div>
+
+          <div ref={card2Ref} className="bg-[#f4f8ec] rounded-2xl p-7 border border-primary-light/20">
+            <div className="w-11 h-11 rounded-xl bg-primary-light/20 flex items-center justify-center mb-4">
+              <ion-icon name="globe-outline" style={{ fontSize: '22px', color: '#22521D' }} />
+            </div>
+            <h3 className="font-bold text-neutral-darkest mb-2">Con la mirada en el horizonte</h3>
+            <p className="text-sm text-neutral-DEFAULT leading-relaxed">
+              El acceso a información nutricional clara no debería ser un privilegio. Queremos que la mayor cantidad de personas posible pueda saber qué hay en lo que come, sin importar dónde viva. Uruguay es el primer paso.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
 /* ── Team page ── */
 const Team: React.FC = () => {
   // Hero — cada elemento entra escalonado
-  const { ref: heroBadgeRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
-  const { ref: heroTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.2 });
-  const { ref: heroBodyRef  } = useScrollAnimation({ animation: 'fade-up', delay: 220, threshold: 0.2 });
+  const { ref: heroTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
+  const { ref: heroBodyRef  } = useScrollAnimation({ animation: 'fade-up', delay: 120, threshold: 0.2 });
 
   // Sección equipo — header desglosado
-  const { ref: teamBadgeRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
-  const { ref: teamTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 90,  threshold: 0.2 });
+  const { ref: teamTitleRef } = useScrollAnimation({ animation: 'fade-up', delay: 0,   threshold: 0.2 });
   const { ref: teamDescRef  } = useScrollAnimation({ animation: 'fade-up', delay: 180, threshold: 0.2 });
 
   // CTA final
@@ -246,9 +257,7 @@ const Team: React.FC = () => {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <span ref={heroBadgeRef} className="inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 mb-4">
-            El equipo
-          </span>
+
           <h1 ref={heroTitleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight">
             Más que una app,
             <br className="hidden sm:block" />
@@ -263,9 +272,6 @@ const Team: React.FC = () => {
       {/* ── Equipo ── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-14 sm:pb-20">
         <div className="text-center mb-14">
-          <span ref={teamBadgeRef} className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            Co-fundadores
-          </span>
           <h2 ref={teamTitleRef} className="text-3xl md:text-4xl font-bold text-neutral-darkest">
             Las personas detrás de Vokkado
           </h2>
@@ -280,11 +286,20 @@ const Team: React.FC = () => {
         </div>
       </section>
 
+      {/* ── Uruguay & visión global ── */}
+      <UruguaySection />
+
       {/* ── Misión · Visión · Valores ── */}
       <AboutSection />
 
-      {/* ── Teaser Independencia ── */}
-      <IndependenciaTeaser />
+      {/* ── Teaser Nuestra Promesa ── */}
+      <Teaser
+        badge="Nuestra Promesa"
+        title="Sin influencias. Solo la verdad."
+        desc="Vokkado no recibe dinero de marcas. Cada análisis es objetivo, transparente y libre de conflictos de interés."
+        linkTo="/independencia"
+        linkText="Conocé nuestra promesa"
+      />
 
       {/* ── CTA ── */}
       <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-16 text-center px-4 text-white">

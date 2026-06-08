@@ -96,16 +96,36 @@ const steps: StepData[] = [
 ];
 
 /* ── Reusable icon renderer ── */
-const IconEl: React.FC<{ name: string; type: 'ion' | 'mdi'; style?: React.CSSProperties; className?: string }> = ({
+const IconEl: React.FC<{
+  name: string;
+  type: 'ion' | 'mdi';
+  style?: React.CSSProperties;
+  className?: string;
+  ariaHidden?: boolean;
+  title?: string;
+}> = ({
   name,
   type,
   style,
   className,
+  ariaHidden = true,
+  title,
 }) =>
   type === 'ion' ? (
-    <ion-icon name={name} style={style} className={className} />
+    <ion-icon
+      name={name}
+      style={style}
+      className={className}
+      aria-hidden={ariaHidden}
+      title={title}
+    />
   ) : (
-    <span className={`mdi mdi-${name} ${className ?? ''}`} style={style} />
+    <span
+      className={`mdi mdi-${name} ${className ?? ''}`}
+      style={style}
+      aria-hidden={ariaHidden}
+      title={title}
+    />
   );
 
 /* ── Phone screen content (wraps IPhoneMockup) ── */
@@ -128,7 +148,7 @@ const StepPhone: React.FC<{ imageSrc?: string; placeholderIcon: string; placehol
 );
 
 /* ── Single step row (con animaciones al scroll) ── */
-const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = ({ step, index: _index, reversed }) => {
+const StepRow: React.FC<{ step: StepData; reversed: boolean }> = ({ step, reversed }) => {
   const phoneAnim = useScrollAnimation({
     animation: reversed ? 'fade-right' : 'fade-left',
     delay: 0,
@@ -161,7 +181,10 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
         className={`lg:col-span-7 flex flex-col justify-center order-1 ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}
       >
         {/* Step tag */}
-        <div className="inline-flex items-center gap-2 bg-primary-DEFAULT/10 text-primary-DEFAULT rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit">
+        <div
+          className="inline-flex items-center gap-2 bg-primary-DEFAULT/10 text-primary-DEFAULT rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit"
+          title={`Paso ${steps.indexOf(step) + 1} del proceso`}
+        >
           <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
           {step.tag}
         </div>
@@ -180,9 +203,14 @@ const StepRow: React.FC<{ step: StepData; index: number; reversed: boolean }> = 
         {/* Highlights */}
         <div className="flex flex-col gap-3">
           {step.highlights.map((h, i) => (
-            <div key={i} className="flex items-center gap-3 group">
+            <div key={i} className="flex items-center gap-3 group" title={h.text}>
               <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-primary-DEFAULT/15 transition-all duration-200">
-                <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} />
+                <IconEl
+                  name={h.icon}
+                  type={h.iconType}
+                  style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }}
+                  title={h.text}
+                />
               </div>
               <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
             </div>
@@ -209,9 +237,6 @@ const HowItWorksSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div ref={headerAnim.ref} className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
-          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            Cómo funciona
-          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
             Simple, rápido y{' '}
             <span className="text-primary-dark">personalizado</span>
@@ -224,7 +249,7 @@ const HowItWorksSection: React.FC = () => {
         {/* Steps */}
         <div className="flex flex-col gap-20 sm:gap-28 lg:gap-32">
           {steps.map((step, i) => (
-            <StepRow key={i} step={step} index={i} reversed={i % 2 !== 0} />
+            <StepRow key={i} step={step} reversed={i % 2 !== 0} />
           ))}
         </div>
       </div>

@@ -1,23 +1,9 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { APP_NAME, SECTION_IDS } from '../constants';
+import { Link } from 'react-router-dom';
+import { APP_NAME } from '../constants';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault();
-    if (location.pathname !== '/') {
-      navigate('/');
-      setTimeout(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
-    } else {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <footer className="bg-neutral-darkest text-neutral-medium">
@@ -35,9 +21,9 @@ export const Footer: React.FC = () => {
             <div>
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Recursos</h2>
               <ul className="space-y-3">
-                <li><a href="/#/" onClick={(e) => scrollToSection(e, SECTION_IDS.howItWorks)} className="hover:text-primary-light transition-colors">Cómo Funciona</a></li>
                 <li><Link to="/equipo" className="hover:text-primary-light transition-colors">Nosotros</Link></li>
-                <li><Link to="/independencia" className="hover:text-primary-light transition-colors">Independencia</Link></li>
+                <li><Link to="/independencia" className="hover:text-primary-light transition-colors">Nuestra Promesa</Link></li>
+                <li><Link to="/contacto" className="hover:text-primary-light transition-colors">Contacto</Link></li>
               </ul>
             </div>
             <div>
