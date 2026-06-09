@@ -18,12 +18,14 @@ import TermsAndConditions from './components/TermsAndConditions';
 import Team from './components/Team';
 import IndependenciaPage from './components/Independence';
 import ContactSection from './components/ContactSection';
+import TeamTeaser from './components/TeamTeaser';
 
 const HomePage: React.FC = () => {
   return (
     <>
       <HeroSection />
       <HowItWorksSection />
+      <TeamTeaser />
       <CallToActionSection />
     </>
   );

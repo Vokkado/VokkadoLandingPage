@@ -226,7 +226,7 @@ const HowItWorksSection: React.FC = () => {
   const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
 
   return (
-    <section id={SECTION_IDS.howItWorks} className="relative py-20 sm:py-28 overflow-hidden">
+    <section id={SECTION_IDS.howItWorks} className="relative pt-8 pb-20 sm:pt-10 sm:pb-28 overflow-hidden">
       {/* ── Fondo limpio ── */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />

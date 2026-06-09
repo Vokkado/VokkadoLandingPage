@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const ContactSection: React.FC = () => {
-  const { ref: tagRef }   = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
-  const { ref: titleRef } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.15 });
+  const { ref: titleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   const { ref: descRef  } = useScrollAnimation({ animation: 'fade-up', delay: 200, threshold: 0.15 });
   const { ref: cardRef  } = useScrollAnimation({ animation: 'fade-up', delay: 300, threshold: 0.15 });
 
