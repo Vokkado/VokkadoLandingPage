@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { COLORS, SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
@@ -42,9 +42,17 @@ const FALLBACK_REVIEWS: Review[] = [
     text: 'Me encanta poder armar mi perfil con mis restricciones. El historial del carrito también ayuda mucho.',
     date: null,
   },
+  {
+    id: 'fallback-4',
+    source: 'google_play',
+    author: 'Federico A.',
+    rating: 5,
+    title: null,
+    text: 'App simple y clara. La uso cada vez que voy de compras para chequear los productos nuevos.',
+    date: null,
+  },
 ];
 
-/* ── Inline SVG logos (mismos que CallToAction) ── */
 const AppleLogo: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -71,7 +79,7 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => (
       <ion-icon
         key={i}
         name={i <= rating ? 'star' : 'star-outline'}
-        style={{ fontSize: '15px', color: '#F5A623' }}
+        style={{ fontSize: '14px', color: '#F5A623' }}
       />
     ))}
   </div>
@@ -81,21 +89,23 @@ const isEmoji = (str: string) => /^\p{Emoji}+$/u.test(str.replace(/\s/g, ''));
 
 const initials = (name: string) => {
   if (isEmoji(name)) return '★';
-  return name
-    .split(' ')
-    .map((p) => p[0])
-    .filter((c) => c && /\p{L}/u.test(c))
-    .slice(0, 2)
-    .join('')
-    .toUpperCase() || '★';
+  return (
+    name
+      .split(' ')
+      .map((p) => p[0])
+      .filter((c) => c && /\p{L}/u.test(c))
+      .slice(0, 2)
+      .join('')
+      .toUpperCase() || '★'
+  );
 };
 
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
-  <div className="snap-start shrink-0 w-[300px] sm:w-[340px] bg-white rounded-2xl shadow-md hover:shadow-lg border border-neutral-light p-6 flex flex-col gap-4 transition-shadow duration-200">
+  <div className="shrink-0 w-[300px] sm:w-[320px] bg-white rounded-2xl shadow-sm border border-neutral-light p-5 flex flex-col gap-3">
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
         <div
-          className="w-11 h-11 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0"
+          className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0"
           style={{ backgroundColor: COLORS.primary.lightest, color: COLORS.primary.dark }}
         >
           {initials(review.author)}
@@ -110,23 +120,36 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
         title={`Reseña en ${SOURCE_LABEL[review.source]}`}
       >
         {review.source === 'app_store' ? (
-          <AppleLogo className="w-3.5 h-3.5 text-neutral-darkest" />
+          <AppleLogo className="w-3 h-3 text-neutral-darkest" />
         ) : (
-          <GooglePlayLogo className="w-3.5 h-3.5" />
+          <GooglePlayLogo className="w-3 h-3" />
         )}
-        <span className="text-[11px] font-medium text-neutral-dark">{SOURCE_LABEL[review.source]}</span>
+        <span className="text-[10px] font-medium text-neutral-dark">{SOURCE_LABEL[review.source]}</span>
       </div>
     </div>
-
-    <p className="text-sm text-neutral-dark leading-relaxed line-clamp-4">{review.text}</p>
+    <p className="text-sm text-neutral-dark leading-relaxed line-clamp-3">{review.text}</p>
   </div>
 );
 
+/* Fila de marquee que se mueve sola. `reverse` la hace ir en dirección opuesta. */
+const MarqueeRow: React.FC<{ reviews: Review[]; reverse?: boolean }> = ({ reviews, reverse = false }) => {
+  /* Duplicamos las cards para que el loop sea continuo */
+  const doubled = [...reviews, ...reviews];
+  return (
+    <div className="overflow-hidden">
+      <div className={`flex gap-5 w-max ${reverse ? 'marquee-reverse' : 'marquee'}`}>
+        {doubled.map((review, i) => (
+          <ReviewCard key={`${review.id}-${i}`} review={review} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const ReviewsSection: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>(FALLBACK_REVIEWS);
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
-  const carouselAnim = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.1 });
+  const rowsAnim = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.1 });
 
   useEffect(() => {
     fetch('/reviews.json')
@@ -134,14 +157,15 @@ const ReviewsSection: React.FC = () => {
       .then((data) => {
         if (data?.reviews?.length) setReviews(data.reviews);
       })
-      .catch(() => {
-        /* mantiene las reseñas de ejemplo si falla la carga */
-      });
+      .catch(() => {});
   }, []);
 
-  const scrollBy = (direction: 1 | -1) => {
-    scrollerRef.current?.scrollBy({ left: direction * 340, behavior: 'smooth' });
-  };
+  /* Fila 1: todas las reseñas en orden
+     Fila 2: mismas reseñas pero rotadas a la mitad, así siempre se ven tarjetas distintas */
+  const offset = Math.ceil(reviews.length / 2);
+  const row1 = reviews;
+  const row2 = [...reviews.slice(offset), ...reviews.slice(0, offset)];
+  const safeRow2 = row2.length ? row2 : row1;
 
   return (
     <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite">
@@ -154,38 +178,15 @@ const ReviewsSection: React.FC = () => {
             Lo que dicen en <span className="text-primary-dark">App Store y Google Play</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark">
-            Reseñas reales de nuestros usuarios, actualizadas automáticamente desde las tiendas.
+            Reseñas reales, actualizadas automáticamente desde las tiendas.
           </p>
         </div>
+      </div>
 
-        <div ref={carouselAnim.ref} className="relative">
-          <div
-            ref={scrollerRef}
-            className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 scrollbar-hide"
-          >
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
-          </div>
-
-          {/* Controles del carrusel */}
-          <div className="hidden sm:flex justify-center gap-3 mt-6">
-            <button
-              onClick={() => scrollBy(-1)}
-              aria-label="Ver reseñas anteriores"
-              className="w-10 h-10 rounded-full border border-neutral-light flex items-center justify-center text-neutral-dark hover:bg-primary-DEFAULT hover:text-white hover:border-primary-DEFAULT transition-all duration-200"
-            >
-              <ion-icon name="chevron-back-outline" style={{ fontSize: '18px' }} />
-            </button>
-            <button
-              onClick={() => scrollBy(1)}
-              aria-label="Ver reseñas siguientes"
-              className="w-10 h-10 rounded-full border border-neutral-light flex items-center justify-center text-neutral-dark hover:bg-primary-DEFAULT hover:text-white hover:border-primary-DEFAULT transition-all duration-200"
-            >
-              <ion-icon name="chevron-forward-outline" style={{ fontSize: '18px' }} />
-            </button>
-          </div>
-        </div>
+      {/* Las filas van de borde a borde, fuera del container */}
+      <div ref={rowsAnim.ref} className="flex flex-col gap-5 px-6 sm:px-12 lg:px-24">
+        <MarqueeRow reviews={row1} />
+        <MarqueeRow reviews={safeRow2} reverse />
       </div>
     </section>
   );
