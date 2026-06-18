@@ -30,10 +30,11 @@ jobs:
       - name: Fetch reviews
         working-directory: source
         env:
-          APPLE_APP_ID: ${{ vars.APPLE_APP_ID }}
-          APPLE_COUNTRIES: ${{ vars.APPLE_COUNTRIES }}
-          GOOGLE_PLAY_PACKAGE_NAME: ${{ vars.GOOGLE_PLAY_PACKAGE_NAME }}
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64 }}
+          APPLE_APP_ID: '6761864995'
+          APPLE_COUNTRIES: 'uy,us'
+          GOOGLE_PLAY_PACKAGE_NAME: 'com.scantoeat.app'
+          GOOGLE_PLAY_LANG: 'es'
+          GOOGLE_PLAY_COUNTRY: 'uy'
         run: npm run fetch-reviews
 
       - name: Commit reviews.json on develop

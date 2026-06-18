@@ -1,41 +1,50 @@
 {
-  "updatedAt": null,
+  "updatedAt": "2026-06-18T20:19:41.810Z",
   "reviews": [
     {
-      "id": "example-1",
+      "id": "apple-uy-14187593920",
       "source": "app_store",
-      "author": "Lucía M.",
+      "author": "🐶🐾🐾🐾🐾",
       "rating": 5,
-      "title": null,
-      "text": "Encontré rapidísimo qué productos no tienen lactosa. Antes tardaba un montón leyendo etiquetas en el súper.",
-      "date": null
+      "title": "Excelente",
+      "text": "Es muy buena la app tanto para quienes cuidan su alimentación como para quien tenemos restricciones",
+      "date": "2026-06-15T17:18:23-07:00"
     },
     {
-      "id": "example-2",
-      "source": "google_play",
-      "author": "Martín P.",
-      "rating": 5,
-      "title": null,
-      "text": "Escaneás el código de barras y te dice al toque si el producto es apto para vos. Muy útil para mis alergias.",
-      "date": null
-    },
-    {
-      "id": "example-3",
+      "id": "apple-uy-14162861588",
       "source": "app_store",
-      "author": "Valentina R.",
-      "rating": 4,
-      "title": null,
-      "text": "Me encanta poder armar mi perfil con mis restricciones. El historial del carrito también ayuda mucho.",
-      "date": null
+      "author": "Felipe D.",
+      "rating": 5,
+      "title": "Muy buena app",
+      "text": "Es muy buena muy completa. Me ayuda con mi alimentación todos los días",
+      "date": "2026-06-09T09:44:08-07:00"
     },
     {
-      "id": "example-4",
-      "source": "google_play",
-      "author": "Federico A.",
+      "id": "apple-uy-14144368541",
+      "source": "app_store",
+      "author": "alfo0101",
       "rating": 5,
-      "title": null,
-      "text": "App simple y clara. La uso cada vez que voy de compras para chequear los productos nuevos.",
-      "date": null
+      "title": "5 estrellas",
+      "text": "Muy buena app, super intuitiva y certera. Recomiendo",
+      "date": "2026-06-04T14:07:03-07:00"
+    },
+    {
+      "id": "apple-uy-14144278323",
+      "source": "app_store",
+      "author": "luana H.",
+      "rating": 5,
+      "title": "reseña lua",
+      "text": "excelente app",
+      "date": "2026-06-04T13:33:43-07:00"
+    },
+    {
+      "id": "apple-uy-14144272498",
+      "source": "app_store",
+      "author": "giulii.",
+      "rating": 5,
+      "title": "excelente app",
+      "text": "Me encanta esta aplicación!! la uso todo el tiempo",
+      "date": "2026-06-04T13:31:35-07:00"
     }
   ]
 }

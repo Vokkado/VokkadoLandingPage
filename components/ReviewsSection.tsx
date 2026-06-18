@@ -77,14 +77,18 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => (
   </div>
 );
 
-const initials = (name: string) =>
-  name
+const isEmoji = (str: string) => /^\p{Emoji}+$/u.test(str.replace(/\s/g, ''));
+
+const initials = (name: string) => {
+  if (isEmoji(name)) return '★';
+  return name
     .split(' ')
     .map((p) => p[0])
-    .filter(Boolean)
+    .filter((c) => c && /\p{L}/u.test(c))
     .slice(0, 2)
     .join('')
-    .toUpperCase();
+    .toUpperCase() || '★';
+};
 
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
   <div className="snap-start shrink-0 w-[300px] sm:w-[340px] bg-white rounded-2xl shadow-md hover:shadow-lg border border-neutral-light p-6 flex flex-col gap-4 transition-shadow duration-200">

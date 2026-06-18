@@ -9,19 +9,18 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'reviews.json');
 
-const APPLE_APP_ID = process.env.APPLE_APP_ID || '6761864995';
-const APPLE_COUNTRIES = (process.env.APPLE_COUNTRIES || 'uy,us').split(',').map((c) => c.trim());
+const APPLE_APP_ID     = process.env.APPLE_APP_ID     || '6761864995';
+const APPLE_COUNTRIES  = (process.env.APPLE_COUNTRIES || 'uy,us').split(',').map((c) => c.trim());
+const GOOGLE_PACKAGE   = process.env.GOOGLE_PLAY_PACKAGE_NAME || 'com.scantoeat.app';
+const GOOGLE_LANG      = process.env.GOOGLE_PLAY_LANG || 'es';
+const GOOGLE_COUNTRY   = process.env.GOOGLE_PLAY_COUNTRY || 'uy';
+const MIN_RATING       = Number(process.env.MIN_RATING  || 4);
+const MAX_REVIEWS      = Number(process.env.MAX_REVIEWS || 9);
 
-const GOOGLE_PLAY_PACKAGE_NAME = process.env.GOOGLE_PLAY_PACKAGE_NAME || 'com.scantoeat.app';
-const GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64 = process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64;
-
-const MIN_RATING = Number(process.env.MIN_RATING || 4);
-const MAX_REVIEWS = Number(process.env.MAX_REVIEWS || 9);
-
-/** "Maria Gonzalez" -> "Maria G."  |  "Foodie23" -> "Foodie23" */
-function anonymizeName(rawName) {
-  if (!rawName) return 'Usuario Vokkado';
-  const parts = rawName.trim().split(/\s+/);
+/** "Maria Gonzalez" → "Maria G."  |  "Foodie23" → "Foodie23" */
+function anonymizeName(raw) {
+  if (!raw) return 'Usuario Vokkado';
+  const parts = raw.trim().split(/\s+/);
   if (parts.length === 1) return parts[0];
   return `${parts[0]} ${parts[1][0].toUpperCase()}.`;
 }
@@ -51,81 +50,48 @@ async function fetchAppleReviews() {
         });
       }
     } catch (err) {
-      console.warn(`[apple] Failed to fetch reviews for country "${country}":`, err.message);
+      console.warn(`[apple] Error al traer reseñas para "${country}":`, err.message);
     }
   }
   return all;
 }
 
-async function getGoogleAccessToken(serviceAccount) {
-  const { default: jwt } = await import('jsonwebtoken');
-  const now = Math.floor(Date.now() / 1000);
-  const assertion = jwt.sign(
-    {
-      iss: serviceAccount.client_email,
-      scope: 'https://www.googleapis.com/auth/androidpublisher',
-      aud: 'https://oauth2.googleapis.com/token',
-      iat: now,
-      exp: now + 3600,
-    },
-    serviceAccount.private_key,
-    { algorithm: 'RS256' }
-  );
-
-  const res = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion,
-    }),
-  });
-  if (!res.ok) throw new Error(`OAuth token exchange failed: ${res.status} ${await res.text()}`);
-  const { access_token } = await res.json();
-  return access_token;
-}
-
 async function fetchGooglePlayReviews() {
-  if (!GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64) {
-    console.warn('[google-play] GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64 not set, skipping.');
-    return [];
-  }
   try {
-    const serviceAccount = JSON.parse(
-      Buffer.from(GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64, 'base64').toString('utf-8')
-    );
-    const accessToken = await getGoogleAccessToken(serviceAccount);
-
-    const url = `https://www.googleapis.com/androidpublisher/v3/applications/${GOOGLE_PLAY_PACKAGE_NAME}/reviews?maxResults=50`;
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
-    if (!res.ok) throw new Error(`Reviews list failed: ${res.status} ${await res.text()}`);
-    const data = await res.json();
-
-    return (data.reviews || []).map((review) => {
-      const comment = review.comments?.[0]?.userComment;
-      return {
-        id: `google-${review.reviewId}`,
-        source: 'google_play',
-        author: anonymizeName(review.authorName),
-        rating: comment?.starRating ?? 0,
-        title: null,
-        text: stripHtml(comment?.text),
-        date: comment?.lastModified?.seconds
-          ? new Date(Number(comment.lastModified.seconds) * 1000).toISOString()
-          : null,
-      };
+    const gplay = await import('google-play-scraper');
+    const scraper = gplay.default ?? gplay;
+    const results = await scraper.reviews({
+      appId: GOOGLE_PACKAGE,
+      lang: GOOGLE_LANG,
+      country: GOOGLE_COUNTRY,
+      sort: scraper.sort?.NEWEST ?? 2,
+      num: 50,
     });
+    const list = Array.isArray(results) ? results : (results?.data ?? []);
+    return list.map((r) => ({
+      id: `google-${r.id}`,
+      source: 'google_play',
+      author: anonymizeName(r.userName),
+      rating: r.score ?? 0,
+      title: null,
+      text: stripHtml(r.text),
+      date: r.date ? new Date(r.date).toISOString() : null,
+    }));
   } catch (err) {
-    console.warn('[google-play] Failed to fetch reviews:', err.message);
+    console.warn('[google-play] Error al traer reseñas:', err.message);
     return [];
   }
 }
 
 async function main() {
+  console.log('Trayendo reseñas de App Store y Google Play...');
   const [appleReviews, googleReviews] = await Promise.all([
     fetchAppleReviews(),
     fetchGooglePlayReviews(),
   ]);
+
+  console.log(`  App Store:   ${appleReviews.length} reseñas`);
+  console.log(`  Google Play: ${googleReviews.length} reseñas`);
 
   const reviews = [...appleReviews, ...googleReviews]
     .filter((r) => r.rating >= MIN_RATING && r.text)
@@ -138,7 +104,7 @@ async function main() {
     JSON.stringify({ updatedAt: new Date().toISOString(), reviews }, null, 2)
   );
 
-  console.log(`Wrote ${reviews.length} reviews to ${OUTPUT_PATH}`);
+  console.log(`Listo — ${reviews.length} reseñas guardadas en ${OUTPUT_PATH}`);
 }
 
 main();
