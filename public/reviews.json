@@ -1,0 +1,41 @@
+{
+  "updatedAt": null,
+  "reviews": [
+    {
+      "id": "example-1",
+      "source": "app_store",
+      "author": "Lucía M.",
+      "rating": 5,
+      "title": null,
+      "text": "Encontré rapidísimo qué productos no tienen lactosa. Antes tardaba un montón leyendo etiquetas en el súper.",
+      "date": null
+    },
+    {
+      "id": "example-2",
+      "source": "google_play",
+      "author": "Martín P.",
+      "rating": 5,
+      "title": null,
+      "text": "Escaneás el código de barras y te dice al toque si el producto es apto para vos. Muy útil para mis alergias.",
+      "date": null
+    },
+    {
+      "id": "example-3",
+      "source": "app_store",
+      "author": "Valentina R.",
+      "rating": 4,
+      "title": null,
+      "text": "Me encanta poder armar mi perfil con mis restricciones. El historial del carrito también ayuda mucho.",
+      "date": null
+    },
+    {
+      "id": "example-4",
+      "source": "google_play",
+      "author": "Federico A.",
+      "rating": 5,
+      "title": null,
+      "text": "App simple y clara. La uso cada vez que voy de compras para chequear los productos nuevos.",
+      "date": null
+    }
+  ]
+}

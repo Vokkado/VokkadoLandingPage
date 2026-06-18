@@ -1,0 +1,70 @@
+name: Update App Store / Google Play reviews
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # todos los días 09:00 UTC (~06:00 UY)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          path: source
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: source
+        run: npm ci
+
+      - name: Fetch reviews
+        working-directory: source
+        env:
+          APPLE_APP_ID: ${{ vars.APPLE_APP_ID }}
+          APPLE_COUNTRIES: ${{ vars.APPLE_COUNTRIES }}
+          GOOGLE_PLAY_PACKAGE_NAME: ${{ vars.GOOGLE_PLAY_PACKAGE_NAME }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_B64 }}
+        run: npm run fetch-reviews
+
+      - name: Commit reviews.json on develop
+        working-directory: source
+        run: |
+          git config user.name "vokkado-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if ! git diff --quiet -- public/reviews.json; then
+            git add public/reviews.json
+            git commit -m "chore: actualizar reseñas de App Store / Google Play"
+            git push origin develop
+          else
+            echo "Sin cambios en reviews.json"
+          fi
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: deployed
+
+      - name: Publish reviews.json to gh-pages
+        run: |
+          cp source/public/reviews.json deployed/reviews.json
+          cd deployed
+          git config user.name "vokkado-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if ! git diff --quiet -- reviews.json; then
+            git add reviews.json
+            git commit -m "chore: actualizar reseñas en el sitio publicado"
+            git push origin gh-pages
+          else
+            echo "Sin cambios para publicar"
+          fi

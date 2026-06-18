@@ -10,6 +10,7 @@ const ScrollToTop: React.FC = () => {
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import HowItWorksSection from './components/HowItWorksSection';
+import ReviewsSection from './components/ReviewsSection';
 import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -25,6 +26,7 @@ const HomePage: React.FC = () => {
     <>
       <HeroSection />
       <HowItWorksSection />
+      <ReviewsSection />
       <TeamTeaser />
       <CallToActionSection />
     </>
