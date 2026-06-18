@@ -1,0 +1,50 @@
+{
+  "updatedAt": "2026-06-18T20:35:04.302Z",
+  "reviews": [
+    {
+      "id": "apple-uy-14187593920",
+      "source": "app_store",
+      "author": "🐶🐾🐾🐾🐾",
+      "rating": 5,
+      "title": "Excelente",
+      "text": "Es muy buena la app tanto para quienes cuidan su alimentación como para quien tenemos restricciones",
+      "date": "2026-06-15T17:18:23-07:00"
+    },
+    {
+      "id": "apple-uy-14162861588",
+      "source": "app_store",
+      "author": "Felipe D.",
+      "rating": 5,
+      "title": "Muy buena app",
+      "text": "Es muy buena muy completa. Me ayuda con mi alimentación todos los días",
+      "date": "2026-06-09T09:44:08-07:00"
+    },
+    {
+      "id": "apple-uy-14144368541",
+      "source": "app_store",
+      "author": "alfo0101",
+      "rating": 5,
+      "title": "5 estrellas",
+      "text": "Muy buena app, super intuitiva y certera. Recomiendo",
+      "date": "2026-06-04T14:07:03-07:00"
+    },
+    {
+      "id": "apple-uy-14144278323",
+      "source": "app_store",
+      "author": "luana H.",
+      "rating": 5,
+      "title": "reseña lua",
+      "text": "excelente app",
+      "date": "2026-06-04T13:33:43-07:00"
+    },
+    {
+      "id": "apple-uy-14144272498",
+      "source": "app_store",
+      "author": "giulii.",
+      "rating": 5,
+      "title": "excelente app",
+      "text": "Me encanta esta aplicación!! la uso todo el tiempo",
+      "date": "2026-06-04T13:31:35-07:00"
+    }
+  ]
+}
