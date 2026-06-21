@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-06-20T11:22:25.048Z",
+  "updatedAt": "2026-06-21T11:48:57.549Z",
   "reviews": [
+    {
+      "id": "google-7a7166a3-b23d-4cef-9da7-a9740816b5d0",
+      "source": "google_play",
+      "author": "Juan M.",
+      "rating": 5,
+      "title": null,
+      "text": "excelenteee",
+      "date": "2026-06-19T22:42:36.750Z"
+    },
+    {
+      "id": "apple-uy-14202969176",
+      "source": "app_store",
+      "author": "Luciamamateama",
+      "rating": 5,
+      "title": "Muy útil",
+      "text": "La verdad que me ha sido de mucha utilidad a la hora de hacer las compras en el super",
+      "date": "2026-06-19T15:34:23-07:00"
+    },
     {
       "id": "apple-uy-14198813620",
       "source": "app_store",
