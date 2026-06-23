@@ -13,7 +13,7 @@ const APPLE_APP_ID     = process.env.APPLE_APP_ID     || '6761864995';
 const APPLE_COUNTRIES  = (process.env.APPLE_COUNTRIES || 'uy,us').split(',').map((c) => c.trim());
 const GOOGLE_PACKAGE   = process.env.GOOGLE_PLAY_PACKAGE_NAME || 'com.scantoeat.app';
 const GOOGLE_LANG      = process.env.GOOGLE_PLAY_LANG || 'es';
-const GOOGLE_COUNTRY   = process.env.GOOGLE_PLAY_COUNTRY || 'uy';
+const GOOGLE_COUNTRIES = (process.env.GOOGLE_PLAY_COUNTRIES || 'uy,ar,us').split(',').map(c => c.trim());
 const MIN_RATING       = Number(process.env.MIN_RATING  || 4);
 const MAX_REVIEWS      = Number(process.env.MAX_REVIEWS || 9);
 
@@ -57,30 +57,43 @@ async function fetchAppleReviews() {
 }
 
 async function fetchGooglePlayReviews() {
+  const seen = new Set();
+  const all = [];
   try {
     const gplay = await import('google-play-scraper');
     const scraper = gplay.default ?? gplay;
-    const results = await scraper.reviews({
-      appId: GOOGLE_PACKAGE,
-      lang: GOOGLE_LANG,
-      country: GOOGLE_COUNTRY,
-      sort: scraper.sort?.NEWEST ?? 2,
-      num: 50,
-    });
-    const list = Array.isArray(results) ? results : (results?.data ?? []);
-    return list.map((r) => ({
-      id: `google-${r.id}`,
-      source: 'google_play',
-      author: anonymizeName(r.userName),
-      rating: r.score ?? 0,
-      title: null,
-      text: stripHtml(r.text),
-      date: r.date ? new Date(r.date).toISOString() : null,
-    }));
+    for (const country of GOOGLE_COUNTRIES) {
+      try {
+        const results = await scraper.reviews({
+          appId: GOOGLE_PACKAGE,
+          lang: GOOGLE_LANG,
+          country,
+          sort: scraper.sort?.NEWEST ?? 2,
+          num: 30,
+        });
+        const list = Array.isArray(results) ? results : (results?.data ?? []);
+        for (const r of list) {
+          if (!seen.has(r.id)) {
+            seen.add(r.id);
+            all.push({
+              id: `google-${r.id}`,
+              source: 'google_play',
+              author: anonymizeName(r.userName),
+              rating: r.score ?? 0,
+              title: null,
+              text: stripHtml(r.text),
+              date: r.date ? new Date(r.date).toISOString() : null,
+            });
+          }
+        }
+      } catch (err) {
+        console.warn(`[google-play] Error en país "${country}":`, err.message);
+      }
+    }
   } catch (err) {
-    console.warn('[google-play] Error al traer reseñas:', err.message);
-    return [];
+    console.warn('[google-play] Error al importar scraper:', err.message);
   }
+  return all;
 }
 
 async function main() {
