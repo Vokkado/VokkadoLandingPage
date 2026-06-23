@@ -15,7 +15,7 @@ const GOOGLE_PACKAGE   = process.env.GOOGLE_PLAY_PACKAGE_NAME || 'com.scantoeat.
 const GOOGLE_LANG      = process.env.GOOGLE_PLAY_LANG || 'es';
 const GOOGLE_COUNTRIES = (process.env.GOOGLE_PLAY_COUNTRIES || 'uy,ar,us').split(',').map(c => c.trim());
 const MIN_RATING       = Number(process.env.MIN_RATING  || 4);
-const MAX_REVIEWS      = Number(process.env.MAX_REVIEWS || 9);
+const MAX_REVIEWS      = Number(process.env.MAX_REVIEWS || 20);
 
 /** "Maria Gonzalez" → "Maria G."  |  "Foodie23" → "Foodie23" */
 function anonymizeName(raw) {
