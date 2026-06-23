@@ -67,10 +67,10 @@
   100% { transform: translateX(0); }
 }
 .marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 .marquee-reverse {
-  animation: marquee-reverse 30s linear infinite;
+  animation: marquee-reverse 60s linear infinite;
 }
 
 /* ─── Utilidades varias ─── */
