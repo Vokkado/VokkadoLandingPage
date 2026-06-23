@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-23T12:11:43.192Z",
+  "updatedAt": "2026-06-23T19:27:21.446Z",
   "reviews": [
     {
       "id": "google-1c4748e6-36e4-4937-8663-6cc8a9536b21",
@@ -38,6 +38,24 @@
       "date": "2026-06-21T23:04:26.120Z"
     },
     {
+      "id": "apple-uy-14210583113",
+      "source": "app_store",
+      "author": "FlorFigueroaa",
+      "rating": 5,
+      "title": "Recomiendo",
+      "text": "Aplicación 100% recomendable para seguir una rutina nutricional.\nHay muchos productos con componentes que desconocemos , con letra chica. Excelente!!",
+      "date": "2026-06-21T14:36:17-07:00"
+    },
+    {
+      "id": "apple-uy-14210577496",
+      "source": "app_store",
+      "author": "Benny_44",
+      "rating": 5,
+      "title": "Muy bueno",
+      "text": "Me ayudó a comer más sano",
+      "date": "2026-06-21T14:34:04-07:00"
+    },
+    {
       "id": "google-7a7166a3-b23d-4cef-9da7-a9740816b5d0",
       "source": "google_play",
       "author": "Juan M.",
@@ -45,6 +63,24 @@
       "title": null,
       "text": "excelenteee",
       "date": "2026-06-19T22:42:36.750Z"
+    },
+    {
+      "id": "apple-uy-14202969176",
+      "source": "app_store",
+      "author": "Luciamamateama",
+      "rating": 5,
+      "title": "Muy útil",
+      "text": "La verdad que me ha sido de mucha utilidad a la hora de hacer las compras en el super",
+      "date": "2026-06-19T15:34:23-07:00"
+    },
+    {
+      "id": "apple-uy-14198813620",
+      "source": "app_store",
+      "author": "Ariana F.",
+      "rating": 5,
+      "title": "Muy útil",
+      "text": "Me resulta muy útil para hacer las compras del día a día y ser consciente de lo que como",
+      "date": "2026-06-18T14:05:41-07:00"
     }
   ]
 }
