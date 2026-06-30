@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-06-29T13:12:26.873Z",
+  "updatedAt": "2026-06-30T11:47:50.998Z",
   "reviews": [
+    {
+      "id": "google-d412555c-efab-49ce-ab32-987ef998eb3d",
+      "source": "google_play",
+      "author": "Wilman O.",
+      "rating": 5,
+      "title": null,
+      "text": "muy necesarias para esta época, muy útil.",
+      "date": "2026-06-28T15:53:32.888Z"
+    },
     {
       "id": "google-1c4748e6-36e4-4937-8663-6cc8a9536b21",
       "source": "google_play",
