@@ -29,10 +29,10 @@ const steps: StepData[] = [
     tag: 'Paso 1',
     tagIcon: 'person-outline',
     tagIconType: 'ion',
-    title: 'Creá tu ',
-    titleAccent: 'perfil único',
+    title: 'Contale a Vokkado ',
+    titleAccent: 'quién sos',
     description:
-      'Configurá tus restricciones alimentarias, alergias, condiciones de salud y objetivos nutricionales. Vokkado adapta cada análisis a vos.',
+      'Tus alergias, condiciones de salud y objetivos nutricionales. A partir de acá, cada respuesta es sobre vos — no una respuesta genérica.',
     highlights: [
       { icon: 'shield-checkmark-outline', iconType: 'ion', text: 'Alergias e intolerancias' },
       { icon: 'fitness-outline', iconType: 'ion', text: 'Condiciones de salud' },
@@ -46,10 +46,10 @@ const steps: StepData[] = [
     tag: 'Paso 2',
     tagIcon: 'barcode-scan',
     tagIconType: 'mdi',
-    title: 'Escaneá ',
-    titleAccent: 'cualquier producto',
+    title: 'Dejá de descifrar ',
+    titleAccent: 'etiquetas',
     description:
-      'Apuntá la cámara de tu celular al código de barras y obtené información al instante. Así de simple.',
+      'Apuntá la cámara al código de barras y listo. La letra chica deja de ser tu problema.',
     highlights: [
       { icon: 'camera-outline', iconType: 'ion', text: 'Escaneo instantáneo' },
       { icon: 'barcode-outline', iconType: 'ion', text: 'Miles de productos' },
@@ -63,10 +63,10 @@ const steps: StepData[] = [
     tag: 'Paso 3',
     tagIcon: 'bar-chart-outline',
     tagIconType: 'ion',
-    title: 'Recibí ',
-    titleAccent: 'análisis personalizados',
+    title: 'Entendé lo que ',
+    titleAccent: 'estás comprando',
     description:
-      'Descubrí si el producto es apto para vos con un puntaje claro, alertas sobre ingredientes y una explicación detallada adaptada a tu perfil.',
+      'Apto, precaución o no apto — con la explicación en lenguaje claro. No solo qué, también por qué: así aprendés en cada compra.',
     highlights: [
       { icon: 'checkmark-circle-outline', iconType: 'ion', text: '"Apto", "Precaución" o "No Apto"' },
       { icon: 'alert-circle-outline', iconType: 'ion', text: 'Alertas de alérgenos' },
@@ -80,10 +80,10 @@ const steps: StepData[] = [
     tag: 'Paso 4',
     tagIcon: 'cart-outline',
     tagIconType: 'ion',
-    title: 'Evaluá que tan saludable son ',
-    titleAccent: 'tus compras',
+    title: 'Elegí con confianza ',
+    titleAccent: 'toda tu compra',
     description:
-      'Agregá productos a tu carrito y visualizá el impacto nutricional de toda tu compra. Tomá decisiones informadas antes de pagar.',
+      'Visualizá el impacto nutricional de tu carrito completo y decidí con seguridad antes de pagar — no producto por producto, sino tu compra entera.',
     highlights: [
       { icon: 'bag-check-outline', iconType: 'ion', text: 'Resumen de tu compra' },
       { icon: 'trending-up-outline', iconType: 'ion', text: 'Estadísticas nutricionales' },
@@ -237,12 +237,14 @@ const HowItWorksSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div ref={headerAnim.ref} className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
+          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
+            Cómo funciona
+          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Simple, rápido y{' '}
-            <span className="text-primary-dark">personalizado</span>
+            El medio es <span className="text-primary-dark">simple</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
-            En solo unos pasos, Vokkado te ayuda a entender lo que comés y a tomar mejores decisiones para tu salud.
+            En unos pasos pasás de la duda a una respuesta clara, personalizada y al instante.
           </p>
         </div>
 

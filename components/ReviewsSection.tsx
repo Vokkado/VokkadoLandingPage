@@ -175,7 +175,7 @@ const ReviewsSection: React.FC = () => {
             Nuestros usuarios
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Lo que dicen en <span className="text-primary-dark">App Store y Google Play</span>
+            Personas que ya eligen <span className="text-primary-dark">con confianza</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark">
             Reseñas reales, actualizadas automáticamente desde las tiendas.

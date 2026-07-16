@@ -2,6 +2,8 @@ export { COLORS } from './colors';
 
 export const SECTION_IDS = {
   home: 'inicio', // Matches Navbar and Hero section ID
+  problem: 'el-problema', // ProblemSection: el problema que vive la persona
+  transformation: 'transformacion', // TransformationSection: confusión → autonomía
   howItWorks: 'cómo-funciona', // Matches Navbar, HowItWorks section ID, and Hero scroll link
   participate: 'call-to-action', // Matches CallToAction section ID and Hero button target
   reviews: 'reseñas',

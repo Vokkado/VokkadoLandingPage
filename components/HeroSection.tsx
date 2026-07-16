@@ -160,16 +160,16 @@ const HeroSection: React.FC = () => {
           {/* ── Texto ── */}
           <div className="lg:col-span-3 text-center lg:text-left animate-fade-in-up" style={{ position: 'relative', zIndex: 1 }}>
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight mb-6" style={{ lineHeight: 0.9 }}>
-              <span className="text-primary-dark font-bold">Saber </span>
-              <span className="font-bold">lo que comés,</span>
+              <span className="text-primary-dark font-bold">Elegí </span>
+              <span className="font-bold">lo que comés</span>
               <br />
               <span className="block" style={{ marginTop: '0.15em', marginLeft: '-0.01em' }}>
-                <span className="font-bold">es </span>
-                <span className="text-primary-dark font-bold">cuidarte</span>
+                <span className="font-bold">con </span>
+                <span className="text-primary-dark font-bold">confianza</span>
               </span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
-              Todo lo que tus productos esconden, Vokkado te lo cuenta.
+              Etiquetas confusas, información contradictoria, miedo a equivocarte: Vokkado lo convierte en respuestas claras, pensadas para vos.
             </p>
             <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
