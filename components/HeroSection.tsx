@@ -1,17 +1,9 @@
-import React, { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS } from '../constants';
 
 const galleryModules = import.meta.glob('../images/gallery/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
 const galleryImages: string[] = Object.keys(galleryModules).sort().map((k) => galleryModules[k]);
-
-// IPhoneMockup usa w-[260px] sm:w-[280px] lg:w-[300px] — valores fijos de Tailwind
-const getPhoneW = () => {
-  if (typeof window === 'undefined') return 280;
-  if (window.innerWidth >= 1024) return 300;
-  if (window.innerWidth >= 640)  return 280;
-  return 260;
-};
 
 const AppleLogo: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -31,99 +23,20 @@ const GooglePlayLogo: React.FC<{ className?: string }> = ({ className }) => (
 const HeroSection: React.FC = () => {
   const n = galleryImages.length;
 
-  // Track infinito: [clon-último, ...reales, clon-primero]
-  const trackItems = n > 1
-    ? [galleryImages[n - 1], ...galleryImages, galleryImages[0]]
-    : galleryImages;
-
-  const [trackIdx, setTrackIdx] = useState(n > 1 ? 1 : 0);
-  const [animated, setAnimated] = useState(true);
+  // ── Carrusel simple: un solo teléfono centrado, crossfade entre capturas ──
+  // Sin teléfonos laterales ni blur: siempre se ve exactamente lo mismo.
+  const [idx, setIdx] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  // ── Medición del ancho de la columna del carrusel ────────────────────────
-  // phoneW viene de getPhoneW() (valores fijos de Tailwind, sin circularity).
-  // colW es el ancho real de la columna medido con ResizeObserver.
-  const colRef  = useRef<HTMLDivElement>(null);
-  const [colW,   setColW]   = useState(0);
-  const [phoneW, setPhoneW] = useState(() => getPhoneW());
+  const goNext = useCallback(() => setIdx(i => (i + 1) % n), [n]);
+  const goPrev = useCallback(() => setIdx(i => (i - 1 + n) % n), [n]);
 
-  useLayoutEffect(() => {
-    const update = () => {
-      setPhoneW(getPhoneW());
-      if (colRef.current && colRef.current.offsetWidth > 0) {
-        setColW(colRef.current.offsetWidth);
-      }
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    if (colRef.current) ro.observe(colRef.current);
-    return () => ro.disconnect();
-  }, []);
-
-  // stepW: distancia entre slots tal que los laterales queden exactos en los bordes.
-  //   slot-izq empieza en x=0, slot-central en x=stepW, slot-der termina en x=colW.
-  //   stepW = (colW - phoneW) / 2
-  // Si aún no hay medición (colW=0), usamos phoneW como contenedor → stepW=0 → un solo teléfono centrado.
-  const effectiveColW = colW > 0 ? colW : phoneW;
-  const rawStep = Math.floor((effectiveColW - phoneW) / 2);
-  // Mínimo 30px para que el lateral sea perceptible; si no hay espacio, se oculta
-  const stepW      = Math.max(rawStep, 0);
-  const showSides  = rawStep >= 30;
-
-  // El teléfono central queda en x = stepW dentro del contenedor (= centerOffset)
-  const centerOffset = stepW;
-
-  // ── Navegación ──────────────────────────────────────────────────────────
-  const goNext = useCallback(() => setTrackIdx(i => i + 1), []);
-  const goPrev = useCallback(() => setTrackIdx(i => i - 1), []);
-
-  // ── Auto-avance y manejo de visibilidad ──────────────────────────────────
-  // Se ejecuta cada 4s cuando no está pausado y hay más de 1 imagen.
-  // Al volver a la pestaña visible, reinicia el intervalo para no esperar un ciclo completo.
   useEffect(() => {
     if (isPaused || n <= 1) return;
-
-    const goNextAndRestart = () => {
-      goNext();
-    };
-
-    // Inicia el intervalo
-    const intervalId = setInterval(goNextAndRestart, 4000);
-
-    // Reinicia el intervalo al volver a la pestaña visible
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        clearInterval(intervalId);
-        // Reinicia el intervalo después de que goNext se ejecute
-        setTimeout(() => {
-          goNext();
-        }, 0);
-      }
-    };
-
-    document.addEventListener('visibilitychange', onVisibilityChange);
-
-    return () => {
-      clearInterval(intervalId);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-    };
+    const id = setInterval(goNext, 4000);
+    return () => clearInterval(id);
   }, [isPaused, n, goNext]);
-
-  const handleTransitionEnd = useCallback((e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target !== e.currentTarget || e.propertyName !== 'transform') return;
-    if (trackIdx === 0)     { setAnimated(false); setTrackIdx(n);     }
-    if (trackIdx === n + 1) { setAnimated(false); setTrackIdx(1);     }
-  }, [trackIdx, n]);
-
-  // setTimeout en lugar de doble RAF — el RAF se pausa en tabs en background,
-  // lo que deja animated=false bloqueado y congela el carrusel al volver.
-  useEffect(() => {
-    if (!animated) {
-      const id = setTimeout(() => setAnimated(true), 20);
-      return () => clearTimeout(id);
-    }
-  }, [animated]);
 
   const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; setIsPaused(true); };
   const onTouchEnd   = (e: React.TouchEvent) => {
@@ -133,16 +46,6 @@ const HeroSection: React.FC = () => {
     else if (diff > 40) goPrev();
     touchStartX.current = null;
     setIsPaused(false);
-  };
-
-  const slotStyle = (i: number): React.CSSProperties => {
-    const dist = Math.abs(i - trackIdx);
-    const t    = animated
-      ? 'transform 500ms cubic-bezier(0.4,0,0.2,1), opacity 500ms ease, filter 500ms ease'
-      : 'none';
-    if (dist === 0) return { transform: 'scale(1)',    opacity: 1,               filter: 'none',      zIndex: 10, transition: t };
-    if (dist === 1) return { transform: 'scale(0.72)', opacity: showSides ? 0.45 : 0, filter: 'blur(1px)', zIndex:  5, transition: t, pointerEvents: 'none' };
-    return               { transform: 'scale(0.72)', opacity: 0,               filter: 'blur(1px)', zIndex:  1, transition: 'none', pointerEvents: 'none' };
   };
 
   return (
@@ -160,16 +63,15 @@ const HeroSection: React.FC = () => {
           {/* ── Texto ── */}
           <div className="lg:col-span-3 text-center lg:text-left animate-fade-in-up" style={{ position: 'relative', zIndex: 1 }}>
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight mb-6" style={{ lineHeight: 0.9 }}>
-              <span className="text-primary-dark font-bold">Elegí </span>
-              <span className="font-bold">lo que comés</span>
+              <span className="font-bold">Saber elegir </span>
               <br />
               <span className="block" style={{ marginTop: '0.15em', marginLeft: '-0.01em' }}>
-                <span className="font-bold">con </span>
-                <span className="text-primary-dark font-bold">confianza</span>
+                <span className="font-bold">es </span>
+                <span className="text-primary-dark font-bold">cuidarte</span>
               </span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
-              Etiquetas confusas, información contradictoria, miedo a equivocarte: Vokkado lo convierte en respuestas claras, pensadas para vos.
+              No hace falta ser nutricionista para entender lo que comés. Vokkado traduce la etiqueta y te dice si es para vos, y por qué.
             </p>
             <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
@@ -201,15 +103,8 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* ── Carrusel ── */}
-          {/*
-           * colRef mide el ancho real disponible de esta columna.
-           * El inner div toma ese ancho completo con overflow:hidden.
-           * stepW = (colW - phoneW) / 2  →  slot izq en x=0, slot der termina en x=colW.
-           * Los laterales aparecen solo cuando stepW ≥ 30px (showSides).
-           */}
+          {/* ── Teléfono único con crossfade ── */}
           <div
-            ref={colRef}
             className="lg:col-span-2 mt-16 lg:mt-0 flex items-center justify-center animate-fade-in-right"
             style={{ animationDelay: '400ms' }}
             onMouseEnter={() => setIsPaused(true)}
@@ -217,59 +112,28 @@ const HeroSection: React.FC = () => {
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            {galleryImages.length > 0 ? (
-              <div
-                className="relative select-none overflow-hidden"
-                style={{ width: effectiveColW }}
-              >
-                {/* Placeholder invisible: da altura al contenedor (absoluto no contribuye) */}
-                <div style={{ visibility: 'hidden', pointerEvents: 'none', width: phoneW }}>
-                  <IPhoneMockup className="!mx-0"><div /></IPhoneMockup>
-                </div>
-
-                {/* Track deslizante */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    transform: `translateX(${centerOffset - trackIdx * stepW}px)`,
-                    transition: animated ? 'transform 500ms cubic-bezier(0.4,0,0.2,1)' : 'none',
-                    willChange: 'transform',
-                  }}
-                  onTransitionEnd={handleTransitionEnd}
-                >
-                  {trackItems.map((src, i) => (
-                    <div
+            <IPhoneMockup>
+              {galleryImages.length > 0 ? (
+                <div className="relative w-full h-full select-none">
+                  {galleryImages.map((src, i) => (
+                    <img
                       key={i}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: `${i * stepW}px`,
-                        width: phoneW,
-                        ...slotStyle(i),
-                      }}
-                    >
-                      <IPhoneMockup className="!mx-0">
-                        <img
-                          src={src}
-                          alt={`Vokkado captura ${i + 1}`}
-                          className="w-full h-full object-cover"
-                          draggable={false}
-                        />
-                      </IPhoneMockup>
-                    </div>
+                      src={src}
+                      alt={`Vokkado captura ${i + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out"
+                      style={{ opacity: i === idx ? 1 : 0 }}
+                      draggable={false}
+                      aria-hidden={i !== idx}
+                    />
                   ))}
                 </div>
-              </div>
-            ) : (
-              <IPhoneMockup>
+              ) : (
                 <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary-DEFAULT flex flex-col items-center justify-center text-white p-4">
                   <p className="text-sm font-semibold text-center">Próximamente</p>
                   <p className="text-xs text-center opacity-80 mt-1">Capturas de la app</p>
                 </div>
-              </IPhoneMockup>
-            )}
+              )}
+            </IPhoneMockup>
           </div>
 
         </div>

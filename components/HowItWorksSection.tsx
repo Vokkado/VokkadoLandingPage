@@ -237,11 +237,8 @@ const HowItWorksSection: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div ref={headerAnim.ref} className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
-          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            Cómo funciona
-          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            El medio es <span className="text-primary-dark">simple</span>
+            Los pasos para <span className="text-primary-dark">saber elegir</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
             En unos pasos pasás de la duda a una respuesta clara, personalizada y al instante.

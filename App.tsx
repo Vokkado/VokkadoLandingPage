@@ -9,8 +9,7 @@ const ScrollToTop: React.FC = () => {
 };
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import ProblemSection from './components/ProblemSection';
-import TransformationSection from './components/TransformationSection';
+import SolutionSection from './components/SolutionSection';
 import HowItWorksSection from './components/HowItWorksSection';
 import ReviewsSection from './components/ReviewsSection';
 import CallToActionSection from './components/CallToAction';
@@ -25,19 +24,17 @@ import TeamTeaser from './components/TeamTeaser';
 
 /**
  * Orden narrativo (de la persona hacia el producto):
- * 1. Hero — la promesa: elegir con confianza
- * 2. Problema — la persona se reconoce; Vokkado entiende su problema
- * 3. Transformación — el porqué: confusión → comprensión → confianza → autonomía
- * 4. Cómo funciona — recién acá aparece el producto, como medio
- * 5. Reviews — prueba social de la transformación
- * 6. Equipo + CTA
+ * 1. Hero — la promesa: saber elegir es cuidarte
+ * 2. Solución — el problema resuelto en clave positiva (fusión de problema + transformación)
+ * 3. Cómo funciona — recién acá aparece el producto, como medio
+ * 4. Reviews — prueba social
+ * 5. Equipo + CTA
  */
 const HomePage: React.FC = () => {
   return (
     <>
       <HeroSection />
-      <ProblemSection />
-      <TransformationSection />
+      <SolutionSection />
       <HowItWorksSection />
       <ReviewsSection />
       <TeamTeaser />
