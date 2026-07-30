@@ -58,25 +58,25 @@ const MEMBERS = [
     photo: photo1,
     name: 'Belén Drescher',
     role: 'CEO & Co-founder',
-    bio: 'Siempre va para adelante y da la cara por el equipo. Su energía, iniciativa y capacidad para conectar con personas son fundamentales para impulsar el crecimiento de Vokkado y acercar la solución a quienes más la necesitan.',
+    bio: 'Siempre va para adelante y da la cara por el equipo. Su energía, iniciativa y capacidad para conectar con personas son fundamentales para impulsar el crecimiento de vokkado y acercar la solución a quienes más la necesitan.',
   },
   {
     photo: photo2,
     name: 'Nicolás De La Hoz',
     role: 'COO & Co-founder',
-    bio: 'Mantiene al equipo organizado y enfocado. Siempre con una mirada práctica y realista, ayuda a convertir las ideas en acciones concretas y a que Vokkado siga avanzando paso a paso.',
+    bio: 'Mantiene al equipo organizado y enfocado. Siempre con una mirada práctica y realista, ayuda a convertir las ideas en acciones concretas y a que vokkado siga avanzando paso a paso.',
   },
   {
     photo: photo3,
     name: 'Lautaro Elosegui',
     role: 'CTO & Co-founder',
-    bio: 'Aparece cuando algo se rompe. No importa la hora ni lo complicado del problema, siempre está dispuesto a encontrar una solución. Su dedicación y compromiso son clave para que Vokkado siga funcionando y mejorando cada día.',
+    bio: 'Aparece cuando algo se rompe. No importa la hora ni lo complicado del problema, siempre está dispuesto a encontrar una solución. Su dedicación y compromiso son clave para que vokkado siga funcionando y mejorando cada día.',
   },
   {
     photo: photo4,
     name: 'Juan Andrés Macedo',
     role: 'CIO & Co-founder',
-    bio: 'Está atento para que Vokkado nunca se detenga. Siempre detrás de escena, se encarga de que toda la infraestructura funcione correctamente para que la plataforma esté disponible cuando los usuarios la necesitan.',
+    bio: 'Está atento para que vokkado nunca se detenga. Siempre detrás de escena, se encarga de que toda la infraestructura funcione correctamente para que la plataforma esté disponible cuando los usuarios la necesitan.',
   },
 ];
 
@@ -304,10 +304,10 @@ const Team: React.FC = () => {
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-14 sm:pb-20">
         <div className="text-center mb-14">
           <h2 ref={teamTitleRef} className="text-3xl md:text-4xl font-bold text-neutral-darkest">
-            Las personas detrás de Vokkado
+            Las personas detrás de vokkado
           </h2>
           <p ref={teamDescRef} className="mt-4 text-base sm:text-lg text-neutral-dark max-w-2xl mx-auto">
-            Lideramos Vokkado con foco en salud, tecnología y experiencia real para el usuario.
+            Lideramos vokkado con foco en salud, tecnología y experiencia real para el usuario.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-4xl mx-auto items-stretch">
@@ -335,7 +335,7 @@ const Team: React.FC = () => {
       {/* ── CTA ── */}
       <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-16 text-center px-4 text-white">
         <p ref={ctaTitleRef} className="font-bold text-3xl mb-3">Escaneá. Elegí. Cuidate.</p>
-        <p ref={ctaDescRef} className="text-primary-lightest text-sm mb-8">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
+        <p ref={ctaDescRef} className="text-primary-lightest text-sm mb-8">Descargá vokkado y empezá a tomar mejores decisiones hoy.</p>
         <div ref={ctaBtnsRef} className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}

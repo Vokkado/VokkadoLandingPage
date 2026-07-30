@@ -45,7 +45,7 @@ const ContactSection: React.FC = () => {
 
         {/* Descripción */}
         <p ref={descRef} className="text-lg sm:text-xl text-neutral-dark max-w-xl mx-auto mb-12 leading-relaxed">
-          Ya sea una duda, sugerencia o simplemente quieras saber más sobre Vokkado, escribinos. Leemos cada mensaje y nos encanta escuchar a nuestros usuarios.
+          Ya sea una duda, sugerencia o simplemente quieras saber más sobre vokkado, escribinos. Leemos cada mensaje y nos encanta escuchar a nuestros usuarios.
         </p>
 
         {/* Card principal */}
