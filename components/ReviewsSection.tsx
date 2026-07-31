@@ -171,11 +171,8 @@ const ReviewsSection: React.FC = () => {
     <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnim.ref} className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
-          <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            Nuestros usuarios
-          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Lo que dicen en <span className="text-primary-dark">App Store y Google Play</span>
+            Personas que ya eligen <span className="text-primary-dark">con confianza</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark">
             Reseñas reales, actualizadas automáticamente desde las tiendas.

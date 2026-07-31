@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS, COLORS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
@@ -29,10 +29,10 @@ const steps: StepData[] = [
     tag: 'Paso 1',
     tagIcon: 'person-outline',
     tagIconType: 'ion',
-    title: 'Creá tu ',
-    titleAccent: 'perfil único',
+    title: 'Contale a vokkado ',
+    titleAccent: 'quién sos',
     description:
-      'Configurá tus restricciones alimentarias, alergias, condiciones de salud y objetivos nutricionales. Vokkado adapta cada análisis a vos.',
+      'Tus alergias, condiciones de salud y objetivos nutricionales. A partir de acá, cada respuesta es sobre vos, no una respuesta genérica.',
     highlights: [
       { icon: 'shield-checkmark-outline', iconType: 'ion', text: 'Alergias e intolerancias' },
       { icon: 'fitness-outline', iconType: 'ion', text: 'Condiciones de salud' },
@@ -46,10 +46,10 @@ const steps: StepData[] = [
     tag: 'Paso 2',
     tagIcon: 'barcode-scan',
     tagIconType: 'mdi',
-    title: 'Escaneá ',
-    titleAccent: 'cualquier producto',
+    title: 'Dejá de descifrar ',
+    titleAccent: 'etiquetas',
     description:
-      'Apuntá la cámara de tu celular al código de barras y obtené información al instante. Así de simple.',
+      'Apuntá la cámara al código de barras y listo. La letra chica deja de ser tu problema.',
     highlights: [
       { icon: 'camera-outline', iconType: 'ion', text: 'Escaneo instantáneo' },
       { icon: 'barcode-outline', iconType: 'ion', text: 'Miles de productos' },
@@ -63,10 +63,10 @@ const steps: StepData[] = [
     tag: 'Paso 3',
     tagIcon: 'bar-chart-outline',
     tagIconType: 'ion',
-    title: 'Recibí ',
-    titleAccent: 'análisis personalizados',
+    title: 'Entendé lo que ',
+    titleAccent: 'estás comprando',
     description:
-      'Descubrí si el producto es apto para vos con un puntaje claro, alertas sobre ingredientes y una explicación detallada adaptada a tu perfil.',
+      'Apto, precaución o no apto, con la explicación en lenguaje claro. No solo qué, también por qué: así aprendés en cada compra.',
     highlights: [
       { icon: 'checkmark-circle-outline', iconType: 'ion', text: '"Apto", "Precaución" o "No Apto"' },
       { icon: 'alert-circle-outline', iconType: 'ion', text: 'Alertas de alérgenos' },
@@ -80,10 +80,10 @@ const steps: StepData[] = [
     tag: 'Paso 4',
     tagIcon: 'cart-outline',
     tagIconType: 'ion',
-    title: 'Evaluá que tan saludable son ',
-    titleAccent: 'tus compras',
+    title: 'Elegí con confianza ',
+    titleAccent: 'toda tu compra',
     description:
-      'Agregá productos a tu carrito y visualizá el impacto nutricional de toda tu compra. Tomá decisiones informadas antes de pagar.',
+      'Visualizá el impacto nutricional de tu carrito completo y decidí con seguridad antes de pagar: no producto por producto, sino tu compra entera.',
     highlights: [
       { icon: 'bag-check-outline', iconType: 'ion', text: 'Resumen de tu compra' },
       { icon: 'trending-up-outline', iconType: 'ion', text: 'Estadísticas nutricionales' },
@@ -103,119 +103,113 @@ const IconEl: React.FC<{
   className?: string;
   ariaHidden?: boolean;
   title?: string;
-}> = ({
-  name,
-  type,
-  style,
-  className,
-  ariaHidden = true,
-  title,
-}) =>
+}> = ({ name, type, style, className, ariaHidden = true, title }) =>
   type === 'ion' ? (
-    <ion-icon
-      name={name}
-      style={style}
-      className={className}
-      aria-hidden={ariaHidden}
-      title={title}
-    />
+    <ion-icon name={name} style={style} className={className} aria-hidden={ariaHidden} title={title} />
   ) : (
-    <span
-      className={`mdi mdi-${name} ${className ?? ''}`}
-      style={style}
-      aria-hidden={ariaHidden}
-      title={title}
-    />
+    <span className={`mdi mdi-${name} ${className ?? ''}`} style={style} aria-hidden={ariaHidden} title={title} />
   );
 
-/* ── Phone screen content (wraps IPhoneMockup) ── */
-const StepPhone: React.FC<{ imageSrc?: string; placeholderIcon: string; placeholderIconType: 'ion' | 'mdi'; alt: string }> = ({
-  imageSrc,
-  placeholderIcon,
-  placeholderIconType,
-  alt,
-}) => (
-  <IPhoneMockup>
-    {imageSrc ? (
-      <img src={imageSrc} alt={alt} className="w-full h-full object-cover" draggable={false} />
-    ) : (
-      <div className="w-full h-full bg-gradient-to-br from-primary-DEFAULT to-primary-light flex flex-col items-center justify-center text-white gap-3">
-        <IconEl name={placeholderIcon} type={placeholderIconType} style={{ fontSize: '56px', color: 'rgba(255,255,255,0.5)' }} />
-        <span className="text-xs font-medium opacity-50">Captura próximamente</span>
-      </div>
-    )}
+/* ── Placeholder screen for a step without a screenshot ── */
+const StepPlaceholder: React.FC<{ icon: string; type: 'ion' | 'mdi' }> = ({ icon, type }) => (
+  <div className="w-full h-full bg-gradient-to-br from-primary-DEFAULT to-primary-light flex flex-col items-center justify-center text-white gap-3">
+    <IconEl name={icon} type={type} style={{ fontSize: '56px', color: 'rgba(255,255,255,0.5)' }} />
+    <span className="text-xs font-medium opacity-50">Captura próximamente</span>
+  </div>
+);
+
+/* ── Un solo teléfono cuya pantalla cambia (crossfade) según el paso activo ── */
+const PhoneScreens: React.FC<{ active: number; className?: string }> = ({ active, className }) => (
+  <IPhoneMockup className={className}>
+    <div className="relative w-full h-full">
+      {steps.map((step, i) => {
+        const src = stepImages[step.imageKey];
+        return (
+          <div
+            key={i}
+            className="absolute inset-0 transition-opacity duration-500 ease-in-out"
+            style={{ opacity: i === active ? 1 : 0 }}
+            aria-hidden={i !== active}
+          >
+            {src ? (
+              <img src={src} alt={`${step.tag}: ${step.titleAccent}`} className="w-full h-full object-cover" draggable={false} />
+            ) : (
+              <StepPlaceholder icon={step.placeholderIcon} type={step.placeholderIconType} />
+            )}
+          </div>
+        );
+      })}
+    </div>
   </IPhoneMockup>
 );
 
-/* ── Single step row (con animaciones al scroll) ── */
-const StepRow: React.FC<{ step: StepData; reversed: boolean }> = ({ step, reversed }) => {
-  const phoneAnim = useScrollAnimation({
-    animation: reversed ? 'fade-right' : 'fade-left',
-    delay: 0,
-    threshold: 0.15,
-  });
-  const textAnim = useScrollAnimation({
-    animation: reversed ? 'fade-left' : 'fade-right',
-    delay: 150,
-    threshold: 0.15,
-  });
+/* ── Bloque de texto de un paso; avisa cuándo está activo (centrado en viewport) ── */
+const StepBlock: React.FC<{
+  step: StepData;
+  index: number;
+  active: number;
+  onActivate: (i: number) => void;
+}> = ({ step, index, active, onActivate }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) onActivate(index);
+      },
+      // Banda fina en el centro del viewport: el paso se activa al cruzarla.
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [index, onActivate]);
+
+  const isActive = index === active;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-10 lg:gap-16">
-      {/* Phone column */}
-      <div
-        ref={phoneAnim.ref}
-        className={`lg:col-span-5 flex justify-center order-2 ${reversed ? 'lg:order-2' : 'lg:order-1'}`}
-      >
-        <StepPhone
-          imageSrc={stepImages[step.imageKey]}
-          placeholderIcon={step.placeholderIcon}
-          placeholderIconType={step.placeholderIconType}
-          alt={`${step.tag} — ${step.titleAccent}`}
-        />
+    <div
+      ref={ref}
+      className="min-h-[70vh] lg:min-h-screen flex flex-col justify-center py-10 lg:py-0 transition-opacity duration-300"
+      style={{ opacity: isActive ? 1 : 0.45 }}
+    >
+      {/* Teléfono inline (solo mobile) */}
+      <div className="lg:hidden flex justify-center mb-8">
+        <PhoneScreens active={index} className="!w-[210px]" />
       </div>
 
-      {/* Text column */}
+      {/* Step tag */}
       <div
-        ref={textAnim.ref}
-        className={`lg:col-span-7 flex flex-col justify-center order-1 ${reversed ? 'lg:order-1 lg:items-end lg:text-right' : 'lg:order-2'}`}
+        className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit transition-colors duration-300 ${
+          isActive ? 'bg-primary-dark text-white' : 'bg-primary-lightest text-primary-dark'
+        }`}
       >
-        {/* Step tag */}
-        <div
-          className="inline-flex items-center gap-2 bg-primary-DEFAULT/10 text-primary-DEFAULT rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit"
-          title={`Paso ${steps.indexOf(step) + 1} del proceso`}
-        >
-          <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
-          {step.tag}
-        </div>
+        <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
+        {step.tag}
+      </div>
 
-        {/* Title */}
-        <h3 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold text-neutral-darkest leading-tight mb-4">
-          {step.title}
-          <span className="text-primary-dark">{step.titleAccent}</span>
-        </h3>
+      {/* Title */}
+      <h3 className="text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest leading-tight mb-4 text-balance">
+        {step.title}
+        <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
+      </h3>
 
-        {/* Description */}
-        <p className="text-base sm:text-lg text-neutral-dark leading-relaxed mb-8 max-w-xl">
-          {step.description}
-        </p>
+      {/* Description */}
+      <p className="text-base sm:text-lg text-neutral-dark leading-relaxed mb-8 max-w-xl">
+        {step.description}
+      </p>
 
-        {/* Highlights */}
-        <div className="flex flex-col gap-3">
-          {step.highlights.map((h, i) => (
-            <div key={i} className="flex items-center gap-3 group" title={h.text}>
-              <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-primary-DEFAULT/15 transition-all duration-200">
-                <IconEl
-                  name={h.icon}
-                  type={h.iconType}
-                  style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }}
-                  title={h.text}
-                />
-              </div>
-              <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
+      {/* Highlights */}
+      <div className="flex flex-col gap-3">
+        {step.highlights.map((h, i) => (
+          <div key={i} className="flex items-center gap-3 group" title={h.text}>
+            <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
+              <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} title={h.text} />
             </div>
-          ))}
-        </div>
+            <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -224,33 +218,37 @@ const StepRow: React.FC<{ step: StepData; reversed: boolean }> = ({ step, revers
 /* ── Main section ── */
 const HowItWorksSection: React.FC = () => {
   const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
+  const [active, setActive] = useState(0);
 
   return (
-    <section id={SECTION_IDS.howItWorks} className="relative pt-8 pb-20 sm:pt-10 sm:pb-28 overflow-hidden">
+    <section id={SECTION_IDS.howItWorks} className="relative pt-8 pb-20 sm:pt-10 sm:pb-28">
       {/* ── Fondo limpio ── */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />
-        {/* Línea decorativa vertical sutil */}
-        <div className="hidden lg:block absolute left-1/2 top-48 bottom-24 w-px bg-gradient-to-b from-transparent via-neutral-light to-transparent" />
-      </div>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
-        <div ref={headerAnim.ref} className="text-center mb-16 sm:mb-24 max-w-3xl mx-auto">
+        <div ref={headerAnim.ref} className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Simple, rápido y{' '}
-            <span className="text-primary-dark">personalizado</span>
+            Los pasos para <span className="text-primary-dark">saber elegir</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
-            En solo unos pasos, Vokkado te ayuda a entender lo que comés y a tomar mejores decisiones para tu salud.
+            En unos pasos pasás de la duda a una respuesta clara, personalizada y al instante.
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="flex flex-col gap-20 sm:gap-28 lg:gap-32">
-          {steps.map((step, i) => (
-            <StepRow key={i} step={step} reversed={i % 2 !== 0} />
-          ))}
+        {/* Scrollytelling: teléfono sticky + pasos que scrollean */}
+        <div className="lg:grid lg:grid-cols-2 lg:gap-16 max-w-6xl mx-auto">
+          {/* Columna teléfono (sticky, solo desktop) */}
+          <div className="hidden lg:flex lg:sticky lg:top-0 lg:h-screen items-center justify-center order-2">
+            <PhoneScreens active={active} />
+          </div>
+
+          {/* Columna pasos */}
+          <div className="order-1">
+            {steps.map((step, i) => (
+              <StepBlock key={i} step={step} index={i} active={active} onActivate={setActive} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

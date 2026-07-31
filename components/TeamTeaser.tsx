@@ -24,9 +24,6 @@ const TeamTeaser: React.FC = () => {
 
         {/* Título */}
         <div ref={titleRef}>
-            <span className="inline-block text-sm font-semibold text-primary-dark tracking-widest uppercase mb-3">
-            El equipo
-          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight mb-12">
             Un equipo <span className="text-primary-dark">comprometido</span>
           </h2>
@@ -56,7 +53,7 @@ const TeamTeaser: React.FC = () => {
         {/* Descripción + link */}
         <div ref={textRef} className="max-w-md">
           <p className="text-neutral-dark text-base sm:text-lg leading-relaxed mb-7">
-            Detrás de Vokkado hay cuatro personas apasionadas por hacer que la alimentación saludable sea simple para todos.
+            Detrás de vokkado hay cuatro personas apasionadas por hacer que la alimentación saludable sea simple para todos.
           </p>
           <Link
             to="/equipo"

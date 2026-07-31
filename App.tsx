@@ -9,6 +9,7 @@ const ScrollToTop: React.FC = () => {
 };
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import SolutionSection from './components/SolutionSection';
 import HowItWorksSection from './components/HowItWorksSection';
 import ReviewsSection from './components/ReviewsSection';
 import CallToActionSection from './components/CallToAction';
@@ -21,10 +22,19 @@ import IndependenciaPage from './components/Independence';
 import ContactSection from './components/ContactSection';
 import TeamTeaser from './components/TeamTeaser';
 
+/**
+ * Orden narrativo (de la persona hacia el producto):
+ * 1. Hero — la promesa: saber elegir es cuidarte
+ * 2. Solución — el problema resuelto en clave positiva (fusión de problema + transformación)
+ * 3. Cómo funciona — recién acá aparece el producto, como medio
+ * 4. Reviews — prueba social
+ * 5. Equipo + CTA
+ */
 const HomePage: React.FC = () => {
   return (
     <>
       <HeroSection />
+      <SolutionSection />
       <HowItWorksSection />
       <ReviewsSection />
       <TeamTeaser />

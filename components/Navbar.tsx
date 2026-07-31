@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
           <Link to="/" className="flex items-center space-x-2">
             <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
             <span className="text-xl font-alan text-primary-dark transition-colors duration-300 tracking-tight" style={{ fontWeight: 800 }}>
-              Vokkado
+              vokkado
             </span>
           </Link>
 

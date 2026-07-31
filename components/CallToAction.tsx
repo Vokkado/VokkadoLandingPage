@@ -38,13 +38,13 @@ const CallToActionSection: React.FC = () => {
           ref={headerAnim.ref}
           className="text-4xl sm:text-5xl font-bold mb-6"
         >
-          ¡Preparate para transformar tu alimentación!
+          Empezá a elegir con confianza
         </h2>
         <p
           ref={subtitleAnim.ref}
           className="text-lg sm:text-xl text-primary-lightest max-w-2xl mx-auto mb-10"
         >
-          {APP_NAME} ya está disponible como beta pública en Google Play y App Store. Descargala y empezá a escanear tus productos.
+          {APP_NAME} ya está disponible como beta pública. Descargala y convertí tu próxima compra en una decisión segura.
         </p>
 
         <div ref={badgesAnim.ref} className="mt-12">
