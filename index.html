@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vokkado Uruguay - Tu Guía de Alimentación Saludable</title>
-    <link rel="icon" type="image/png" href="/assets/Logo-DvBcXhTG.png">
-
-    <!-- Fuentes -->
+    <title>ScanEat Uruguay - Tu Guía de Alimentación Saludable</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -21,115 +14,58 @@
           extend: {
             fontFamily: {
               sans: ['Poppins', 'sans-serif'],
-              lexend: ['Lexend', 'sans-serif'],
-              alan: ['"Alan Sans"', 'sans-serif'],
             },
             colors: {
               primary: {
-                DEFAULT: '#5B8806',
-                light: '#B8C445',
-                dark: '#22521D',
-                lightest: '#E8F0D4',
+                DEFAULT: '#19433A', // New primary green
+                light: '#2A5C4F',   // Lighter shade of new primary
+                dark: '#12322A',    // Darker shade of new primary
+                lightest: '#D4E0DD', // Very pale shade of new primary
               },
               secondary: {
-                DEFAULT: '#885B02',
-                light: '#A67A2E',
-                dark: '#6B4801',
+                DEFAULT: '#F59E0B', // amber-500 (Orange)
+                light: '#FBBF24', // amber-400
+                dark: '#D97706', // amber-600
               },
-              alternative: '#A7BECE',
-              neutral: {
-                lightest: '#F9FAFB',
-                light: '#F3F4F6',
-                medium: '#9CA3AF',
-                DEFAULT: '#6B7280',
-                dark: '#374151',
-                darkest: '#1F2937',
+              neutral: { 
+                lightest: '#F9FAFB', // gray-50
+                light: '#F3F4F6',    // gray-100 (For hover:bg-neutral-light)
+                medium: '#9CA3AF',   // gray-400 (New)
+                DEFAULT: '#6B7280', // gray-500 
+                dark: '#374151',     // gray-700 (For text-neutral-dark)
+                darkest: '#1F2937',  // gray-800 (For BoniatoIcon consistency)
               },
               black: '#000000',
-              white: '#FCFCFC',
-              friendlyWhite: '#F1F1F1',
-              dark: '#161616',
-              grey: '#727272',
+              white: '#FFFFFF',
             },
             animation: {
-              'fade-in-up': 'fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
-              'fade-in-down': 'fadeInDown 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
-              'fade-in-left': 'fadeInLeft 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
-              'fade-in-right': 'fadeInRight 0.7s cubic-bezier(0.16,1,0.3,1) forwards',
-              'scale-in': 'scaleIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards',
+              'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
               'bounce': 'bounce 1s infinite',
-              'float': 'float 6s ease-in-out infinite',
-              'float-delayed': 'float 6s ease-in-out 3s infinite',
-              'pulse-soft': 'pulseSoft 4s ease-in-out infinite',
             },
             keyframes: {
               fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(40px)' },
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              fadeInDown: {
-                '0%': { opacity: '0', transform: 'translateY(-40px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-              fadeInLeft: {
-                '0%': { opacity: '0', transform: 'translateX(-40px)' },
-                '100%': { opacity: '1', transform: 'translateX(0)' },
-              },
-              fadeInRight: {
-                '0%': { opacity: '0', transform: 'translateX(40px)' },
-                '100%': { opacity: '1', transform: 'translateX(0)' },
-              },
-              scaleIn: {
-                '0%': { opacity: '0', transform: 'scale(0.9)' },
-                '100%': { opacity: '1', transform: 'scale(1)' },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-20px)' },
-              },
-              pulseSoft: {
-                '0%, 100%': { opacity: '0.4' },
-                '50%': { opacity: '0.7' },
-              },
+              }
             }
           }
         }
       }
     </script>
 
-    <!-- Importmap -->
-
-
-
-    <!-- Ionicons -->
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.1.0",
-        "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-        "react/": "https://esm.sh/react@^19.1.0/"
-      }
-    }
-    </script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <!-- Material Design Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
-
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1WR8Q02XH9"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-1WR8Q02XH9');
-    </script>
-  <script type="module" crossorigin src="/assets/index-CQF-QNui.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-Dx8usHtg.css">
+<link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/ScanEat/assets/index-CMpZNlBj.js"></script>
 </head>
-
-<body class="bg-friendlyWhite font-sans">
-    <div id="root"></div>  
+<body class="bg-white font-sans">
+    <div id="root"></div>
 </body>
 </html>
