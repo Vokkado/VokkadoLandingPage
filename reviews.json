@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-02T10:44:31.809Z",
+  "updatedAt": "2026-08-03T12:31:14.500Z",
   "reviews": [
     {
       "id": "google-d412555c-efab-49ce-ab32-987ef998eb3d",
@@ -47,24 +47,6 @@
       "date": "2026-06-21T23:04:26.120Z"
     },
     {
-      "id": "apple-uy-14210583113",
-      "source": "app_store",
-      "author": "FlorFigueroaa",
-      "rating": 5,
-      "title": "Recomiendo",
-      "text": "Aplicación 100% recomendable para seguir una rutina nutricional.\nHay muchos productos con componentes que desconocemos , con letra chica. Excelente!!",
-      "date": "2026-06-21T14:36:17-07:00"
-    },
-    {
-      "id": "apple-uy-14210577496",
-      "source": "app_store",
-      "author": "Benny_44",
-      "rating": 5,
-      "title": "Muy bueno",
-      "text": "Me ayudó a comer más sano",
-      "date": "2026-06-21T14:34:04-07:00"
-    },
-    {
       "id": "google-7a7166a3-b23d-4cef-9da7-a9740816b5d0",
       "source": "google_play",
       "author": "Juan M.",
@@ -72,78 +54,6 @@
       "title": null,
       "text": "excelenteee",
       "date": "2026-06-19T22:42:36.750Z"
-    },
-    {
-      "id": "apple-uy-14202969176",
-      "source": "app_store",
-      "author": "Luciamamateama",
-      "rating": 5,
-      "title": "Muy útil",
-      "text": "La verdad que me ha sido de mucha utilidad a la hora de hacer las compras en el super",
-      "date": "2026-06-19T15:34:23-07:00"
-    },
-    {
-      "id": "apple-uy-14198813620",
-      "source": "app_store",
-      "author": "Ariana F.",
-      "rating": 5,
-      "title": "Muy útil",
-      "text": "Me resulta muy útil para hacer las compras del día a día y ser consciente de lo que como",
-      "date": "2026-06-18T14:05:41-07:00"
-    },
-    {
-      "id": "apple-uy-14198743963",
-      "source": "app_store",
-      "author": "Josefina F.",
-      "rating": 5,
-      "title": "Muy útil y funcional.",
-      "text": "Yo personalmente no tengo restricciones pero para tener un margen de saber si lo que como tiene conservantes u otros ingredientes dañinos, es genial. También comparto mucho con gente con restricciones y me ayuda a saber si lo que compro para compartir es apto para ellos o no. Genial!!",
-      "date": "2026-06-18T13:40:18-07:00"
-    },
-    {
-      "id": "apple-uy-14187593920",
-      "source": "app_store",
-      "author": "🐶🐾🐾🐾🐾",
-      "rating": 5,
-      "title": "Excelente",
-      "text": "Es muy buena la app tanto para quienes cuidan su alimentación como para quien tenemos restricciones",
-      "date": "2026-06-15T17:18:23-07:00"
-    },
-    {
-      "id": "apple-uy-14162861588",
-      "source": "app_store",
-      "author": "Felipe D.",
-      "rating": 5,
-      "title": "Muy buena app",
-      "text": "Es muy buena muy completa. Me ayuda con mi alimentación todos los días",
-      "date": "2026-06-09T09:44:08-07:00"
-    },
-    {
-      "id": "apple-uy-14144368541",
-      "source": "app_store",
-      "author": "alfo0101",
-      "rating": 5,
-      "title": "5 estrellas",
-      "text": "Muy buena app, super intuitiva y certera. Recomiendo",
-      "date": "2026-06-04T14:07:03-07:00"
-    },
-    {
-      "id": "apple-uy-14144278323",
-      "source": "app_store",
-      "author": "luana H.",
-      "rating": 5,
-      "title": "reseña lua",
-      "text": "excelente app",
-      "date": "2026-06-04T13:33:43-07:00"
-    },
-    {
-      "id": "apple-uy-14144272498",
-      "source": "app_store",
-      "author": "giulii.",
-      "rating": 5,
-      "title": "excelente app",
-      "text": "Me encanta esta aplicación!! la uso todo el tiempo",
-      "date": "2026-06-04T13:31:35-07:00"
     }
   ]
 }
