@@ -29,7 +29,7 @@ const steps: StepData[] = [
     tag: 'Paso 1',
     tagIcon: 'person-outline',
     tagIconType: 'ion',
-    title: 'Contale a vokkado ',
+    title: 'Contale a Vokkado ',
     titleAccent: 'quién sos',
     description:
       'Tus alergias, condiciones de salud y objetivos nutricionales. A partir de acá, cada respuesta es sobre vos, no una respuesta genérica.',
@@ -83,7 +83,7 @@ const steps: StepData[] = [
     title: 'Elegí con confianza ',
     titleAccent: 'toda tu compra',
     description:
-      'Visualizá el impacto nutricional de tu carrito completo y decidí con seguridad antes de pagar: no producto por producto, sino tu compra entera.',
+      'Visualizá el impacto nutricional de tu carrito completo y decidí con seguridad antes de pagar.',
     highlights: [
       { icon: 'bag-check-outline', iconType: 'ion', text: 'Resumen de tu compra' },
       { icon: 'trending-up-outline', iconType: 'ion', text: 'Estadísticas nutricionales' },
@@ -143,7 +143,45 @@ const PhoneScreens: React.FC<{ active: number; className?: string }> = ({ active
   </IPhoneMockup>
 );
 
-/* ── Bloque de texto de un paso; avisa cuándo está activo (centrado en viewport) ── */
+/* ── Contenido de texto de un paso (chip + título + descripción + highlights) ── */
+const StepText: React.FC<{ step: StepData; isActive?: boolean; centered?: boolean }> = ({
+  step,
+  isActive = true,
+  centered = false,
+}) => (
+  <>
+    <div
+      className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit transition-colors duration-300 ${
+        centered ? 'mx-auto' : ''
+      } ${isActive ? 'bg-primary-dark text-white' : 'bg-primary-lightest text-primary-dark'}`}
+    >
+      <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
+      {step.tag}
+    </div>
+
+    <h3 className="text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest leading-tight mb-4 text-balance">
+      {step.title}
+      <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
+    </h3>
+
+    <p className={`text-base sm:text-lg text-neutral-dark leading-relaxed mb-8 ${centered ? 'mx-auto max-w-md' : 'max-w-xl'}`}>
+      {step.description}
+    </p>
+
+    <div className={`flex flex-col gap-3 ${centered ? 'w-fit mx-auto text-left' : ''}`}>
+      {step.highlights.map((h, i) => (
+        <div key={i} className="flex items-center gap-3" title={h.text}>
+          <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
+            <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} title={h.text} />
+          </div>
+          <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
+        </div>
+      ))}
+    </div>
+  </>
+);
+
+/* ── DESKTOP: bloque que avisa cuándo está activo (centrado en viewport) ── */
 const StepBlock: React.FC<{
   step: StepData;
   index: number;
@@ -159,7 +197,6 @@ const StepBlock: React.FC<{
       ([entry]) => {
         if (entry.isIntersecting) onActivate(index);
       },
-      // Banda fina en el centro del viewport: el paso se activa al cruzarla.
       { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
     );
     io.observe(el);
@@ -171,45 +208,119 @@ const StepBlock: React.FC<{
   return (
     <div
       ref={ref}
-      className="min-h-[70vh] lg:min-h-screen flex flex-col justify-center py-10 lg:py-0 transition-opacity duration-300"
-      style={{ opacity: isActive ? 1 : 0.45 }}
+      className="min-h-screen flex flex-col justify-center transition-opacity duration-300"
+      style={{ opacity: isActive ? 1 : 0.4 }}
     >
-      {/* Teléfono inline (solo mobile) */}
-      <div className="lg:hidden flex justify-center mb-8">
-        <PhoneScreens active={index} className="!w-[210px]" />
-      </div>
+      <StepText step={step} isActive={isActive} />
+    </div>
+  );
+};
 
-      {/* Step tag */}
-      <div
-        className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit transition-colors duration-300 ${
-          isActive ? 'bg-primary-dark text-white' : 'bg-primary-lightest text-primary-dark'
-        }`}
-      >
-        <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
-        {step.tag}
-      </div>
+/* ── MOBILE: teléfono estático de un paso (imagen única) ── */
+const StepPhoneStatic: React.FC<{ step: StepData; className?: string }> = ({ step, className }) => {
+  const src = stepImages[step.imageKey];
+  return (
+    <IPhoneMockup className={className}>
+      {src ? (
+        <img src={src} alt={`${step.tag}: ${step.titleAccent}`} className="w-full h-full object-cover" draggable={false} />
+      ) : (
+        <StepPlaceholder icon={step.placeholderIcon} type={step.placeholderIconType} />
+      )}
+    </IPhoneMockup>
+  );
+};
 
-      {/* Title */}
-      <h3 className="text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest leading-tight mb-4 text-balance">
-        {step.title}
-        <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
-      </h3>
+/* ── MOBILE: contenido de un paso (texto + teléfono juntos), centrado ── */
+const CrossfadeStep: React.FC<{ step: StepData; number: number }> = ({ step, number }) => (
+  <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-2">
+    <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-4 bg-primary-dark text-white">
+      <span className="w-5 h-5 rounded-full bg-white/25 flex items-center justify-center text-xs">{number}</span>
+      {step.tag}
+    </div>
 
-      {/* Description */}
-      <p className="text-base sm:text-lg text-neutral-dark leading-relaxed mb-8 max-w-xl">
-        {step.description}
-      </p>
+    <h3 className="text-2xl sm:text-3xl font-bold text-neutral-darkest leading-tight mb-2">
+      {step.title}
+      <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
+    </h3>
+    <p className="text-sm sm:text-base text-neutral-dark leading-relaxed max-w-xs mb-5">{step.description}</p>
 
-      {/* Highlights */}
-      <div className="flex flex-col gap-3">
-        {step.highlights.map((h, i) => (
-          <div key={i} className="flex items-center gap-3 group" title={h.text}>
-            <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-              <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} title={h.text} />
+    <StepPhoneStatic step={step} />
+  </div>
+);
+
+/* ── MOBILE: escenario fijo + crossfade manejado por scroll ──
+ * Track alto + escenario "sticky". El progreso (a: 0…n-1) hace que el paso
+ * activo se desvanezca y entre el siguiente, texto y teléfono juntos.
+ */
+const MobileSteps: React.FC = () => {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [a, setA] = useState(0);
+  const n = steps.length;
+
+  useEffect(() => {
+    let raf = 0;
+    const compute = () => {
+      raf = 0;
+      const el = wrapRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const total = el.offsetHeight - window.innerHeight;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      const p = total > 0 ? scrolled / total : 0;
+      setA(p * (n - 1));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(compute); };
+    compute();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [n]);
+
+  // Meseta + desvanecido: cada paso queda 100% visible un tramo, y el que
+  // sale llega a opacity 0 justo cuando el que entra arranca desde 0.
+  // HOLD + FADE = 0.5 → el cruce se toca exactamente en 0, sin superposición.
+  const HOLD = 0.2;
+  const FADE = 0.3;
+  const stepStyle = (i: number): React.CSSProperties => {
+    const d = i - a;                       // 0 = activo; el signo indica arriba/abajo
+    const dist = Math.abs(d);
+    const vis = dist <= HOLD ? 1 : dist >= HOLD + FADE ? 0 : 1 - (dist - HOLD) / FADE;
+    return {
+      opacity: vis,
+      transform: `translateY(${d * 40}px) scale(${0.94 + vis * 0.06})`,
+      zIndex: vis > 0.5 ? 20 : 10,
+      pointerEvents: vis > 0.9 ? 'auto' : 'none',
+    };
+  };
+
+  const activeIdx = Math.round(a);
+
+  return (
+    <div ref={wrapRef} className="relative" style={{ height: `${n * 85}vh` }}>
+      <div className="sticky top-0 h-screen pt-16 pb-8 flex flex-col items-center justify-center overflow-hidden">
+        <div className="relative w-full max-w-sm mx-auto flex-1 max-h-[600px]">
+          {steps.map((step, i) => (
+            <div key={i} className="absolute inset-0 will-change-transform" style={stepStyle(i)}>
+              <CrossfadeStep step={step} number={i + 1} />
             </div>
-            <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* Progreso */}
+        <div className="flex items-center justify-center gap-2 mt-4">
+          {steps.map((_, i) => (
+            <span
+              key={i}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                i === activeIdx ? 'w-7 bg-primary-dark' : 'w-2 bg-neutral-light'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -236,19 +347,21 @@ const HowItWorksSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Scrollytelling: teléfono sticky + pasos que scrollean */}
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 max-w-6xl mx-auto">
-          {/* Columna teléfono (sticky, solo desktop) */}
-          <div className="hidden lg:flex lg:sticky lg:top-0 lg:h-screen items-center justify-center order-2">
+        {/* DESKTOP: scrollytelling con teléfono sticky */}
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-16 max-w-6xl mx-auto">
+          <div className="lg:sticky lg:top-0 lg:h-screen flex items-center justify-center order-2">
             <PhoneScreens active={active} />
           </div>
-
-          {/* Columna pasos */}
           <div className="order-1">
             {steps.map((step, i) => (
               <StepBlock key={i} step={step} index={i} active={active} onActivate={setActive} />
             ))}
           </div>
+        </div>
+
+        {/* MOBILE: módulo interactivo compacto */}
+        <div className="lg:hidden">
+          <MobileSteps />
         </div>
       </div>
     </section>

@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id={SECTION_IDS.home}
-      className="relative text-black min-h-[calc(100vh-4rem)] lg:min-h-screen flex lg:items-center py-20 lg:py-28"
+      className="relative z-10 text-black min-h-[calc(100vh-4rem)] lg:min-h-screen flex lg:items-center py-20 lg:py-28"
     >
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-friendlyWhite" />

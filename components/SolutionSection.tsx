@@ -20,7 +20,7 @@ const flips: Flip[] = [
     frontIcon: 'flask-outline',
     front: '¿Leés la etiqueta y parece un examen de química?',
     backTitle: 'Etiquetas en tu idioma',
-    back: 'vokkado traduce la letra chica a algo que se entiende. Sin diccionario.',
+    back: 'Vokkado traduce la letra chica a algo que se entiende. Sin diccionario.',
   },
   {
     frontIcon: 'help-circle-outline',
@@ -121,7 +121,7 @@ const SolutionSection: React.FC = () => {
             Entender lo que comés es <span className="text-primary-dark">fácil</span>
           </h2>
           <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
-            Ingredientes impronunciables, letra tamaño hormiga y una tabla que parece jeroglífico. Apuntás la cámara y vokkado te lo explica en uruguayo.
+            Ingredientes impronunciables, letra tamaño hormiga y una tabla que parece jeroglífico. Apuntás la cámara y Vokkado te lo explica en uruguayo.
           </p>
         </div>
 
@@ -137,7 +137,7 @@ const SolutionSection: React.FC = () => {
           <p className="text-xl sm:text-2xl text-neutral-darkest font-medium leading-relaxed">
             Nadie nació sabiendo leer una etiqueta.{' '}
             <span className="text-primary-dark font-bold">
-              Con vokkado, cada compra te deja sabiendo un poco más, hasta que elegís bien casi sin pensarlo.
+              Con Vokkado, cada compra te deja sabiendo un poco más, hasta que elegís bien casi sin pensarlo.
             </span>
           </p>
         </div>

@@ -53,7 +53,7 @@ const TeamTeaser: React.FC = () => {
         {/* Descripción + link */}
         <div ref={textRef} className="max-w-md">
           <p className="text-neutral-dark text-base sm:text-lg leading-relaxed mb-7">
-            Detrás de vokkado hay cuatro personas apasionadas por hacer que la alimentación saludable sea simple para todos.
+            Detrás de Vokkado hay cuatro personas apasionadas por hacer que la alimentación saludable sea simple para todos.
           </p>
           <Link
             to="/equipo"
