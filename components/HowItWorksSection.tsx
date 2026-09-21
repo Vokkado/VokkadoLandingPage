@@ -159,7 +159,7 @@ const StepText: React.FC<{ step: StepData; isActive?: boolean; centered?: boolea
       {step.tag}
     </div>
 
-    <h3 className="text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest leading-tight mb-4 text-balance">
+    <h3 className="font-display text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest leading-tight mb-4 text-balance">
       {step.title}
       <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
     </h3>
@@ -241,7 +241,7 @@ const MobileStep: React.FC<{ step: StepData; number: number }> = ({ step, number
         {step.tag}
       </div>
 
-      <h3 className="text-2xl sm:text-3xl font-bold text-neutral-darkest leading-tight mb-3 text-balance">
+      <h3 className="font-display text-2xl sm:text-3xl font-bold text-neutral-darkest leading-tight mb-3 text-balance">
         {step.title}
         <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
       </h3>

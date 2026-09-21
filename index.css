@@ -83,7 +83,10 @@
 }
 
 /* ─── Tipografía de títulos: Clash Display ─── */
-h1, h2, h3, h4,
+/* Solo en títulos grandes (h1, h2). En tarjetas y textos chicos la display
+   pierde legibilidad, así que ahí manda Poppins. Para un h3 que sí es un
+   título grande, se agrega la clase .font-display a mano. */
+h1, h2,
 .font-display {
   font-family: 'Clash Display', 'Poppins', sans-serif;
   letter-spacing: -0.01em;

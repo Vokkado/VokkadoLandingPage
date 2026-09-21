@@ -21,6 +21,8 @@ import Team from './components/Team';
 import IndependenciaPage from './components/Independence';
 import ContactSection from './components/ContactSection';
 import TeamTeaser from './components/TeamTeaser';
+import NutritionistTeaser from './components/NutritionistTeaser';
+import NutritionistsPage from './components/Nutritionists';
 
 /**
  * Orden narrativo (de la persona hacia el producto):
@@ -38,6 +40,7 @@ const HomePage: React.FC = () => {
       <HowItWorksSection />
       <ReviewsSection />
       <TeamTeaser />
+      <NutritionistTeaser />
       <CallToActionSection />
     </>
   );
@@ -58,6 +61,7 @@ const App: React.FC = () => {
             <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
             <Route path="/equipo" element={<Team />} />
             <Route path="/independencia" element={<IndependenciaPage />} />
+            <Route path="/nutricionistas" element={<NutritionistsPage />} />
             <Route path="/contacto" element={<ContactSection />} />
           </Routes>
         </main>

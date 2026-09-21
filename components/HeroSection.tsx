@@ -70,7 +70,7 @@ const HeroSection: React.FC = () => {
                 <span className="text-primary-dark font-bold">cuidarte</span>
               </span>
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto md:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto lg:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
               Entender lo que comés no debería ser tan difícil. Vokkado traduce la etiqueta y te dice si es para vos, y por qué.
             </p>
             <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
