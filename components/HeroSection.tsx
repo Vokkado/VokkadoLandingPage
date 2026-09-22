@@ -32,8 +32,11 @@ const HeroSection: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  const goNext = useCallback(() => setIdx(i => (i + 1) % n), [n]);
-  const goPrev = useCallback(() => setIdx(i => (i - 1 + n) % n), [n]);
+  // Hacia dónde se mueve la tira de capturas, para que el gesto y el automático
+  // se deslicen en el sentido correcto.
+  const [haciaAdelante, setHaciaAdelante] = useState(true);
+  const goNext = useCallback(() => { setHaciaAdelante(true); setIdx(i => (i + 1) % n); }, [n]);
+  const goPrev = useCallback(() => { setHaciaAdelante(false); setIdx(i => (i - 1 + n) % n); }, [n]);
 
   useEffect(() => {
     if (isPaused || n <= 1) return;
@@ -43,7 +46,7 @@ const HeroSection: React.FC = () => {
 
   useEffect(() => {
     if (idx === previa) return;
-    const id = setTimeout(() => setPrevia(idx), 600);
+    const id = setTimeout(() => setPrevia(idx), 520);
     return () => clearTimeout(id);
   }, [idx, previa]);
 
@@ -70,7 +73,7 @@ const HeroSection: React.FC = () => {
         <div className="lg:grid lg:grid-cols-5 lg:gap-12 lg:items-center">
 
           {/* ── Texto ── */}
-          <div className="lg:col-span-3 text-center lg:text-left animate-fade-in-up" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="lg:col-span-3 text-center lg:text-left" style={{ position: 'relative', zIndex: 1 }}>
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight mb-6" style={{ lineHeight: 0.9 }}>
               <span className="font-bold">Saber elegir </span>
               <br />
@@ -79,10 +82,10 @@ const HeroSection: React.FC = () => {
                 <span className="text-primary-dark dark:text-primary-light font-bold">cuidarte</span>
               </span>
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark dark:text-white/75 max-w-xl mx-auto lg:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark dark:text-white/75 max-w-xl mx-auto lg:mx-0 mb-10">
               Entender lo que comés no debería ser tan difícil. Vokkado traduce la etiqueta y te dice si es para vos, y por qué.
             </p>
-            <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+            <div className="mb-8">
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
                 <button
                   onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
@@ -114,8 +117,7 @@ const HeroSection: React.FC = () => {
 
           {/* ── Teléfono único con crossfade ── */}
           <div
-            className="lg:col-span-2 mt-16 lg:mt-0 flex items-center justify-center animate-fade-in-right"
-            style={{ animationDelay: '400ms' }}
+            className="lg:col-span-2 mt-16 lg:mt-0 flex items-center justify-center"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={onTouchStart}
@@ -132,18 +134,27 @@ const HeroSection: React.FC = () => {
                   </div>
                   {previa !== idx && (
                     <img
+                      key={`sale-${previa}`}
                       src={galleryImages[previa]}
                       alt=""
-                      className="absolute inset-0 w-full h-full object-cover"
+                      className={`absolute inset-0 w-full h-full object-cover ${
+                        haciaAdelante ? 'captura-sale-izquierda' : 'captura-sale-derecha'
+                      }`}
                       draggable={false}
                       aria-hidden="true"
                     />
                   )}
                   <img
-                    key={idx}
+                    key={`entra-${idx}`}
                     src={galleryImages[idx]}
                     alt={`Vokkado captura ${idx + 1}`}
-                    className="absolute inset-0 w-full h-full object-cover captura-entra"
+                    className={`absolute inset-0 w-full h-full object-cover ${
+                      previa === idx
+                        ? ''
+                        : haciaAdelante
+                          ? 'captura-entra-derecha'
+                          : 'captura-entra-izquierda'
+                    }`}
                     draggable={false}
                   />
                 </div>

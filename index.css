@@ -144,18 +144,44 @@ h1, h2,
 
 
 /* ─── Carrusel del hero ─── */
-/* La captura nueva entra por encima de la anterior. Cuando las dos se fundían a
-   la vez, en el medio del cruce ninguna llegaba a ser opaca y se veían dobles. */
-@keyframes captura-entra {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* Las capturas se deslizan en lugar de fundirse. Con un fundido, por más que una
+   esté encima, en el medio del cruce se ven las dos mezcladas: eso es lo que se
+   leía como imagen doble. Deslizando, en cada píxel hay una sola captura. */
+@keyframes captura-entra-derecha {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
-.captura-entra {
-  animation: captura-entra 600ms cubic-bezier(0.4, 0, 0.2, 1) both;
+@keyframes captura-entra-izquierda {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes captura-sale-izquierda {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes captura-sale-derecha {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
 }
 
+.captura-entra-derecha,
+.captura-entra-izquierda,
+.captura-sale-izquierda,
+.captura-sale-derecha {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+.captura-entra-derecha   { animation-name: captura-entra-derecha; }
+.captura-entra-izquierda { animation-name: captura-entra-izquierda; }
+.captura-sale-izquierda  { animation-name: captura-sale-izquierda; }
+.captura-sale-derecha    { animation-name: captura-sale-derecha; }
+
 @media (prefers-reduced-motion: reduce) {
-  .captura-entra {
+  .captura-entra-derecha,
+  .captura-entra-izquierda,
+  .captura-sale-izquierda,
+  .captura-sale-derecha {
     animation: none;
   }
 }
