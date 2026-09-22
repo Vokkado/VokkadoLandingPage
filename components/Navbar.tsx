@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png';
+import nutriWordmark from '../images/nutri/vokkado-nutri-wordmark-teal.png';
+import nutriWordmarkLight from '../images/nutri/vokkado-nutri-wordmark-light.png';
 import { NAV_LINKS } from '../constants';
 
 const Navbar: React.FC = () => {
@@ -8,6 +10,11 @@ const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Vokkado nutri tiene su propio color. Mientras estás en esa sección, la
+  // barra lo toma: la marca sigue siendo la misma, cambia la línea.
+  const isNutri = location.pathname === '/nutricionistas';
+  const accent = isNutri ? 'nutri' : 'primary';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,14 +55,20 @@ const Navbar: React.FC = () => {
     }
   };
 
+  // La superficie oscura también cambia de línea: verde en la landing,
+  // teal en /nutricionistas. Así la barra nunca desentona con lo que tapa.
+  const surface = isNutri ? 'dark:bg-nightNutri' : 'dark:bg-night';
+
   const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-    isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
+    isScrolled ? `bg-white ${surface} shadow-lg dark:shadow-black/40` : 'bg-transparent dark:bg-transparent'
   }`;
 
   const linkClass = (activePath: string | null) => {
     const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
     return `px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
-      isActive ? 'text-primary-dark font-bold' : 'font-medium text-neutral-dark hover:text-primary-DEFAULT'
+      isActive
+        ? `text-${accent}-dark dark:text-${accent}-light font-bold`
+        : `font-medium text-neutral-dark dark:text-white/75 hover:text-${accent} dark:hover:text-${accent}-light`
     }`;
   };
 
@@ -63,8 +76,8 @@ const Navbar: React.FC = () => {
     const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
     return `block px-3 py-2 rounded-md text-base transition-colors duration-200 ${
       isActive
-        ? 'text-primary-dark font-bold bg-primary-lightest'
-        : 'font-medium text-neutral-dark hover:text-primary-DEFAULT hover:bg-neutral-light'
+        ? `text-${accent}-dark dark:text-${accent}-light font-bold bg-${accent}-lightest dark:bg-white/10`
+        : `font-medium text-neutral-dark dark:text-white/75 hover:text-${accent} dark:hover:text-${accent}-light hover:bg-neutral-light dark:hover:bg-white/5`
     }`;
   };
 
@@ -73,12 +86,21 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          {/* Logo. En la línea profesional manda el logotipo de Vokkado nutri. */}
+          <Link to="/" className="flex items-center gap-3 pr-2">
+            {/* El isotipo es el mismo en las dos líneas y ocupa el mismo lugar:
+                solo cambia lo que va a su derecha. */}
             <img src={logo} alt="Logo" className="w-10 h-10 transition-transform duration-300 transform hover:rotate-[-5deg]" />
-            <span className="text-xl font-alan text-primary-dark transition-colors duration-300 tracking-tight" style={{ fontWeight: 800 }}>
-              Vokkado
-            </span>
+            {isNutri ? (
+              <>
+                <img src={nutriWordmark} alt="Vokkado nutri" className="h-7 w-auto dark:hidden" />
+                <img src={nutriWordmarkLight} alt="" aria-hidden="true" className="h-7 w-auto hidden dark:block" />
+              </>
+            ) : (
+              <span className="text-[28px] leading-none font-alan text-primary-dark dark:text-primary-light transition-colors duration-300 tracking-tight" style={{ fontWeight: 800 }}>
+                Vokkado
+              </span>
+            )}
           </Link>
 
           {/* Desktop links */}
@@ -111,7 +133,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors duration-300 text-neutral-dark hover:text-primary-DEFAULT`}
+              className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors duration-300 text-neutral-dark dark:text-white/75 hover:text-${accent} dark:hover:text-${accent}-light`}
               aria-label="Abrir menú principal"
               aria-expanded={isMobileMenuOpen}
             >
@@ -127,7 +149,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg">
+        <div className={`md:hidden bg-white ${surface} shadow-lg dark:shadow-black/40`}>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {NAV_LINKS.map((link) => (
               <a

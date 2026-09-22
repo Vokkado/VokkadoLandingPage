@@ -18,14 +18,14 @@ const TeamTeaser: React.FC = () => {
   return (
     <section className="relative py-20 sm:py-28 overflow-hidden">
       {/* Mismo fondo que HowItWorks — flujo continuo */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
 
         {/* Título */}
         <div ref={titleRef}>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight mb-12">
-            Un equipo <span className="text-primary-dark">comprometido</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight mb-12">
+            Un equipo <span className="text-primary-dark dark:text-primary-light">comprometido</span>
           </h2>
         </div>
 
@@ -36,7 +36,7 @@ const TeamTeaser: React.FC = () => {
               {row.map((src, ci) => (
                 <div
                   key={ci}
-                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-md"
+                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white dark:border-night-card shadow-md dark:shadow-black/40"
                 >
                   <img
                     src={src}
@@ -52,12 +52,12 @@ const TeamTeaser: React.FC = () => {
 
         {/* Descripción + link */}
         <div ref={textRef} className="max-w-md">
-          <p className="text-neutral-dark text-base sm:text-lg leading-relaxed mb-7">
+          <p className="text-neutral-dark dark:text-white/75 text-base sm:text-lg leading-relaxed mb-7">
             Detrás de Vokkado hay cuatro personas apasionadas por hacer que la alimentación saludable sea simple para todos.
           </p>
           <Link
             to="/equipo"
-            className="inline-flex items-center gap-2 text-primary-dark font-semibold text-base hover:gap-3 transition-all duration-200"
+            className="inline-flex items-center gap-2 text-primary-dark dark:text-primary-light font-semibold text-base hover:gap-3 transition-all duration-200"
           >
             Conocer al equipo
             <ion-icon name="arrow-forward-outline" style={{ fontSize: '18px' }} />

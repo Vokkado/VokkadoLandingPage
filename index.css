@@ -1,3 +1,25 @@
+/* ─── Tema ─── */
+/* La landing está diseñada en claro y en oscuro, y quien elige es el navegador:
+   no hay interruptor en la página. Al declarar los dos esquemas, los controles
+   nativos, la barra de scroll y las variantes dark: siguen al sistema. */
+:root {
+  color-scheme: light dark;
+}
+
+/* El fondo va en el elemento raíz y en ninguno más. Así el navegador lo
+   propaga al lienzo, también en el rebote del scroll, y no queda una caja
+   opaca por delante de las capas de fondo de cada sección, que viven en un
+   -z-10 y desaparecerían debajo. */
+html {
+  background-color: #F1F1F1;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #101A12;
+  }
+}
+
 /* ─── Scroll Animations ─── */
 /* Cada clase define el estado INICIAL (oculto) con transitions.
    Cuando se agrega .scroll-visible, transiciona al estado final. */
@@ -90,4 +112,50 @@ h1, h2,
 .font-display {
   font-family: 'Clash Display', 'Poppins', sans-serif;
   letter-spacing: -0.01em;
+}
+
+
+/* ─── Tarjetas que giran ─── */
+/* El iconito del indicador gira despacio, para que se lea como "esto se da vuelta". */
+@keyframes giro-lento {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.giro-lento {
+  animation: giro-lento 4s linear infinite;
+}
+
+/* En pantallas táctiles, la primera tarjeta hace un amague hasta que la persona
+   toca alguna: sin esto, nada avisa que se pueden dar vuelta. */
+@keyframes amague-giro {
+  0%, 100% { transform: rotateY(0deg); }
+  45%      { transform: rotateY(-18deg); }
+}
+.amague-giro {
+  animation: amague-giro 1.8s ease-in-out 1s 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .giro-lento,
+  .amague-giro {
+    animation: none;
+  }
+}
+
+
+/* ─── Carrusel del hero ─── */
+/* La captura nueva entra por encima de la anterior. Cuando las dos se fundían a
+   la vez, en el medio del cruce ninguna llegaba a ser opaca y se veían dobles. */
+@keyframes captura-entra {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.captura-entra {
+  animation: captura-entra 600ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .captura-entra {
+    animation: none;
+  }
 }

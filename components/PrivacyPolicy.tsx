@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="min-h-screen bg-neutral-lightest py-20 px-4">
+    <div className="min-h-screen bg-neutral-lightest dark:bg-night py-20 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Botón volver */}
         <Link 
           to="/" 
-          className="inline-flex items-center text-primary-DEFAULT hover:text-primary-dark mb-8 transition-colors"
+          className="inline-flex items-center text-primary dark:text-primary-light hover:text-primary-dark dark:hover:text-primary-light/75 mb-8 transition-colors"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -17,22 +17,22 @@ const PrivacyPolicy: React.FC = () => {
         </Link>
 
         {/* Contenido */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          <h1 className="text-4xl font-bold text-primary-DEFAULT mb-4">
+        <div className="bg-white dark:bg-night-card dark:border dark:border-white/10 rounded-2xl shadow-lg dark:shadow-black/30 p-8 md:p-12">
+          <h1 className="text-4xl font-bold text-primary dark:text-primary-light mb-4">
             Política de Privacidad
           </h1>
-          <p className="text-neutral-dark mb-8">
+          <p className="text-neutral-dark dark:text-white/75 mb-8">
             Última actualización: {new Date().toLocaleDateString('es-UY')}
           </p>
 
-          <p className="text-neutral-dark mb-8">
+          <p className="text-neutral-dark dark:text-white/75 mb-8">
             Esta Política de Privacidad explica cómo Vokkado (en adelante, "la Aplicación" o "nosotros") recopila, utiliza y protege los datos personales proporcionados por los usuarios que se preregistran en nuestra landing page.
           </p>
 
-          <div className="space-y-8 text-neutral-darkest">
+          <div className="space-y-8 text-neutral-darkest dark:text-white/80">
             {/* Sección 1 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 1. Responsable del tratamiento
               </h2>
               <p className="mb-4">
@@ -44,7 +44,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 2 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 2. Datos que recopilamos
               </h2>
               <p className="mb-4">
@@ -58,7 +58,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 3 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 3. Finalidad del tratamiento
               </h2>
               <p className="mb-4">
@@ -75,7 +75,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 4 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 4. Base legal
               </h2>
               <p>
@@ -85,7 +85,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 5 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 5. Conservación de los datos
               </h2>
               <p className="mb-4">
@@ -102,7 +102,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 6 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 6. Derechos del usuario
               </h2>
               <p className="mb-4">
@@ -121,7 +121,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 7 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 7. Seguridad de la información
               </h2>
               <p className="mb-4">
@@ -136,19 +136,19 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 8 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 8. Cesión, transferencia y servicios de terceros
               </h2>
               <p className="mb-4">
                 No compartimos, vendemos ni cedemos los datos personales a terceros, salvo obligación legal o cuando sea necesario para cumplir con las finalidades informadas.
               </p>
-              <h3 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h3 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 Servicios utilizados
               </h3>
               <p className="mb-4">
                 Podemos utilizar servicios de terceros que procesan datos en nuestro nombre, como herramientas de analítica, infraestructura o envío de emails. Estos proveedores cumplen con estándares adecuados de protección de datos.
                 </p>
-                <h3 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+                <h3 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 Google Analytics
               </h3>
               <p className="mb-4">
@@ -168,7 +168,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 9 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 9. Modificaciones a esta Política
               </h2>
               <p>
@@ -178,7 +178,7 @@ const PrivacyPolicy: React.FC = () => {
 
             {/* Sección 10 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 10. Contacto
               </h2>
               <p className="mb-2">
@@ -192,7 +192,7 @@ const PrivacyPolicy: React.FC = () => {
           </div>
 
           {/* Botón volver abajo */}
-          <div className="mt-12 pt-8 border-t border-neutral-light">
+          <div className="mt-12 pt-8 border-t border-neutral-light dark:border-white/10">
             <Link 
               to="/" 
               className="inline-flex items-center justify-center w-full sm:w-auto bg-secondary-dark text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-all duration-300 shadow-lg hover:shadow-xl"

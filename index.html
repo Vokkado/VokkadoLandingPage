@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- La landing tiene las dos versiones y sigue al sistema: si el navegador
+         está en oscuro, se ve oscura, y si no, clara. No hay interruptor propio. -->
+    <meta name="color-scheme" content="light dark">
+    <!-- La barra del navegador y la del sistema toman el color de la marca, y
+         el de la línea profesional mientras estás en /nutricionistas. -->
+    <meta name="theme-color" content="#22521D">
     <title>Vokkado Uruguay - Tu Guía de Alimentación Saludable</title>
     <link rel="icon" type="image/png" href="./images/Logo.png">
 
@@ -19,6 +25,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        // El oscuro lo decide el navegador, no un botón nuestro: las variantes
+        // dark: se activan solas con prefers-color-scheme: dark.
+        darkMode: 'media',
         theme: {
           extend: {
             fontFamily: {
@@ -34,10 +43,33 @@
                 dark: '#22521D',
                 lightest: '#E8F0D4',
               },
+              // Línea profesional (Vokkado nutri). El verde es la góndola,
+              // el teal es el consultorio: mismo sistema, otro territorio.
+              nutri: {
+                DEFAULT: '#146B63',
+                light: '#6FC2B8',
+                dark: '#0C4B45',
+                lightest: '#E3F2EF',
+              },
               secondary: {
                 DEFAULT: '#885B02',
                 light: '#A67A2E',
                 dark: '#6B4801',
+              },
+              // Superficies del modo oscuro. Cada línea tiene las suyas, teñidas
+              // con su propio color, así el oscuro no es un gris genérico sino
+              // la misma marca con menos luz.
+              night: {
+                DEFAULT: '#101A12',
+                soft: '#131F15',
+                deep: '#0C150E',
+                card: '#18241A',
+              },
+              nightNutri: {
+                DEFAULT: '#0E1A18',
+                soft: '#10201D',
+                deep: '#0B1513',
+                card: '#152422',
               },
               alternative: '#A7BECE',
               neutral: {
@@ -130,8 +162,19 @@
     </script>
 </head>
 
-<body class="bg-friendlyWhite font-sans">
+<body class="font-sans">
     <div id="root"></div>
+    <script>
+      (function () {
+        var meta = document.querySelector('meta[name="theme-color"]');
+        function pintarBarra() {
+          var esNutri = location.hash.indexOf('#/nutricionistas') === 0;
+          meta.setAttribute('content', esNutri ? '#0C4B45' : '#22521D');
+        }
+        pintarBarra();
+        window.addEventListener('hashchange', pintarBarra);
+      })();
+    </script>
     <script type="module" src="./index.tsx"></script>  
 </body>
 </html>

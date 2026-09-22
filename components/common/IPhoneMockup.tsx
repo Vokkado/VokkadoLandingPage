@@ -22,7 +22,7 @@ const IPhoneMockup: React.FC<IPhoneMockupProps> = ({ children, className = '' })
   <div className={`relative w-[260px] sm:w-[280px] lg:w-[300px] mx-auto ${className}`}>
     {/* Phone body */}
     <div
-      className="relative mx-auto bg-neutral-darkest border-neutral-darkest border-[10px] sm:border-[12px] rounded-[40px] sm:rounded-[46px] w-full"
+      className="relative mx-auto bg-neutral-darkest border-neutral-darkest border-[10px] sm:border-[12px] rounded-[40px] sm:rounded-[46px] w-full dark:ring-1 dark:ring-white/10"
       style={{ boxShadow: '0 40px 80px -10px rgba(0,0,0,0.55), 0 20px 40px -15px rgba(0,0,0,0.35)', aspectRatio: '393 / 812' }}
     >
       {/* Screen area */}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { COLORS, SECTION_IDS } from '../constants';
+import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 type ReviewSource = 'app_store' | 'google_play';
@@ -101,33 +101,30 @@ const initials = (name: string) => {
 };
 
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
-  <div className="shrink-0 w-[300px] sm:w-[320px] bg-white rounded-2xl shadow-sm border border-neutral-light p-5 flex flex-col gap-3">
+  <div className="shrink-0 w-[300px] sm:w-[320px] bg-white dark:bg-night-card rounded-2xl shadow-sm dark:shadow-black/30 border border-neutral-light dark:border-white/10 p-5 flex flex-col gap-3">
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0"
-          style={{ backgroundColor: COLORS.primary.lightest, color: COLORS.primary.dark }}
-        >
+        <div className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0 bg-primary-lightest dark:bg-primary-light/15 text-primary-dark dark:text-primary-light">
           {initials(review.author)}
         </div>
         <div>
-          <p className="font-semibold text-neutral-darkest text-sm leading-tight">{review.author}</p>
+          <p className="font-semibold text-neutral-darkest dark:text-white text-sm leading-tight">{review.author}</p>
           <StarRating rating={review.rating} />
         </div>
       </div>
       <div
-        className="flex items-center gap-1.5 bg-neutral-lightest rounded-full px-2.5 py-1 flex-shrink-0"
+        className="flex items-center gap-1.5 bg-neutral-lightest dark:bg-white/10 rounded-full px-2.5 py-1 flex-shrink-0"
         title={`Reseña en ${SOURCE_LABEL[review.source]}`}
       >
         {review.source === 'app_store' ? (
-          <AppleLogo className="w-3 h-3 text-neutral-darkest" />
+          <AppleLogo className="w-3 h-3 text-neutral-darkest dark:text-white" />
         ) : (
           <GooglePlayLogo className="w-3 h-3" />
         )}
-        <span className="text-[10px] font-medium text-neutral-dark">{SOURCE_LABEL[review.source]}</span>
+        <span className="text-[10px] font-medium text-neutral-dark dark:text-white/70">{SOURCE_LABEL[review.source]}</span>
       </div>
     </div>
-    <p className="text-sm text-neutral-dark leading-relaxed line-clamp-3">{review.text}</p>
+    <p className="text-sm text-neutral-dark dark:text-white/70 leading-relaxed line-clamp-3">{review.text}</p>
   </div>
 );
 
@@ -168,13 +165,13 @@ const ReviewsSection: React.FC = () => {
   const safeRow2 = row2.length ? row2 : row1;
 
   return (
-    <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite">
+    <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite dark:bg-night">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnim.ref} className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Personas que ya eligen <span className="text-primary-dark">con confianza</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+            Personas que ya eligen <span className="text-primary-dark dark:text-primary-light">con confianza</span>
           </h2>
-          <p className="mt-5 text-lg text-neutral-dark">
+          <p className="mt-5 text-lg text-neutral-dark dark:text-white/75">
             Reseñas reales, actualizadas automáticamente desde las tiendas.
           </p>
         </div>

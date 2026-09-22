@@ -20,58 +20,45 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center py-24 sm:py-32 overflow-hidden">
-      {/* Fondo con gradiente sutil y decoraciones */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-friendlyWhite via-white to-[#f4f8ec]" />
-        {/* Patrón decorativo sutil */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'linear-gradient(#22521D 1px, transparent 1px), linear-gradient(90deg, #22521D 1px, transparent 1px)',
-            backgroundSize: '44px 44px',
-          }}
-        />
-        {/* Halos decorativos difuminados */}
-        <div className="absolute -top-40 right-[-200px] w-96 h-96 rounded-full bg-primary-light/20 blur-3xl" />
-        <div className="absolute -bottom-32 left-[-150px] w-80 h-80 rounded-full bg-primary-lightest/40 blur-3xl" />
-      </div>
+    <section className="relative min-h-screen flex items-center pt-32 pb-24 sm:py-32 overflow-hidden">
+      {/* Mismo fondo que el resto de la landing: un gradiente y nada más */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl text-center relative">
         {/* Título */}
-        <h2 ref={titleRef} className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-darkest mb-6 leading-tight">
-          ¿Tenés alguna <span className="text-primary-dark">consulta?</span>
+        <h2 ref={titleRef} className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-darkest dark:text-white mb-6 leading-tight">
+          ¿Tenés alguna <span className="text-primary-dark dark:text-primary-light">consulta?</span>
         </h2>
 
         {/* Descripción */}
-        <p ref={descRef} className="text-lg sm:text-xl text-neutral-dark max-w-xl mx-auto mb-12 leading-relaxed">
+        <p ref={descRef} className="text-lg sm:text-xl text-neutral-dark dark:text-white/75 max-w-xl mx-auto mb-12 leading-relaxed">
           Ya sea una duda, sugerencia o simplemente quieras saber más sobre Vokkado, escribinos. Leemos cada mensaje y nos encanta escuchar a nuestros usuarios.
         </p>
 
         {/* Card principal */}
-        <div ref={cardRef} className="group bg-white rounded-3xl border border-neutral-100 shadow-sm hover:shadow-2xl p-10 sm:p-12 flex flex-col items-center gap-8 transition-all duration-300 hover:border-primary-light/40">
+        <div ref={cardRef} className="group bg-white dark:bg-night-card rounded-3xl border border-neutral-100 dark:border-white/10 shadow-sm hover:shadow-2xl dark:shadow-black/30 p-10 sm:p-12 flex flex-col items-center gap-8 transition-all duration-300 hover:border-primary-light/40">
           
           {/* Icono principal */}
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-primary-light/20 to-primary-light/10 flex items-center justify-center group-hover:from-primary-light/30 group-hover:to-primary-light/15 transition-all duration-300">
-            <ion-icon name="mail-outline" style={{ fontSize: '40px', color: '#22521D' }} />
+            <ion-icon name="mail-outline" style={{ fontSize: '40px' }} className="text-primary-dark dark:text-primary-light" />
           </div>
 
           {/* Descripción */}
           <div>
-            <p className="text-sm sm:text-base text-neutral-DEFAULT mb-3 font-medium">Mandanos un email a</p>
+            <p className="text-sm sm:text-base text-neutral dark:text-white/65 mb-3 font-medium">Mandanos un email a</p>
             <a
               href={GMAIL_COMPOSE}
               target="_blank"
               rel="noopener noreferrer"
               title={`Escribir a ${EMAIL} por Gmail`}
-              className="text-2xl sm:text-3xl font-bold text-primary-dark hover:text-primary-light transition-colors duration-200 break-all"
+              className="text-2xl sm:text-3xl font-bold text-primary-dark dark:text-primary-light hover:text-primary-light dark:hover:text-primary transition-colors duration-200 break-all"
             >
               {EMAIL}
             </a>
           </div>
 
           {/* Divisor visual */}
-          <div className="w-12 h-px bg-neutral-200 group-hover:bg-primary-light/30 transition-colors duration-300" />
+          <div className="w-12 h-px bg-neutral-200 dark:bg-white/15 group-hover:bg-primary-light/30 transition-colors duration-300" />
 
           {/* Botones */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
@@ -80,7 +67,7 @@ const ContactSection: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               title={`Escribir a ${EMAIL} por Gmail`}
-              className="inline-flex items-center justify-center gap-2.5 bg-primary-dark text-white font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2.5 bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-primary dark:hover:bg-primary-light/85 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap"
             >
               <ion-icon name="send-outline" style={{ fontSize: '16px' }} />
               Escribirnos
@@ -89,7 +76,7 @@ const ContactSection: React.FC = () => {
             <button
               onClick={handleCopy}
               title={`Copiar email: ${EMAIL}`}
-              className="inline-flex items-center justify-center gap-2.5 bg-neutral-50 text-neutral-dark font-semibold text-sm px-7 py-3.5 rounded-xl border border-neutral-200 hover:border-primary-light/50 hover:bg-primary-light/5 hover:text-primary-dark hover:scale-105 transition-all duration-200 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2.5 bg-neutral-50 dark:bg-white/5 text-neutral-dark dark:text-white/75 font-semibold text-sm px-7 py-3.5 rounded-xl border border-neutral-200 dark:border-white/10 hover:border-primary-light/50 hover:bg-primary-light/5 dark:hover:bg-primary-light/10 hover:text-primary-dark dark:hover:text-primary-light hover:scale-105 transition-all duration-200 whitespace-nowrap"
             >
               <ion-icon name={copied ? 'checkmark-done-outline' : 'copy-outline'} style={{ fontSize: '16px' }} />
               {copied ? '¡Copiado!' : 'Copiar email'}
@@ -99,7 +86,7 @@ const ContactSection: React.FC = () => {
         </div>
 
         {/* Mensaje de apoyo */}
-        <p className="mt-12 text-sm text-neutral-dark/60">
+        <p className="mt-12 text-sm text-neutral-dark/60 dark:text-white/50">
           💡 Responderemos lo antes posible
         </p>
 

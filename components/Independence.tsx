@@ -40,18 +40,19 @@ const PillarCard: React.FC<{ pillar: typeof PILLARS[0]; index: number }> = ({ pi
   return (
     <div
       ref={ref}
-      className="group bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg border border-neutral-100 hover:border-primary-light/40 transition-all duration-300"
+      className="group bg-white dark:bg-night-card rounded-3xl p-8 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-primary-light/40 transition-all duration-300"
     >
       <div className="w-14 h-14 rounded-2xl bg-primary-light/15 flex items-center justify-center mb-6 group-hover:bg-primary-light/30 transition-colors duration-300">
         <ion-icon
           name={pillar.icon}
-          style={{ fontSize: '26px', color: '#22521D' }}
+          style={{ fontSize: '26px' }}
+          className="text-primary-dark dark:text-primary-light"
           aria-hidden="true"
           title={pillar.title}
         />
       </div>
-      <h3 className="text-lg font-bold text-neutral-darkest mb-3">{pillar.title}</h3>
-      <p className="text-sm text-neutral-DEFAULT leading-relaxed">{pillar.desc}</p>
+      <h3 className="text-lg font-bold text-neutral-darkest dark:text-white mb-3">{pillar.title}</h3>
+      <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">{pillar.desc}</p>
     </div>
   );
 };
@@ -62,19 +63,20 @@ const HowCard: React.FC<{ item: typeof HOW[0]; index: number }> = ({ item, index
   return (
     <div
       ref={ref}
-      className="group bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg border border-neutral-100 hover:border-primary-light/40 transition-all duration-300 flex items-start gap-5"
+      className="group bg-white dark:bg-night-card rounded-3xl p-8 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-primary-light/40 transition-all duration-300 flex items-start gap-5"
     >
       <div className="w-12 h-12 rounded-2xl bg-primary-light/15 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-light/30 transition-colors duration-300">
         <ion-icon
           name={item.icon}
-          style={{ fontSize: '22px', color: '#22521D' }}
+          style={{ fontSize: '22px' }}
+          className="text-primary-dark dark:text-primary-light"
           aria-hidden="true"
           title={item.title}
         />
       </div>
       <div>
-        <h3 className="font-bold text-neutral-darkest mb-2">{item.title}</h3>
-        <p className="text-sm text-neutral-DEFAULT leading-relaxed">{item.desc}</p>
+        <h3 className="font-bold text-neutral-darkest dark:text-white mb-2">{item.title}</h3>
+        <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">{item.desc}</p>
       </div>
     </div>
   );
@@ -88,35 +90,35 @@ const IndependenciaPage: React.FC = () => {
   const { ref: howTitleRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
 
   return (
-    <div className="relative bg-friendlyWhite text-neutral-dark overflow-hidden">
+    <div className="relative bg-friendlyWhite dark:bg-night text-neutral-dark dark:text-white/75 overflow-hidden">
 
       {/* ── Fondo continuo ── */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white dark:from-night-soft dark:via-night dark:to-night-deep" />
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05] text-primary-dark dark:text-primary-light"
           style={{
-            backgroundImage: 'linear-gradient(#22521D 1px, transparent 1px), linear-gradient(90deg, #22521D 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
             backgroundSize: '44px 44px',
           }}
         />
-        <div className="absolute -top-28 right-[-120px] w-96 h-96 rounded-full bg-primary-light/20 blur-3xl" />
-        <div className="absolute top-[40%] left-[-160px] w-80 h-80 rounded-full bg-primary-lightest/60 blur-3xl" />
+        <div className="absolute -top-28 right-[-120px] w-96 h-96 rounded-full bg-primary-light/20 dark:bg-primary/15 blur-3xl" />
+        <div className="absolute top-[40%] left-[-160px] w-80 h-80 rounded-full bg-primary-lightest/60 dark:bg-primary-dark/25 blur-3xl" />
       </div>
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+      <section className="relative overflow-hidden pt-32 pb-20 sm:pt-36 sm:pb-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="md:grid md:grid-cols-5 md:gap-12 md:items-center">
 
             {/* Texto */}
             <div ref={heroTextRef} className="md:col-span-3 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest dark:text-white tracking-tight leading-tight mb-6">
                 La independencia <br className="hidden sm:block" />
-                es <span className="text-primary-dark">clave</span> en <br className="hidden sm:block" />
+                es <span className="text-primary-dark dark:text-primary-light">clave</span> en <br className="hidden sm:block" />
                 nuestra misión
               </h1>
-              <p className="text-lg md:text-xl text-neutral-dark leading-relaxed max-w-2xl mx-auto md:mx-0">
+              <p className="text-lg md:text-xl text-neutral-dark dark:text-white/75 leading-relaxed max-w-2xl mx-auto md:mx-0">
                 Te damos información clara y confiable para que tomes decisiones libres de cualquier influencia comercial.
               </p>
             </div>
@@ -125,18 +127,18 @@ const IndependenciaPage: React.FC = () => {
             <div ref={heroImgRef} className="md:col-span-2 mt-16 md:mt-0 flex justify-center md:justify-end">
               <div className="relative flex items-center justify-center w-72 h-72 sm:w-80 sm:h-80">
                 {/* Aura de fondo */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-light/30 via-[#d6eabf]/40 to-primary-lightest/20 blur-2xl" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-light/30 via-[#d6eabf]/40 to-primary-lightest/20 dark:from-primary/25 dark:via-primary-dark/30 dark:to-primary-dark/20 blur-2xl" />
                 {/* Círculo decorativo */}
-                <div className="absolute inset-4 rounded-full border border-primary-light/25 border-dashed" />
+                <div className="absolute inset-4 rounded-full border border-primary-light/25 dark:border-primary-light/20 border-dashed" />
                 {/* Puntos decorativos flotantes */}
                 <div className="absolute top-3 right-10 w-3 h-3 rounded-full bg-primary-light/50" />
-                <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-primary-DEFAULT/40" />
+                <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-primary/40" />
                 <div className="absolute top-1/2 right-2 w-2 h-2 rounded-full bg-primary-light/60" />
                 {/* Imagen */}
                 <img
                   src={independientePng}
                   alt="Vokkado independiente"
-                  className="relative z-10 w-52 sm:w-60 md:w-64 max-w-full drop-shadow-[0_20px_40px_rgba(34,82,29,0.18)]"
+                  className="relative z-10 w-52 sm:w-60 md:w-64 max-w-full drop-shadow-[0_20px_40px_rgba(34,82,29,0.18)] dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.45)]"
                 />
               </div>
             </div>
@@ -149,7 +151,7 @@ const IndependenciaPage: React.FC = () => {
       <section className="relative pb-20 sm:pb-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div ref={pillarsTitleRef} className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest dark:text-white">
               Tres principios que no negociamos
             </h2>
           </div>
@@ -162,7 +164,7 @@ const IndependenciaPage: React.FC = () => {
       </section>
 
       {/* ── Bloque oscuro: por qué importa ── */}
-      <section className="relative py-20 sm:py-28 overflow-hidden bg-primary-dark">
+      <section className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-br from-[#38862E] via-primary-dark to-[#0D2A0A] dark:from-night-soft dark:via-night dark:to-night-deep">
         <div
           className="absolute inset-0 opacity-[0.05]"
           style={{ backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }}
@@ -184,8 +186,8 @@ const IndependenciaPage: React.FC = () => {
       <section className="relative py-20 sm:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div ref={howTitleRef} className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest">¿Cómo nos sostenemos?</h2>
-            <p className="mt-4 text-neutral-DEFAULT max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest dark:text-white">¿Cómo nos sostenemos?</h2>
+            <p className="mt-4 text-neutral dark:text-white/65 max-w-2xl mx-auto">
               Creemos que la transparencia sobre nuestro modelo de negocio es parte de ser independientes.
             </p>
           </div>

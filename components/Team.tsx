@@ -97,14 +97,14 @@ const TABS: { key: TabKey; label: string }[] = [
 
 const TAB_CONTENT: Record<TabKey, React.ReactNode> = {
   mision: (
-    <p className="text-neutral-dark leading-relaxed text-base md:text-lg">
+    <p className="text-neutral-dark dark:text-white/75 leading-relaxed text-base md:text-lg">
       Empoderar a las personas para que tomen mejores decisiones alimentarias, transformando
       información nutricional compleja en recomendaciones claras, personalizadas y fáciles de
       entender según sus necesidades y objetivos.
     </p>
   ),
   vision: (
-    <p className="text-neutral-dark leading-relaxed text-base md:text-lg">
+    <p className="text-neutral-dark dark:text-white/75 leading-relaxed text-base md:text-lg">
       Ser la plataforma de referencia en alimentación personalizada, ayudando a millones de
       personas a comprender mejor lo que consumen y a elegir alimentos con mayor confianza y
       tranquilidad.
@@ -114,9 +114,9 @@ const TAB_CONTENT: Record<TabKey, React.ReactNode> = {
     <ul className="space-y-5">
       {VALUES.map((v) => (
         <li key={v.title} className="flex items-start gap-3">
-          <div className="w-2 h-2 rounded-full bg-primary-dark mt-2 flex-shrink-0" />
-          <p className="text-neutral-dark leading-relaxed text-base">
-            <span className="font-semibold text-neutral-darkest">{v.title}: </span>
+          <div className="w-2 h-2 rounded-full bg-primary-dark dark:bg-primary-light mt-2 flex-shrink-0" />
+          <p className="text-neutral-dark dark:text-white/75 leading-relaxed text-base">
+            <span className="font-semibold text-neutral-darkest dark:text-white">{v.title}: </span>
             {v.desc}
           </p>
         </li>
@@ -133,16 +133,16 @@ const AboutSection: React.FC = () => {
   const { ref: contentRef } = useScrollAnimation({ animation: 'fade-up', delay: 240, threshold: 0.2 });
 
   return (
-    <section className="bg-white border-t border-neutral-100 pt-8 pb-16 sm:pt-10 sm:pb-20">
+    <section className="bg-white dark:bg-night-soft border-t border-neutral-100 dark:border-white/10 pt-8 pb-16 sm:pt-10 sm:pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
 
         {/* Header con líneas */}
         <div ref={headerRef} className="flex items-center gap-4 mb-10">
-          <div className="flex-grow h-px bg-neutral-200" />
-          <h2 className="text-xl md:text-2xl font-extrabold uppercase tracking-widest text-primary-dark whitespace-nowrap">
+          <div className="flex-grow h-px bg-neutral-200 dark:bg-white/15" />
+          <h2 className="text-xl md:text-2xl font-extrabold uppercase tracking-widest text-primary-dark dark:text-primary-light whitespace-nowrap">
             Conocenos
           </h2>
-          <div className="flex-grow h-px bg-neutral-200" />
+          <div className="flex-grow h-px bg-neutral-200 dark:bg-white/15" />
         </div>
 
         {/* Pills */}
@@ -153,8 +153,8 @@ const AboutSection: React.FC = () => {
               onClick={() => setActive(tab.key)}
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                 active === tab.key
-                  ? 'bg-primary-dark text-white'
-                  : 'bg-neutral-100 text-neutral-DEFAULT hover:bg-neutral-200 hover:text-neutral-dark'
+                  ? 'bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep'
+                  : 'bg-neutral-100 dark:bg-white/10 text-neutral dark:text-white/65 hover:bg-neutral-200 dark:hover:bg-white/15 hover:text-neutral-dark dark:hover:text-white'
               }`}
             >
               {tab.label}
@@ -185,7 +185,7 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
       <div
         ref={photoAnim.ref}
         className="relative z-10 w-36 h-36 rounded-full overflow-hidden flex-shrink-0
-          ring-1 ring-white shadow-lg
+          ring-1 ring-white dark:ring-white/15 shadow-lg dark:shadow-black/40
           transition-all duration-300
           group-hover:ring-primary-light"
       >
@@ -198,15 +198,15 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
       </div>
 
       {/* Card */}
-      <div className="relative w-full flex-grow -mt-16 bg-white rounded-2xl border border-neutral-light px-6 pt-20 pb-7 text-center flex flex-col
-        shadow-sm transition-all duration-300
+      <div className="relative w-full flex-grow -mt-16 bg-white dark:bg-night-card rounded-2xl border border-neutral-light dark:border-white/10 px-6 pt-20 pb-7 text-center flex flex-col
+        shadow-sm dark:shadow-black/30 transition-all duration-300
         group-hover:shadow-[0_8px_32px_rgba(34,82,29,0.15)] group-hover:border-primary-light/50"
       >
-        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary-dark bg-primary-lightest px-3 py-1 rounded-full mb-3 self-center border border-primary-light/40">
+        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary-dark dark:text-primary-light bg-primary-lightest dark:bg-primary-light/15 px-3 py-1 rounded-full mb-3 self-center border border-primary-light/40">
           {member.role}
         </span>
-        <h3 className="text-lg font-bold text-neutral-darkest mb-3">{member.name}</h3>
-        <p className="text-sm text-neutral-DEFAULT leading-relaxed">{member.bio}</p>
+        <h3 className="text-lg font-bold text-neutral-darkest dark:text-white mb-3">{member.name}</h3>
+        <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">{member.bio}</p>
       </div>
     </div>
   );
@@ -219,34 +219,34 @@ const UruguaySection: React.FC = () => {
   const { ref: card2Ref } = useScrollAnimation({ animation: 'fade-up', delay: 220, threshold: 0.15 });
 
   return (
-    <section className="bg-white border-t border-neutral-100 pt-16 pb-10 sm:pt-20 sm:pb-12">
+    <section className="bg-white dark:bg-night-soft border-t border-neutral-100 dark:border-white/10 pt-16 pb-10 sm:pt-20 sm:pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
 
         <div ref={titleRef} className="text-center mb-12">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-primary-dark/70 mb-3">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-primary-dark/70 dark:text-primary-light/80 mb-3">
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest">
-            Nacimos en <span className="text-primary-dark">Uruguay</span>, pensando en el mundo
+          <h2 className="text-2xl sm:text-3xl font-bold text-neutral-darkest dark:text-white">
+            Nacimos en <span className="text-primary-dark dark:text-primary-light">Uruguay</span>, pensando en el mundo
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div ref={card1Ref} className="bg-[#f4f8ec] rounded-2xl p-7 border border-primary-light/20">
+          <div ref={card1Ref} className="bg-[#f4f8ec] dark:bg-white/[0.04] rounded-2xl p-7 border border-primary-light/20 dark:border-white/10">
             <div className="w-11 h-11 rounded-xl bg-primary-light/20 flex items-center justify-center mb-4">
               <UruguayFlag className="w-[26px] h-[18px] rounded-[3px] ring-1 ring-black/10" />
             </div>
-            <h3 className="font-bold text-neutral-darkest mb-2">Hoy, enfocados en Uruguay</h3>
-            <p className="text-sm text-neutral-DEFAULT leading-relaxed">
+            <h3 className="font-bold text-neutral-darkest dark:text-white mb-2">Hoy, enfocados en Uruguay</h3>
+            <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">
               Somos un equipo uruguayo y estamos comenzando por casa. Hoy nuestro foco está en Uruguay: construir una base sólida, escuchar a nuestros usuarios y adaptar la app a la realidad local de los productos y el mercado.
             </p>
           </div>
 
-          <div ref={card2Ref} className="bg-[#f4f8ec] rounded-2xl p-7 border border-primary-light/20">
+          <div ref={card2Ref} className="bg-[#f4f8ec] dark:bg-white/[0.04] rounded-2xl p-7 border border-primary-light/20 dark:border-white/10">
             <div className="w-11 h-11 rounded-xl bg-primary-light/20 flex items-center justify-center mb-4">
-              <ion-icon name="globe-outline" style={{ fontSize: '22px', color: '#22521D' }} />
+              <ion-icon name="globe-outline" style={{ fontSize: '22px' }} className="text-primary-dark dark:text-primary-light" />
             </div>
-            <h3 className="font-bold text-neutral-darkest mb-2">Con la mirada en el horizonte</h3>
-            <p className="text-sm text-neutral-DEFAULT leading-relaxed">
+            <h3 className="font-bold text-neutral-darkest dark:text-white mb-2">Con la mirada en el horizonte</h3>
+            <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">
               El acceso a información nutricional clara no debería ser un privilegio. Queremos que la mayor cantidad de personas posible pueda saber qué hay en lo que come, sin importar dónde viva. Uruguay es el primer paso.
             </p>
           </div>
@@ -273,28 +273,28 @@ const Team: React.FC = () => {
   const { ref: ctaBtnsRef  } = useScrollAnimation({ animation: 'fade-up', delay: 240, threshold: 0.2 });
 
   return (
-    <div className="bg-friendlyWhite text-neutral-dark">
+    <div className="bg-friendlyWhite dark:bg-night text-neutral-dark dark:text-white/75">
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden pt-24 pb-10 sm:pt-28 sm:pb-12 text-center">
+      <section className="relative overflow-hidden pt-32 pb-10 sm:pt-28 sm:pb-12 text-center">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#e4efcd] via-[#f4f8ec] to-friendlyWhite dark:from-night-soft dark:via-night dark:to-night-soft" />
           <div
-            className="absolute inset-0 opacity-[0.05]"
-            style={{ backgroundImage: 'linear-gradient(#22521D 1px, transparent 1px), linear-gradient(90deg, #22521D 1px, transparent 1px)', backgroundSize: '44px 44px' }}
+            className="absolute inset-0 opacity-[0.05] text-primary-dark dark:text-primary-light"
+            style={{ backgroundImage: 'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)', backgroundSize: '44px 44px' }}
           />
-          <div className="absolute -top-28 right-[-120px] w-80 h-80 rounded-full bg-primary-light/30 blur-3xl" />
-          <div className="absolute -bottom-24 left-[-120px] w-72 h-72 rounded-full bg-primary-lightest blur-3xl" />
+          <div className="absolute -top-28 right-[-120px] w-80 h-80 rounded-full bg-primary-light/30 dark:bg-primary/20 blur-3xl" />
+          <div className="absolute -bottom-24 left-[-120px] w-72 h-72 rounded-full bg-primary-lightest dark:bg-primary-dark/30 blur-3xl" />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
-          <h1 ref={heroTitleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight">
+          <h1 ref={heroTitleRef} className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest dark:text-white tracking-tight leading-tight">
             Más que una app,
             <br className="hidden sm:block" />
-            <span className="text-primary-dark"> un propósito</span>
+            <span className="text-primary-dark dark:text-primary-light"> un propósito</span>
           </h1>
-          <p ref={heroBodyRef} className="mt-5 text-lg md:text-xl text-neutral-dark max-w-2xl mx-auto">
+          <p ref={heroBodyRef} className="mt-5 text-lg md:text-xl text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
             Somos un equipo de cuatro amigos que cree que entender lo que comés no debería ser complicado. Conocé quiénes somos, qué nos mueve y hacia dónde vamos.
           </p>
         </div>
@@ -303,10 +303,10 @@ const Team: React.FC = () => {
       {/* ── Equipo ── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-14 sm:pb-20">
         <div className="text-center mb-14">
-          <h2 ref={teamTitleRef} className="text-3xl md:text-4xl font-bold text-neutral-darkest">
+          <h2 ref={teamTitleRef} className="text-3xl md:text-4xl font-bold text-neutral-darkest dark:text-white">
             Las personas detrás de Vokkado
           </h2>
-          <p ref={teamDescRef} className="mt-4 text-base sm:text-lg text-neutral-dark max-w-2xl mx-auto">
+          <p ref={teamDescRef} className="mt-4 text-base sm:text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
             Lideramos Vokkado con foco en salud, tecnología y experiencia real para el usuario.
           </p>
         </div>
@@ -333,7 +333,7 @@ const Team: React.FC = () => {
       />
 
       {/* ── CTA ── */}
-      <div className="bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark py-16 text-center px-4 text-white">
+      <div className="bg-gradient-to-br from-[#38862E] via-primary-dark to-[#0D2A0A] dark:from-night-soft dark:via-night dark:to-night-deep py-16 text-center px-4 text-white">
         <p ref={ctaTitleRef} className="font-bold text-3xl mb-3">Escaneá. Elegí. Cuidate.</p>
         <p ref={ctaDescRef} className="text-primary-lightest text-sm mb-8">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
         <div ref={ctaBtnsRef} className="flex flex-col sm:flex-row items-center justify-center gap-3">

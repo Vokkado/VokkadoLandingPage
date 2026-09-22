@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen font-sans text-gray-700">
+      <div className="flex flex-col min-h-screen font-sans text-neutral-dark dark:text-white/75">
         <ScrollToTop />
         <GoogleAnalytics />
         <Navbar />

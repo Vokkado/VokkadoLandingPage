@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 const DeleteAccount: React.FC = () => {
   return (
-    <div className="min-h-screen bg-neutral-lightest py-20 px-4">
+    <div className="min-h-screen bg-neutral-lightest dark:bg-night py-20 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Botón volver */}
         <Link
           to="/"
-          className="inline-flex items-center text-primary-DEFAULT hover:text-primary-dark mb-8 transition-colors"
+          className="inline-flex items-center text-primary dark:text-primary-light hover:text-primary-dark dark:hover:text-primary-light/75 mb-8 transition-colors"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -16,25 +16,25 @@ const DeleteAccount: React.FC = () => {
           Volver al inicio
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          <h1 className="text-4xl font-bold text-primary-DEFAULT mb-4">
+        <div className="bg-white dark:bg-night-card dark:border dark:border-white/10 rounded-2xl shadow-lg dark:shadow-black/30 p-8 md:p-12">
+          <h1 className="text-4xl font-bold text-primary dark:text-primary-light mb-4">
             Eliminación de cuenta y datos
           </h1>
-          <p className="text-neutral-dark mb-8">
+          <p className="text-neutral-dark dark:text-white/75 mb-8">
             Última actualización: {new Date().toLocaleDateString('es-UY')}
           </p>
 
-          <p className="text-neutral-dark mb-8">
+          <p className="text-neutral-dark dark:text-white/75 mb-8">
             En Vokkado respetamos tu derecho a controlar tus datos personales. En esta página
             encontrás toda la información sobre cómo solicitar la eliminación de tu cuenta y/o
             tus datos.
           </p>
 
-          <div className="space-y-8 text-neutral-darkest">
+          <div className="space-y-8 text-neutral-darkest dark:text-white/80">
 
             {/* Cómo solicitar */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 1. Cómo solicitar la eliminación
               </h2>
               <p className="mb-4">
@@ -58,7 +58,7 @@ const DeleteAccount: React.FC = () => {
                 También podés enviar tu solicitud directamente por correo electrónico a{' '}
                 <a
                   href="mailto:contact@vokkado.com?subject=Solicitud%20de%20eliminación%20de%20cuenta"
-                  className="text-primary-DEFAULT underline hover:text-primary-dark"
+                  className="text-primary dark:text-primary-light underline hover:text-primary-dark dark:hover:text-primary-light/75"
                 >
                   contact@vokkado.com
                 </a>{' '}
@@ -68,20 +68,20 @@ const DeleteAccount: React.FC = () => {
 
             {/* Tipos de solicitud */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 2. Tipos de solicitud
               </h2>
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="bg-neutral-lightest rounded-xl p-6 border border-neutral-light">
-                  <h3 className="text-lg font-semibold text-primary-DEFAULT mb-2">Desactivación de cuenta</h3>
-                  <p className="text-sm text-neutral-dark">
+                <div className="bg-neutral-lightest dark:bg-white/[0.04] rounded-xl p-6 border border-neutral-light dark:border-white/10">
+                  <h3 className="text-lg font-semibold text-primary dark:text-primary-light mb-2">Desactivación de cuenta</h3>
+                  <p className="text-sm text-neutral-dark dark:text-white/70">
                     Tu perfil queda inactivo y no podrás acceder a la aplicación. Tus datos se conservan
                     internamente. Si en el futuro querés reactivar tu cuenta, podés contactarnos.
                   </p>
                 </div>
-                <div className="bg-neutral-lightest rounded-xl p-6 border border-neutral-light">
-                  <h3 className="text-lg font-semibold text-primary-DEFAULT mb-2">Eliminación completa</h3>
-                  <p className="text-sm text-neutral-dark">
+                <div className="bg-neutral-lightest dark:bg-white/[0.04] rounded-xl p-6 border border-neutral-light dark:border-white/10">
+                  <h3 className="text-lg font-semibold text-primary dark:text-primary-light mb-2">Eliminación completa</h3>
+                  <p className="text-sm text-neutral-dark dark:text-white/70">
                     Se elimina de forma permanente tu cuenta y todos los datos asociados. Esta acción
                     no es reversible.
                   </p>
@@ -91,7 +91,7 @@ const DeleteAccount: React.FC = () => {
 
             {/* Qué datos se eliminan */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 3. Datos que se eliminan
               </h2>
               <p className="mb-4">
@@ -107,7 +107,7 @@ const DeleteAccount: React.FC = () => {
 
             {/* Tiempo de respuesta */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 4. Tiempo de respuesta
               </h2>
               <p>
@@ -118,14 +118,14 @@ const DeleteAccount: React.FC = () => {
 
             {/* Contacto */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 5. Contacto
               </h2>
               <p>
                 Si tenés dudas sobre este proceso o sobre el manejo de tus datos, podés escribirnos a{' '}
                 <a
                   href="mailto:contact@vokkado.com"
-                  className="text-primary-DEFAULT underline hover:text-primary-dark"
+                  className="text-primary dark:text-primary-light underline hover:text-primary-dark dark:hover:text-primary-light/75"
                 >
                   contact@vokkado.com
                 </a>.
@@ -135,7 +135,7 @@ const DeleteAccount: React.FC = () => {
           </div>
 
           {/* Botón volver abajo */}
-          <div className="mt-12 pt-8 border-t border-neutral-light">
+          <div className="mt-12 pt-8 border-t border-neutral-light dark:border-white/10">
             <Link
               to="/"
               className="inline-flex items-center justify-center w-full sm:w-auto bg-secondary-dark text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-all duration-300 shadow-lg hover:shadow-xl"

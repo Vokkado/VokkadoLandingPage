@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useCanHover } from '../hooks/useCanHover';
 
 interface Flip {
   frontIcon: string;
@@ -42,25 +43,34 @@ const flips: Flip[] = [
   },
 ];
 
-const FlipTile: React.FC<{ flip: Flip; delay: number }> = ({ flip, delay }) => {
+const FlipTile: React.FC<{
+  flip: Flip;
+  delay: number;
+  isOpen: boolean;
+  onToggle: () => void;
+  sugerir?: boolean;
+}> = ({ flip, delay, isOpen, onToggle, sugerir = false }) => {
   const anim = useScrollAnimation({ animation: 'fade-up', delay, threshold: 0.15 });
-  const [flipped, setFlipped] = useState(false);
+  const puedeHover = useCanHover();
   const [hovered, setHovered] = useState(false);
-  const shown = flipped || hovered;
+  // Con mouse gira sola al pasar por encima, sin clic. Con dedo, el toque manda.
+  const shown = puedeHover ? hovered : isOpen;
 
   return (
     <div ref={anim.ref} style={{ perspective: '1200px' }}>
       <button
         type="button"
-        onClick={() => setFlipped(f => !f)}
+        onClick={puedeHover ? undefined : onToggle}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onFocus={() => puedeHover && setHovered(true)}
+        onBlur={() => puedeHover && setHovered(false)}
         aria-pressed={shown}
         aria-label={`${flip.backTitle}: ${flip.back}`}
-        className="relative block w-full h-[230px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 rounded-2xl"
+        className="relative block w-full h-[230px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark dark:focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-friendlyWhite dark:focus-visible:ring-offset-night rounded-2xl"
       >
         <div
-          className="relative w-full h-full"
+          className={`relative w-full h-full ${sugerir ? 'amague-giro' : ''}`}
           style={{
             transformStyle: 'preserve-3d',
             transition: 'transform 0.6s cubic-bezier(0.4,0,0.2,1)',
@@ -69,17 +79,19 @@ const FlipTile: React.FC<{ flip: Flip; delay: number }> = ({ flip, delay }) => {
         >
           {/* ── Frente: la situación ── */}
           <div
-            className="absolute inset-0 rounded-2xl border border-neutral-light bg-white shadow-sm p-6 flex flex-col justify-between"
+            className="absolute inset-0 rounded-2xl border border-neutral-light dark:border-white/10 bg-white dark:bg-night-card shadow-sm dark:shadow-black/30 p-6 flex flex-col justify-between"
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
           >
-            <div className="w-11 h-11 rounded-xl bg-neutral-light flex items-center justify-center">
-              <ion-icon name={flip.frontIcon} style={{ fontSize: '22px', color: '#374151' }} aria-hidden />
+            <div className="flex items-center justify-between gap-2">
+              <div className="w-11 h-11 rounded-xl bg-neutral-light dark:bg-white/10 flex items-center justify-center">
+                <ion-icon name={flip.frontIcon} style={{ fontSize: '22px' }} className="text-neutral-dark dark:text-white/75" aria-hidden />
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-lightest dark:bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-primary-dark dark:text-primary-light">
+                <ion-icon name="sync-outline" style={{ fontSize: '13px' }} className="giro-lento" aria-hidden />
+                {puedeHover ? 'pasá el mouse' : 'tocá la tarjeta'}
+              </span>
             </div>
-            <p className="text-lg sm:text-xl font-bold text-neutral-darkest leading-snug">{flip.front}</p>
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-dark">
-              <ion-icon name="sync-outline" style={{ fontSize: '15px' }} aria-hidden />
-              girá para la respuesta
-            </span>
+            <p className="text-lg sm:text-xl font-bold text-neutral-darkest dark:text-white leading-snug">{flip.front}</p>
           </div>
 
           {/* ── Dorso: la solución de vokkado ── */}
@@ -109,18 +121,20 @@ const FlipTile: React.FC<{ flip: Flip; delay: number }> = ({ flip, delay }) => {
 const SolutionSection: React.FC = () => {
   const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
   const closingAnim = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.2 });
+  const [openFlip, setOpenFlip] = useState<number | null>(null);
+  const puedeHover = useCanHover();
 
   return (
-    <section id={SECTION_IDS.solution} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />
+    <section id={SECTION_IDS.solution} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite dark:bg-night">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div ref={headerAnim.ref} className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Entender lo que comés es <span className="text-primary-dark">fácil</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+            Entender lo que comés es <span className="text-primary-dark dark:text-primary-light">fácil</span>
           </h2>
-          <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
+          <p className="mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
             Ingredientes impronunciables, letra tamaño hormiga y una tabla que parece jeroglífico. Apuntás la cámara y Vokkado te lo explica en uruguayo.
           </p>
         </div>
@@ -128,15 +142,22 @@ const SolutionSection: React.FC = () => {
         {/* Flip tiles: situación → solución */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto mb-16">
           {flips.map((flip, i) => (
-            <FlipTile key={flip.backTitle} flip={flip} delay={i * 100} />
+            <FlipTile
+              key={flip.backTitle}
+              flip={flip}
+              delay={i * 100}
+              isOpen={openFlip === i}
+              onToggle={() => setOpenFlip(prev => (prev === i ? null : i))}
+              sugerir={!puedeHover && i === 0 && openFlip === null}
+            />
           ))}
         </div>
 
         {/* Cierre: identificación + el verdadero valor (autonomía) */}
         <div ref={closingAnim.ref} className="text-center max-w-2xl mx-auto">
-          <p className="text-xl sm:text-2xl text-neutral-darkest font-medium leading-relaxed">
+          <p className="text-xl sm:text-2xl text-neutral-darkest dark:text-white font-medium leading-relaxed">
             Nadie nació sabiendo leer una etiqueta.{' '}
-            <span className="text-primary-dark font-bold">
+            <span className="text-primary-dark dark:text-primary-light font-bold">
               Con Vokkado, cada compra te deja sabiendo un poco más, hasta que elegís bien casi sin pensarlo.
             </span>
           </p>

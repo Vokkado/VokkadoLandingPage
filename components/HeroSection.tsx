@@ -26,6 +26,9 @@ const HeroSection: React.FC = () => {
   // ── Carrusel simple: un solo teléfono centrado, crossfade entre capturas ──
   // Sin teléfonos laterales ni blur: siempre se ve exactamente lo mismo.
   const [idx, setIdx] = useState(0);
+  // La captura que estaba antes se queda abajo, quieta y opaca, hasta que la
+  // nueva termina de entrar. Así el cruce nunca deja ver las dos a medias.
+  const [previa, setPrevia] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
@@ -37,6 +40,12 @@ const HeroSection: React.FC = () => {
     const id = setInterval(goNext, 4000);
     return () => clearInterval(id);
   }, [isPaused, n, goNext]);
+
+  useEffect(() => {
+    if (idx === previa) return;
+    const id = setTimeout(() => setPrevia(idx), 600);
+    return () => clearTimeout(id);
+  }, [idx, previa]);
 
   const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; setIsPaused(true); };
   const onTouchEnd   = (e: React.TouchEvent) => {
@@ -51,10 +60,10 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id={SECTION_IDS.home}
-      className="relative z-10 text-black min-h-[calc(100vh-4rem)] lg:min-h-screen flex lg:items-center py-20 lg:py-28"
+      className="relative z-10 text-black dark:text-white min-h-[calc(100vh-4rem)] lg:min-h-screen flex lg:items-center pt-32 pb-20 lg:py-28"
     >
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-friendlyWhite" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-friendlyWhite dark:from-night-soft dark:via-night dark:to-night" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,36 +76,36 @@ const HeroSection: React.FC = () => {
               <br />
               <span className="block" style={{ marginTop: '0.15em', marginLeft: '-0.01em' }}>
                 <span className="font-bold">es </span>
-                <span className="text-primary-dark font-bold">cuidarte</span>
+                <span className="text-primary-dark dark:text-primary-light font-bold">cuidarte</span>
               </span>
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark max-w-xl mx-auto lg:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+            <p className="text-lg md:text-xl lg:text-2xl text-neutral-dark dark:text-white/75 max-w-xl mx-auto lg:mx-0 mb-10 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
               Entender lo que comés no debería ser tan difícil. Vokkado traduce la etiqueta y te dice si es para vos, y por qué.
             </p>
             <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
                 <button
                   onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
-                  className="group flex items-center gap-3.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-6 py-3.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
+                  className="group flex items-center gap-3 bg-primary-dark/[0.07] hover:bg-primary-dark/[0.14] dark:bg-white/10 dark:hover:bg-white/20 text-primary-dark dark:text-white rounded-2xl px-4 py-3 border border-primary-dark/30 hover:border-primary-dark/50 dark:border-white/35 dark:hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
                   aria-label="Descargar Vokkado en App Store"
                   title="Descargar Vokkado beta pública en App Store"
                 >
-                  <AppleLogo className="w-8 h-8 flex-shrink-0" />
+                  <AppleLogo className="w-7 h-7 flex-shrink-0 text-primary-dark dark:text-white" />
                   <div className="text-left leading-tight">
-                    <span className="block text-[11px] font-normal tracking-wide opacity-80">Beta pública en</span>
-                    <span className="block text-[20px] font-semibold -mt-0.5">App Store</span>
+                    <span className="block text-[11px] font-normal tracking-wide opacity-75">Beta pública en</span>
+                    <span className="block text-[19px] font-semibold -mt-0.5">App Store</span>
                   </div>
                 </button>
                 <button
                   onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
-                  className="group flex items-center gap-3.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-6 py-3.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
+                  className="group flex items-center gap-3 bg-primary-dark/[0.07] hover:bg-primary-dark/[0.14] dark:bg-white/10 dark:hover:bg-white/20 text-primary-dark dark:text-white rounded-2xl px-4 py-3 border border-primary-dark/30 hover:border-primary-dark/50 dark:border-white/35 dark:hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
                   aria-label="Descargar Vokkado en Google Play"
                   title="Descargar Vokkado beta pública en Google Play"
                 >
-                  <GooglePlayLogo className="w-8 h-8 flex-shrink-0" />
+                  <GooglePlayLogo className="w-7 h-7 flex-shrink-0" />
                   <div className="text-left leading-tight">
-                    <span className="block text-[11px] font-normal tracking-wide opacity-80">Beta pública en</span>
-                    <span className="block text-[20px] font-semibold -mt-0.5">Google Play</span>
+                    <span className="block text-[11px] font-normal tracking-wide opacity-75">Beta pública en</span>
+                    <span className="block text-[19px] font-semibold -mt-0.5">Google Play</span>
                   </div>
                 </button>
               </div>
@@ -115,20 +124,31 @@ const HeroSection: React.FC = () => {
             <IPhoneMockup>
               {galleryImages.length > 0 ? (
                 <div className="relative w-full h-full select-none">
-                  {galleryImages.map((src, i) => (
+                  {/* Todas montadas y ocultas: así ya están cargadas cuando les toca */}
+                  <div className="hidden" aria-hidden="true">
+                    {galleryImages.map((src, i) => (
+                      <img key={i} src={src} alt="" />
+                    ))}
+                  </div>
+                  {previa !== idx && (
                     <img
-                      key={i}
-                      src={src}
-                      alt={`Vokkado captura ${i + 1}`}
-                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out"
-                      style={{ opacity: i === idx ? 1 : 0 }}
+                      src={galleryImages[previa]}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover"
                       draggable={false}
-                      aria-hidden={i !== idx}
+                      aria-hidden="true"
                     />
-                  ))}
+                  )}
+                  <img
+                    key={idx}
+                    src={galleryImages[idx]}
+                    alt={`Vokkado captura ${idx + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover captura-entra"
+                    draggable={false}
+                  />
                 </div>
               ) : (
-                <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary-DEFAULT flex flex-col items-center justify-center text-white p-4">
+                <div className="w-full h-full bg-gradient-to-b from-primary-dark to-primary flex flex-col items-center justify-center text-white p-4">
                   <p className="text-sm font-semibold text-center">Próximamente</p>
                   <p className="text-xs text-center opacity-80 mt-1">Capturas de la app</p>
                 </div>

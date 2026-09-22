@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
-import { SECTION_IDS, COLORS } from '../constants';
+import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 // Import step images (placeholders — drop real screenshots into images/steps/)
@@ -112,7 +112,7 @@ const IconEl: React.FC<{
 
 /* ── Placeholder screen for a step without a screenshot ── */
 const StepPlaceholder: React.FC<{ icon: string; type: 'ion' | 'mdi' }> = ({ icon, type }) => (
-  <div className="w-full h-full bg-gradient-to-br from-primary-DEFAULT to-primary-light flex flex-col items-center justify-center text-white gap-3">
+  <div className="w-full h-full bg-gradient-to-br from-primary to-primary-light flex flex-col items-center justify-center text-white gap-3">
     <IconEl name={icon} type={type} style={{ fontSize: '56px', color: 'rgba(255,255,255,0.5)' }} />
     <span className="text-xs font-medium opacity-50">Captura próximamente</span>
   </div>
@@ -153,18 +153,20 @@ const StepText: React.FC<{ step: StepData; isActive?: boolean; centered?: boolea
     <div
       className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-5 w-fit transition-colors duration-300 ${
         centered ? 'mx-auto' : ''
-      } ${isActive ? 'bg-primary-dark text-white' : 'bg-primary-lightest text-primary-dark'}`}
+      } ${isActive
+        ? 'bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep'
+        : 'bg-primary-lightest dark:bg-primary-light/15 text-primary-dark dark:text-primary-light'}`}
     >
       <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
       {step.tag}
     </div>
 
-    <h3 className="font-display text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest leading-tight mb-4 text-balance">
+    <h3 className="font-display text-3xl sm:text-4xl lg:text-[2.4rem] font-bold text-neutral-darkest dark:text-white leading-tight mb-4 text-balance">
       {step.title}
-      <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
+      <span className="text-primary-dark dark:text-primary-light whitespace-nowrap">{step.titleAccent}</span>
     </h3>
 
-    <p className={`text-base sm:text-lg text-neutral-dark leading-relaxed mb-8 ${centered ? 'mx-auto max-w-md' : 'max-w-xl'}`}>
+    <p className={`text-base sm:text-lg text-neutral-dark dark:text-white/75 leading-relaxed mb-8 ${centered ? 'mx-auto max-w-md' : 'max-w-xl'}`}>
       {step.description}
     </p>
 
@@ -172,9 +174,9 @@ const StepText: React.FC<{ step: StepData; isActive?: boolean; centered?: boolea
       {step.highlights.map((h, i) => (
         <div key={i} className="flex items-center gap-3" title={h.text}>
           <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-            <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} title={h.text} />
+            <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px' }} className="text-primary dark:text-primary-light" title={h.text} />
           </div>
-          <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
+          <span className="text-sm sm:text-base text-neutral-dark dark:text-white/75 font-medium">{h.text}</span>
         </div>
       ))}
     </div>
@@ -236,25 +238,25 @@ const MobileStep: React.FC<{ step: StepData; number: number }> = ({ step, number
 
   return (
     <div ref={anim.ref} className="flex flex-col items-center text-center">
-      <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-4 bg-primary-dark text-white">
-        <span className="w-5 h-5 rounded-full bg-white/25 flex items-center justify-center text-xs">{number}</span>
+      <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold mb-4 bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep">
+        <span className="w-5 h-5 rounded-full bg-white/25 dark:bg-night-deep/20 flex items-center justify-center text-xs">{number}</span>
         {step.tag}
       </div>
 
-      <h3 className="font-display text-2xl sm:text-3xl font-bold text-neutral-darkest leading-tight mb-3 text-balance">
+      <h3 className="font-display text-2xl sm:text-3xl font-bold text-neutral-darkest dark:text-white leading-tight mb-3 text-balance">
         {step.title}
-        <span className="text-primary-dark whitespace-nowrap">{step.titleAccent}</span>
+        <span className="text-primary-dark dark:text-primary-light whitespace-nowrap">{step.titleAccent}</span>
       </h3>
 
-      <p className="text-base text-neutral-dark leading-relaxed max-w-sm mb-6">{step.description}</p>
+      <p className="text-base text-neutral-dark dark:text-white/75 leading-relaxed max-w-sm mb-6">{step.description}</p>
 
       <div className="flex flex-col gap-3 w-fit mx-auto text-left mb-8">
         {step.highlights.map((h, i) => (
           <div key={i} className="flex items-center gap-3" title={h.text}>
             <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-              <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px', color: COLORS.primary.DEFAULT }} title={h.text} />
+              <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px' }} className="text-primary dark:text-primary-light" title={h.text} />
             </div>
-            <span className="text-sm sm:text-base text-neutral-dark font-medium">{h.text}</span>
+            <span className="text-sm sm:text-base text-neutral-dark dark:text-white/75 font-medium">{h.text}</span>
           </div>
         ))}
       </div>
@@ -281,15 +283,15 @@ const HowItWorksSection: React.FC = () => {
   return (
     <section id={SECTION_IDS.howItWorks} className="relative pt-8 pb-20 sm:pt-10 sm:pb-28">
       {/* ── Fondo limpio ── */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div ref={headerAnim.ref} className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-            Los pasos para <span className="text-primary-dark">saber elegir</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+            Los pasos para <span className="text-primary-dark dark:text-primary-light">saber elegir</span>
           </h2>
-          <p className="mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
+          <p className="mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
             En unos pasos pasás de la duda a una respuesta clara, personalizada y al instante.
           </p>
         </div>

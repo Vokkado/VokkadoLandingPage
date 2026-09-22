@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useCanHover } from '../hooks/useCanHover';
 import paltaNutri from '../images/nutri/palta-nutricionista.png';
-import wordmark from '../images/nutri/vokkado-nutri-wordmark.png';
 
 const EMAIL = 'contact@vokkado.com';
 const SUBJECT = 'Quiero sumarme a Vokkado para nutricionistas';
@@ -58,25 +58,34 @@ const FLIPS: Flip[] = [
   },
 ];
 
-const FlipTile: React.FC<{ flip: Flip; delay: number }> = ({ flip, delay }) => {
+const FlipTile: React.FC<{
+  flip: Flip;
+  delay: number;
+  isOpen: boolean;
+  onToggle: () => void;
+  sugerir?: boolean;
+}> = ({ flip, delay, isOpen, onToggle, sugerir = false }) => {
   const anim = useScrollAnimation({ animation: 'fade-up', delay, threshold: 0.15 });
-  const [flipped, setFlipped] = useState(false);
+  const puedeHover = useCanHover();
   const [hovered, setHovered] = useState(false);
-  const shown = flipped || hovered;
+  // Con mouse gira sola al pasar por encima, sin clic. Con dedo, el toque manda.
+  const shown = puedeHover ? hovered : isOpen;
 
   return (
     <div ref={anim.ref} style={{ perspective: '1200px' }}>
       <button
         type="button"
-        onClick={() => setFlipped(f => !f)}
+        onClick={puedeHover ? undefined : onToggle}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onFocus={() => puedeHover && setHovered(true)}
+        onBlur={() => puedeHover && setHovered(false)}
         aria-pressed={shown}
         aria-label={`${flip.backTitle}: ${flip.back}`}
-        className="relative block w-full h-[250px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 rounded-2xl"
+        className="relative block w-full h-[250px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-nutri-dark dark:focus-visible:ring-nutri-light focus-visible:ring-offset-2 focus-visible:ring-offset-friendlyWhite dark:focus-visible:ring-offset-nightNutri rounded-2xl"
       >
         <div
-          className="relative w-full h-full"
+          className={`relative w-full h-full ${sugerir ? 'amague-giro' : ''}`}
           style={{
             transformStyle: 'preserve-3d',
             transition: 'transform 0.6s cubic-bezier(0.4,0,0.2,1)',
@@ -85,22 +94,24 @@ const FlipTile: React.FC<{ flip: Flip; delay: number }> = ({ flip, delay }) => {
         >
           {/* Frente: el día a día */}
           <div
-            className="absolute inset-0 rounded-2xl border border-neutral-light bg-white shadow-sm p-6 flex flex-col justify-between"
+            className="absolute inset-0 rounded-2xl border border-neutral-light dark:border-white/10 bg-white dark:bg-nightNutri-card shadow-sm dark:shadow-black/30 p-6 flex flex-col justify-between"
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
           >
-            <div className="w-11 h-11 rounded-xl bg-neutral-light flex items-center justify-center">
-              <ion-icon name={flip.frontIcon} style={{ fontSize: '22px', color: '#374151' }} aria-hidden="true" />
+            <div className="flex items-center justify-between gap-2">
+              <div className="w-11 h-11 rounded-xl bg-neutral-light dark:bg-white/10 flex items-center justify-center">
+                <ion-icon name={flip.frontIcon} style={{ fontSize: '22px' }} className="text-neutral-dark dark:text-white/75" aria-hidden="true" />
+              </div>
+              <span className="font-sans inline-flex items-center gap-1.5 rounded-full bg-nutri-lightest dark:bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-nutri-dark dark:text-nutri-light">
+                <ion-icon name="sync-outline" style={{ fontSize: '13px' }} className="giro-lento" aria-hidden="true" />
+                {puedeHover ? 'pasá el mouse' : 'tocá la tarjeta'}
+              </span>
             </div>
-            <p className="font-sans text-base sm:text-lg font-semibold text-neutral-darkest leading-snug">{flip.front}</p>
-            <span className="font-sans inline-flex items-center gap-1.5 text-xs font-semibold text-primary-dark">
-              <ion-icon name="sync-outline" style={{ fontSize: '15px' }} aria-hidden="true" />
-              girá para la respuesta
-            </span>
+            <p className="font-sans text-base sm:text-lg font-semibold text-neutral-darkest dark:text-white leading-snug">{flip.front}</p>
           </div>
 
           {/* Dorso: cómo queda */}
           <div
-            className="absolute inset-0 rounded-2xl bg-primary-dark shadow-md p-6 flex flex-col justify-between text-white"
+            className="absolute inset-0 rounded-2xl bg-nutri-dark shadow-md p-6 flex flex-col justify-between text-white"
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
             <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
@@ -179,13 +190,13 @@ const ModuleTile: React.FC<{ item: ModuleCard; index: number }> = ({ item, index
   return (
     <div
       ref={ref}
-      className="group bg-white rounded-3xl p-7 shadow-sm hover:shadow-lg border border-neutral-100 hover:border-primary-light/40 transition-all duration-300"
+      className="group bg-white dark:bg-nightNutri-card rounded-3xl p-7 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-nutri-light/50 transition-all duration-300"
     >
-      <div className="w-12 h-12 rounded-2xl bg-primary-light/15 flex items-center justify-center mb-5 group-hover:bg-primary-light/30 transition-colors duration-300">
-        <ion-icon name={item.icon} style={{ fontSize: '24px', color: '#22521D' }} aria-hidden="true" title={item.title} />
+      <div className="w-12 h-12 rounded-2xl bg-nutri-light/20 flex items-center justify-center mb-5 group-hover:bg-nutri-light/35 transition-colors duration-300">
+        <ion-icon name={item.icon} style={{ fontSize: '24px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" title={item.title} />
       </div>
-      <h3 className="font-sans text-lg font-semibold text-neutral-darkest mb-2.5">{item.title}</h3>
-      <p className="font-sans text-sm text-neutral-DEFAULT leading-relaxed">{item.desc}</p>
+      <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-2.5">{item.title}</h3>
+      <p className="font-sans text-sm text-neutral dark:text-white/65 leading-relaxed">{item.desc}</p>
     </div>
   );
 };
@@ -216,16 +227,16 @@ const BridgeCard: React.FC<{ item: typeof BRIDGE[0]; index: number }> = ({ item,
   return (
     <div
       ref={ref}
-      className="group bg-white rounded-3xl p-7 shadow-sm hover:shadow-lg border border-neutral-100 hover:border-primary-light/40 transition-all duration-300"
+      className="group bg-white dark:bg-nightNutri-card rounded-3xl p-7 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-nutri-light/50 transition-all duration-300"
     >
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 rounded-2xl bg-primary-light/15 flex items-center justify-center group-hover:bg-primary-light/30 transition-colors duration-300">
-          <ion-icon name={item.icon} style={{ fontSize: '24px', color: '#22521D' }} aria-hidden="true" title={item.title} />
+        <div className="w-12 h-12 rounded-2xl bg-nutri-light/20 flex items-center justify-center group-hover:bg-nutri-light/35 transition-colors duration-300">
+          <ion-icon name={item.icon} style={{ fontSize: '24px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" title={item.title} />
         </div>
-        <span className="font-sans text-xs font-bold text-primary-dark/60">{`0${index + 1}`}</span>
+        <span className="font-sans text-xs font-bold text-nutri-dark/60 dark:text-nutri-light/70">{`0${index + 1}`}</span>
       </div>
-      <h3 className="font-sans text-lg font-semibold text-neutral-darkest mb-2.5">{item.title}</h3>
-      <p className="font-sans text-sm text-neutral-DEFAULT leading-relaxed">{item.desc}</p>
+      <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-2.5">{item.title}</h3>
+      <p className="font-sans text-sm text-neutral dark:text-white/65 leading-relaxed">{item.desc}</p>
     </div>
   );
 };
@@ -242,12 +253,12 @@ const STEPS = [
 const StepCard: React.FC<{ step: typeof STEPS[0]; index: number }> = ({ step, index }) => {
   const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.1 });
   return (
-    <div ref={ref} className="bg-white rounded-3xl p-8 border border-neutral-100 shadow-sm text-center">
-      <div className="w-12 h-12 rounded-full bg-primary-dark text-white font-sans font-bold text-lg flex items-center justify-center mx-auto mb-5">
+    <div ref={ref} className="bg-white dark:bg-nightNutri-card rounded-3xl p-8 border border-neutral-100 dark:border-white/10 shadow-sm text-center">
+      <div className="w-12 h-12 rounded-full bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-bold text-lg flex items-center justify-center mx-auto mb-5">
         {step.n}
       </div>
-      <h3 className="font-sans text-lg font-semibold text-neutral-darkest mb-2.5">{step.title}</h3>
-      <p className="font-sans text-sm text-neutral-DEFAULT leading-relaxed">{step.desc}</p>
+      <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-2.5">{step.title}</h3>
+      <p className="font-sans text-sm text-neutral dark:text-white/65 leading-relaxed">{step.desc}</p>
     </div>
   );
 };
@@ -266,47 +277,44 @@ const NutritionistsPage: React.FC = () => {
   const { ref: privacyRef } = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.15 });
   const { ref: stepsTitleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   const { ref: ctaRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
+  const [openFlip, setOpenFlip] = useState<number | null>(null);
+  const puedeHover = useCanHover();
 
   return (
-    <div className="relative bg-friendlyWhite text-neutral-dark overflow-hidden">
+    <div className="relative bg-friendlyWhite dark:bg-nightNutri text-neutral-dark dark:text-white/75 overflow-hidden">
 
       {/* ── Fondo continuo ── */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#E3F2EF] via-friendlyWhite to-white dark:from-nightNutri-soft dark:via-nightNutri dark:to-nightNutri-deep" />
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05] text-nutri dark:text-nutri-light"
           style={{
-            backgroundImage: 'linear-gradient(#22521D 1px, transparent 1px), linear-gradient(90deg, #22521D 1px, transparent 1px)',
+            backgroundImage: 'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
             backgroundSize: '44px 44px',
           }}
         />
-        <div className="absolute -top-28 right-[-120px] w-96 h-96 rounded-full bg-primary-light/20 blur-3xl" />
-        <div className="absolute top-[45%] left-[-160px] w-80 h-80 rounded-full bg-primary-lightest/60 blur-3xl" />
+        <div className="absolute -top-28 right-[-120px] w-96 h-96 rounded-full bg-nutri-light/20 dark:bg-nutri/15 blur-3xl" />
+        <div className="absolute top-[45%] left-[-160px] w-80 h-80 rounded-full bg-nutri-lightest/70 dark:bg-nutri-dark/30 blur-3xl" />
       </div>
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
+      <section className="relative overflow-hidden pt-32 pb-16 sm:pt-36 sm:pb-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="md:grid md:grid-cols-5 md:gap-12 md:items-center">
 
             <div ref={heroTextRef} className="md:col-span-3 text-center md:text-left">
-              <img
-                src={wordmark}
-                alt="Vokkado nutri"
-                className="h-9 sm:h-11 w-auto mb-7 mx-auto md:mx-0"
-              />
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest tracking-tight leading-tight mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest dark:text-white tracking-tight leading-tight mb-6">
                 Menos planillas, <br className="hidden sm:block" />
-                <span className="text-primary-dark">más consulta</span>
+                <span className="text-nutri-dark dark:text-nutri-light">más consulta</span>
               </h1>
-              <p className="font-sans text-lg md:text-xl text-neutral-dark leading-relaxed max-w-2xl mx-auto md:mx-0 mb-8">
+              <p className="font-sans text-lg md:text-xl text-neutral-dark dark:text-white/75 leading-relaxed max-w-2xl mx-auto md:mx-0 mb-8">
                 Estudiaste para acompañar personas, no para pelearte con una planilla. Tu agenda, tus fichas y tus planes, en un solo lugar.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <button
                   type="button"
                   onClick={() => document.getElementById('modulos')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="inline-flex items-center gap-2 bg-primary-dark text-white font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
+                  className="inline-flex items-center gap-2 bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-nutri dark:hover:bg-nutri-light/85 hover:scale-105 transition-all duration-200 shadow-sm"
                 >
                   Ver cómo funciona
                   <ion-icon name="arrow-down-outline" style={{ fontSize: '16px' }} />
@@ -315,7 +323,7 @@ const NutritionistsPage: React.FC = () => {
                   href={GMAIL_COMPOSE}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border border-primary-dark/25 text-primary-dark font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary-lightest hover:scale-105 transition-all duration-200"
+                  className="inline-flex items-center gap-2 border border-nutri-dark/25 dark:border-nutri-light/40 text-nutri-dark dark:text-nutri-light font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-nutri-lightest dark:hover:bg-white/5 hover:scale-105 transition-all duration-200"
                 >
                   Quiero probarla
                   <ion-icon name="mail-outline" style={{ fontSize: '16px' }} />
@@ -325,15 +333,15 @@ const NutritionistsPage: React.FC = () => {
 
             <div ref={heroImgRef} className="md:col-span-2 mt-14 md:mt-0 flex justify-center md:justify-end">
               <div className="relative flex items-center justify-center w-72 h-72 sm:w-80 sm:h-80">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-light/30 via-[#d6eabf]/40 to-primary-lightest/20 blur-2xl" />
-                <div className="absolute inset-4 rounded-full border border-primary-light/25 border-dashed" />
-                <div className="absolute top-3 right-10 w-3 h-3 rounded-full bg-primary-light/50" />
-                <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-primary-DEFAULT/40" />
-                <div className="absolute top-1/2 right-2 w-2 h-2 rounded-full bg-primary-light/60" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-nutri-light/30 via-[#cfe9e4]/50 to-nutri-lightest/40 dark:from-nutri/25 dark:via-nutri-dark/30 dark:to-nutri-dark/20 blur-2xl" />
+                <div className="absolute inset-4 rounded-full border border-nutri-light/35 border-dashed" />
+                <div className="absolute top-3 right-10 w-3 h-3 rounded-full bg-nutri-light/50" />
+                <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-nutri/40" />
+                <div className="absolute top-1/2 right-2 w-2 h-2 rounded-full bg-nutri-light/60" />
                 <img
                   src={paltaNutri}
                   alt="La palta nutricionista de Vokkado"
-                  className="relative z-10 w-60 sm:w-72 drop-shadow-[0_20px_40px_rgba(34,82,29,0.18)]"
+                  className="relative z-10 w-60 sm:w-72 drop-shadow-[0_20px_40px_rgba(12,75,69,0.20)] dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.45)]"
                 />
               </div>
             </div>
@@ -346,24 +354,31 @@ const NutritionistsPage: React.FC = () => {
       <section className="relative py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div ref={painTitleRef} className="text-center mb-12 sm:mb-14 max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-              Esto también es <span className="text-primary-dark">trabajo</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+              Esto también es <span className="text-nutri-dark dark:text-nutri-light">trabajo</span>
             </h2>
-            <p className="font-sans mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
+            <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
               Todo lo que pasa alrededor de la consulta, coordinar, buscar, recalcular, recordar, se lleva horas que no se cobran. Girá cada tarjeta y mirá cómo queda cuando lo resolvés una sola vez.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto mb-14">
             {FLIPS.map((flip, i) => (
-              <FlipTile key={flip.backTitle} flip={flip} delay={(i % 3) * 100} />
+              <FlipTile
+                key={flip.backTitle}
+                flip={flip}
+                delay={(i % 3) * 100}
+                isOpen={openFlip === i}
+                onToggle={() => setOpenFlip(prev => (prev === i ? null : i))}
+                sugerir={!puedeHover && i === 0 && openFlip === null}
+              />
             ))}
           </div>
 
           <div ref={painClosingRef} className="text-center max-w-2xl mx-auto">
-            <p className="font-sans text-xl sm:text-2xl text-neutral-darkest font-medium leading-relaxed">
+            <p className="font-sans text-xl sm:text-2xl text-neutral-darkest dark:text-white font-medium leading-relaxed">
               Tu criterio profesional no lo reemplaza ningún software.{' '}
-              <span className="text-primary-dark font-bold">
+              <span className="text-nutri-dark dark:text-nutri-light font-bold">
                 Lo que sí podemos sacarte de encima es todo lo que te distrae de ejercerlo.
               </span>
             </p>
@@ -375,10 +390,10 @@ const NutritionistsPage: React.FC = () => {
       <section id="modulos" className="relative py-16 sm:py-20 scroll-mt-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div ref={modulesTitleRef} className="text-center mb-14 max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest leading-tight">
-              Todo tu consultorio, <span className="text-primary-dark">en un lugar</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+              Todo tu consultorio, <span className="text-nutri-dark dark:text-nutri-light">en un lugar</span>
             </h2>
-            <p className="font-sans mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
+            <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
               Cada módulo resuelve una parte de tu semana y conversa con los demás, así no cargás el mismo dato dos veces.
             </p>
           </div>
@@ -392,7 +407,7 @@ const NutritionistsPage: React.FC = () => {
       </section>
 
       {/* ── Bloque oscuro: qué nos hace distintos ── */}
-      <section className="relative py-20 sm:py-28 overflow-hidden bg-primary-dark">
+      <section className="relative py-20 sm:py-28 overflow-hidden bg-nutri-dark">
         <div
           className="absolute inset-0 opacity-[0.05]"
           style={{ backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }}
@@ -400,7 +415,7 @@ const NutritionistsPage: React.FC = () => {
         <div ref={quoteRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center relative">
           <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug">
             Tu paciente elige solo,
-            <span className="text-primary-light"> parado en la góndola, </span>
+            <span className="text-nutri-light"> parado en la góndola, </span>
             con el producto en la mano
           </blockquote>
           <p className="font-sans mt-8 text-white/80 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
@@ -409,14 +424,14 @@ const NutritionistsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── El puente con la app ── */}
-      <section className="relative py-20 sm:py-24">
+      {/* ── El puente con la app del paciente ── */}
+      <section className="relative py-20 sm:py-24 bg-[#EDF6F4] dark:bg-nightNutri-soft border-b border-nutri-light/30 dark:border-white/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div ref={bridgeTitleRef} className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest leading-tight">
-              Tu criterio, <span className="text-primary-dark">también fuera del consultorio</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest dark:text-white leading-tight">
+              Tu criterio, <span className="text-nutri-dark dark:text-nutri-light">también fuera del consultorio</span>
             </h2>
-            <p className="font-sans mt-5 text-lg text-neutral-dark max-w-2xl mx-auto">
+            <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
               Lo que definís en la consulta no se queda en la ficha, acompaña a tu paciente en cada compra.
             </p>
           </div>
@@ -429,14 +444,14 @@ const NutritionistsPage: React.FC = () => {
 
           <div
             ref={privacyRef}
-            className="bg-white rounded-3xl border border-primary-light/30 shadow-sm p-8 sm:p-10 flex flex-col sm:flex-row items-start gap-6"
+            className="bg-white dark:bg-nightNutri-card rounded-3xl border border-nutri-light/40 dark:border-white/10 shadow-sm dark:shadow-black/30 p-8 sm:p-10 flex flex-col sm:flex-row items-start gap-6"
           >
-            <div className="w-14 h-14 rounded-2xl bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-              <ion-icon name="lock-closed-outline" style={{ fontSize: '26px', color: '#22521D' }} aria-hidden="true" />
+            <div className="w-14 h-14 rounded-2xl bg-nutri-light/20 flex items-center justify-center flex-shrink-0">
+              <ion-icon name="lock-closed-outline" style={{ fontSize: '26px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="font-sans text-lg font-semibold text-neutral-darkest mb-3">Acompañar no es vigilar</h3>
-              <p className="font-sans text-sm sm:text-base text-neutral-DEFAULT leading-relaxed">
+              <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-3">Acompañar no es vigilar</h3>
+              <p className="font-sans text-sm sm:text-base text-neutral dark:text-white/65 leading-relaxed">
                 El paciente decide qué comparte y puede dejar de compartirlo cuando quiera. Vos ves un resumen de sus compras confirmadas, nunca sus escaneos sueltos ni lo que anduvo mirando. Esa frontera es la que hace que el paciente se anime a compartir, y es lo que vuelve el dato confiable para vos.
               </p>
             </div>
@@ -448,8 +463,8 @@ const NutritionistsPage: React.FC = () => {
       <section className="relative py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div ref={stepsTitleRef} className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest">Cómo empezás</h2>
-            <p className="font-sans mt-4 text-neutral-DEFAULT max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest dark:text-white">Cómo empezás</h2>
+            <p className="font-sans mt-4 text-neutral dark:text-white/65 max-w-2xl mx-auto">
               Sin migraciones eternas ni capacitaciones de una semana.
             </p>
           </div>
@@ -462,12 +477,12 @@ const NutritionistsPage: React.FC = () => {
       </section>
 
       {/* ── CTA exclusivo ── */}
-      <section className="relative py-20 sm:py-24 bg-[#f4f8ec] border-t border-primary-light/20">
+      <section className="relative py-20 sm:py-24 bg-[#E3F2EF] dark:bg-nightNutri-soft border-t border-nutri-light/30 dark:border-white/10">
         <div ref={ctaRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest mb-5 leading-tight">
-            Estamos armando esto <span className="text-primary-dark">con nutricionistas</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest dark:text-white mb-5 leading-tight">
+            Estamos armando esto <span className="text-nutri-dark dark:text-nutri-light">con nutricionistas</span>
           </h2>
-          <p className="font-sans text-base sm:text-lg text-neutral-dark leading-relaxed mb-9">
+          <p className="font-sans text-base sm:text-lg text-neutral-dark dark:text-white/75 leading-relaxed mb-9">
             Si atendés en consultorio y querés entrar al grupo que la está probando, escribinos. Nos interesa tu forma de trabajar antes que tu firma, porque lo que nos cuentes se convierte en lo próximo que construimos.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -475,14 +490,14 @@ const NutritionistsPage: React.FC = () => {
               href={GMAIL_COMPOSE}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-primary-dark text-white font-sans font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-primary-DEFAULT hover:scale-105 transition-all duration-200 shadow-sm"
+              className="inline-flex items-center justify-center gap-2 bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-nutri dark:hover:bg-nutri-light/85 hover:scale-105 transition-all duration-200 shadow-sm"
             >
               Sumarme desde Gmail
               <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
             </a>
             <a
               href={MAILTO}
-              className="inline-flex items-center justify-center gap-2 border border-primary-dark/25 text-primary-dark font-sans font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-white hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 border border-nutri-dark/25 dark:border-nutri-light/40 text-nutri-dark dark:text-nutri-light font-sans font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-white dark:hover:bg-white/5 hover:scale-105 transition-all duration-200"
             >
               Escribir a {EMAIL}
               <ion-icon name="mail-outline" style={{ fontSize: '16px' }} />

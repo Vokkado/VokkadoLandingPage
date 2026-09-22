@@ -30,7 +30,7 @@ const CallToActionSection: React.FC = () => {
     >
       {/* ── Fondo limpio ── */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark via-primary-DEFAULT to-primary-dark" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#38862E] via-primary-dark to-[#0D2A0A] dark:from-night-soft dark:via-night dark:to-night-deep" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
@@ -53,12 +53,12 @@ const CallToActionSection: React.FC = () => {
             {/* App Store button */}
             <button
               onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
-              className="group flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-lg px-4 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[180px]"
+              className="group flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-3 border border-white/35 hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[200px]"
               aria-label="Descargar beta pública en App Store"
             >
-              <AppleLogo className="w-6 h-6 flex-shrink-0" />
+              <AppleLogo className="w-6 h-6 flex-shrink-0 text-white" />
               <div className="text-left leading-tight">
-                <span className="block text-[9px] font-normal tracking-wide opacity-80">Beta pública en</span>
+                <span className="block text-[10px] font-normal tracking-wide opacity-75">Beta pública en</span>
                 <span className="block text-base font-semibold -mt-0.5">App Store</span>
               </div>
             </button>
@@ -66,12 +66,12 @@ const CallToActionSection: React.FC = () => {
             {/* Google Play button */}
             <button
               onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
-              className="group flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-lg px-4 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[180px]"
+              className="group flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-3 border border-white/35 hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[200px]"
               aria-label="Descargar beta pública en Google Play"
             >
               <GooglePlayLogo className="w-6 h-6 flex-shrink-0" />
               <div className="text-left leading-tight">
-                <span className="block text-[9px] font-normal tracking-wide opacity-80">Beta pública en</span>
+                <span className="block text-[10px] font-normal tracking-wide opacity-75">Beta pública en</span>
                 <span className="block text-base font-semibold -mt-0.5">Google Play</span>
               </div>
             </button>

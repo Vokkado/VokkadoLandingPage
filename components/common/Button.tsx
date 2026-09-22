@@ -19,19 +19,19 @@ const Button: React.FC<ButtonProps> = ({
   let variantStyle = '';
   switch (variant) {
     case 'primary':
-      variantStyle = 'bg-primary-dark text-white hover:bg-primary focus:ring-primary-dark';
+      variantStyle = 'bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep hover:bg-primary dark:hover:bg-primary-light/85 focus:ring-primary-dark dark:focus:ring-primary-light';
       break;
     case 'secondary':
       variantStyle = 'bg-secondary-dark text-white hover:bg-secondary focus:ring-secondary';
       break;
     case 'outline-primary':
-      variantStyle = 'bg-transparent text-primary-dark border-2 border-primary-dark hover:bg-primary-dark hover:text-white focus:ring-primary-dark';
+      variantStyle = 'bg-transparent text-primary-dark dark:text-primary-light border-2 border-primary-dark dark:border-primary-light hover:bg-primary-dark hover:text-white dark:hover:bg-primary-light dark:hover:text-night-deep focus:ring-primary-dark dark:focus:ring-primary-light';
       break;
     case 'outline-secondary':
         variantStyle = 'bg-transparent text-secondary border-2 border-secondary hover:bg-secondary hover:text-white focus:ring-secondary';
         break;
     case 'ghost':
-      variantStyle = 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-400'; // Adjusted focus ring
+      variantStyle = 'bg-transparent text-neutral-dark dark:text-white/75 hover:bg-neutral-light dark:hover:bg-white/10 focus:ring-neutral-medium';
       break;
   }
 

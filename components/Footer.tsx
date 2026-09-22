@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-neutral-darkest text-neutral-medium">
+    <footer className="bg-neutral-darkest dark:bg-night-deep text-neutral-medium dark:text-white/60 border-t border-transparent dark:border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
@@ -50,17 +50,17 @@ export const Footer: React.FC = () => {
             <div>
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Síguenos</h2>
               <div className="flex space-x-4 mt-2">
-                <a href="https://www.instagram.com/vokkado.uy" className="text-neutral-medium hover:text-primary-light transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/vokkado.uy" className="text-neutral-medium dark:text-white/60 hover:text-primary-light transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                   <ion-icon name="logo-instagram" style={{ fontSize: '24px' }} />
                 </a>
-                <a href="https://www.linkedin.com/company/vokkado" className="text-neutral-medium hover:text-primary-light transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/company/vokkado" className="text-neutral-medium dark:text-white/60 hover:text-primary-light transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                   <ion-icon name="logo-linkedin" style={{ fontSize: '24px' }} />
                 </a>
               </div>
             </div>
           </div>
         </div>
-        <hr className="my-6 border-neutral-dark sm:mx-auto lg:my-8" />
+        <hr className="my-6 border-neutral-dark dark:border-white/10 sm:mx-auto lg:my-8" />
         <div className="text-center text-sm">
           &copy; {currentYear} <Link to="/" className="hover:underline">{APP_NAME}™</Link>. Todos los derechos reservados.
         </div>

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 const TermsAndConditions: React.FC = () => {
   return (
-    <div className="min-h-screen bg-neutral-lightest py-20 px-4">
+    <div className="min-h-screen bg-neutral-lightest dark:bg-night py-20 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Botón volver */}
         <Link
           to="/"
-          className="inline-flex items-center text-primary-DEFAULT hover:text-primary-dark mb-8 transition-colors"
+          className="inline-flex items-center text-primary dark:text-primary-light hover:text-primary-dark dark:hover:text-primary-light/75 mb-8 transition-colors"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -17,22 +17,22 @@ const TermsAndConditions: React.FC = () => {
         </Link>
 
         {/* Contenido */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          <h1 className="text-4xl font-bold text-primary-DEFAULT mb-4">
+        <div className="bg-white dark:bg-night-card dark:border dark:border-white/10 rounded-2xl shadow-lg dark:shadow-black/30 p-8 md:p-12">
+          <h1 className="text-4xl font-bold text-primary dark:text-primary-light mb-4">
             Términos y Condiciones
           </h1>
-          <p className="text-neutral-dark mb-8">
+          <p className="text-neutral-dark dark:text-white/75 mb-8">
             Última actualización: Marzo 2026
           </p>
 
-          <p className="text-neutral-dark mb-8">
+          <p className="text-neutral-dark dark:text-white/75 mb-8">
             Bienvenido a Vokkado. Estos Términos y Condiciones rigen tu acceso y uso de nuestra aplicación, incluyendo todos sus contenidos, funcionalidades y servicios proporcionados a través de la misma.
           </p>
 
-          <div className="space-y-8 text-neutral-darkest">
+          <div className="space-y-8 text-neutral-darkest dark:text-white/80">
             {/* Sección 1 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 1. Aceptación de los Términos
               </h2>
               <p>
@@ -42,7 +42,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 2 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 2. Versión temprana
               </h2>
               <p>
@@ -52,7 +52,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 3 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 3. Licencia de Uso
               </h2>
               <p className="mb-4">
@@ -68,7 +68,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 4 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 4. Registro de Cuenta
               </h2>
               <p className="mb-4">
@@ -83,7 +83,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 5 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 5. Contenido del Usuario
               </h2>
               <p>
@@ -93,7 +93,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 6 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 6. Uso Prohibido
               </h2>
               <p className="mb-4">
@@ -109,7 +109,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 7 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 7. Información de Productos y Análisis
               </h2>
               <p>
@@ -119,7 +119,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 8 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 8. Limitación de Responsabilidad
               </h2>
               <p className="mb-4">
@@ -135,7 +135,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 9 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 9. Modificaciones de los Términos
               </h2>
               <p>
@@ -145,7 +145,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 10 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 10. Terminación
               </h2>
               <p>
@@ -155,7 +155,7 @@ const TermsAndConditions: React.FC = () => {
 
             {/* Sección 11 */}
             <section>
-              <h2 className="text-2xl font-bold text-primary-DEFAULT mb-4">
+              <h2 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 11. Contacto
               </h2>
               <p>
@@ -165,7 +165,7 @@ const TermsAndConditions: React.FC = () => {
           </div>
 
           {/* Botón volver abajo */}
-          <div className="mt-12 pt-8 border-t border-neutral-light">
+          <div className="mt-12 pt-8 border-t border-neutral-light dark:border-white/10">
             <Link
               to="/"
               className="inline-flex items-center justify-center w-full sm:w-auto bg-secondary-dark text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
