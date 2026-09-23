@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import IPhoneMockup from './common/IPhoneMockup';
 import paltaNutri from '../images/nutri/palta-nutricionista.png';
+import capturaAnalisis from '../images/gallery/5alfajor.png';
 
 const EMAIL = 'contact@vokkado.com';
 const SUBJECT = 'Quiero sumarme a Vokkado para nutricionistas';
@@ -36,11 +38,11 @@ const FRASES: Frase[] = [
   },
   {
     dicho: 'Vuelve a las tres semanas y lo que comió es lo que se acuerda.',
-    respuesta: 'Si el paciente lo habilita, ves un resumen de lo que compró frente a lo que le indicaste.',
+    respuesta: 'Si el paciente lo habilita, ves qué compró desde la última consulta y cuánto quedó marcado como no apto o con precaución.',
   },
   {
     dicho: 'Un sábado de tarde me llega la foto de una etiqueta desde el súper: ¿esto puedo comer? ¿es mejor este producto o este?',
-    respuesta: 'Las restricciones que cargás viajan a la app del paciente y le responden con tu criterio cuando escanea.',
+    respuesta: 'Con la app escanea y sabe al toque si le sirve. Y si lo habilita, vos después ves qué terminó comprando.',
   },
 ];
 
@@ -165,114 +167,264 @@ const FrasesDeConsultorio: React.FC = () => {
 };
 
 /* ──────────────────────────────────────────────────────────────
-   2. Los módulos de la plataforma
+   2. Los módulos, mostrados como el menú de la plataforma:
+      la barra lateral a la izquierda, el detalle a la derecha.
    ────────────────────────────────────────────────────────────── */
-interface ModuleCard {
+interface Modulo {
   icon: string;
   title: string;
   desc: string;
+  puntos: string[];
+  /* Vive adentro de la ficha del paciente, no es una entrada propia del menú. */
+  dentroDePacientes?: boolean;
+  /* Está en el menú de la plataforma pero todavía no se puede abrir. */
+  pronto?: boolean;
 }
 
-const MODULES: ModuleCard[] = [
+const MODULES: Modulo[] = [
   {
-    icon: 'calendar-outline',
-    title: 'Agenda y turnos',
-    desc: 'Tu calendario con tipos de consulta, bloqueos y lista de espera. El paciente pide el turno desde la app, en los horarios que habilitaste, y vos confirmás. El recordatorio sale solo.',
+    icon: 'home-outline',
+    title: 'Inicio',
+    desc: 'Tu día de un vistazo: la agenda de hoy y un panel que te avisa qué necesita atención, como turnos sin confirmar, controles vencidos o pacientes que faltaron y no reagendaron.',
+    puntos: ['Agenda de hoy', 'Turnos sin confirmar', 'Controles vencidos'],
   },
   {
     icon: 'people-outline',
     title: 'Pacientes',
-    desc: 'La ficha maestra de cada persona: datos, contacto, mutualista, consentimientos y documentos. Buscás por nombre y está todo ahí, sin revolver carpetas.',
+    desc: 'La ficha de cada persona: datos, contacto, mutualista, consentimientos, documentos y contactos de emergencia. Buscás por nombre y está todo ahí. Desde la ficha también lo vinculás con la app.',
+    puntos: ['Ficha y mutualista', 'Consentimientos', 'Documentos', 'Vínculo con la app'],
   },
   {
     icon: 'folder-open-outline',
     title: 'Historia clínica',
-    desc: 'Anamnesis, antecedentes, notas de evolución y diagnóstico nutricional. Cada nota queda guardada y fechada, así tu registro respalda lo que decidiste.',
+    dentroDePacientes: true,
+    desc: 'Cada consulta en cuatro fases: evaluación, diagnóstico, intervención y monitoreo. El diagnóstico se escribe en formato PES y la consulta cerrada no se toca: si hay que corregir, queda una nota con fecha y autor.',
+    puntos: ['Evaluación', 'Diagnóstico PES', 'Intervención', 'Monitoreo'],
   },
   {
     icon: 'body-outline',
     title: 'Antropometría',
-    desc: 'Peso, talla, pliegues y bioimpedancia en series históricas, con los indicadores calculados. La evolución se ve en un gráfico, no en una planilla.',
+    dentroDePacientes: true,
+    desc: 'Peso, talla, perímetros, siete pliegues y bioimpedancia en series históricas, con IMC e índice cintura cadera calculados. La evolución del peso se ve en un gráfico, no en una planilla.',
+    puntos: ['Peso, talla y perímetros', 'Siete pliegues', 'Bioimpedancia', 'Gráfico de evolución'],
   },
   {
     icon: 'restaurant-outline',
     title: 'Plan nutricional',
-    desc: 'Constructor de planes con cálculo de requerimientos, versiones guardadas y exportación a PDF. Cada plan referencia el diagnóstico que le dio origen.',
+    dentroDePacientes: true,
+    desc: 'La prescripción de cada consulta: cálculo de requerimientos con Mifflin o Harris Benedict, valor calórico total, macros, estructura de comidas y listas de intercambio con plantillas reutilizables. El constructor de planes con PDF viene después.',
+    puntos: ['Requerimientos', 'Macros', 'Estructura de comidas', 'Intercambios'],
   },
   {
     icon: 'trending-up-outline',
-    title: 'Seguimiento y adherencia',
-    desc: 'Compara lo indicado con lo que pasó de verdad, te avisa cuando un paciente se está alejando y te propone cuándo conviene citarlo de nuevo.',
+    title: 'Seguimiento',
+    dentroDePacientes: true,
+    desc: 'En el monitoreo evaluás cada objetivo con su evidencia y, si el paciente comparte sus compras, ves cuánto de lo que compró quedó marcado como no apto o con precaución. Al cerrar con fecha de control, el próximo turno se agenda solo.',
+    puntos: ['Objetivos con evidencia', 'Adherencia de compras', 'Próximo control automático'],
   },
   {
-    icon: 'chatbubbles-outline',
-    title: 'Comunicación',
-    desc: 'Mensajería con tus pacientes y plantillas para lo que escribís siempre. Tu vida personal deja de compartir bandeja con tu consultorio.',
-  },
-  {
-    icon: 'card-outline',
-    title: 'Facturación y pagos',
-    desc: 'Cada consulta cerrada genera su cargo, con cobros online y mutualistas. Sabés quién pagó y quién no sin sentarte a sumar a fin de mes.',
+    icon: 'calendar-outline',
+    title: 'Agenda',
+    desc: 'Tus tipos de consulta, tu disponibilidad semanal, los bloqueos y la lista de espera. Dos turnos no se pueden pisar y reprogramar no borra el historial.',
+    puntos: ['Tipos de consulta', 'Disponibilidad y bloqueos', 'Lista de espera'],
   },
   {
     icon: 'bar-chart-outline',
-    title: 'Reportes',
-    desc: 'Retención, ingresos, adherencia promedio y cuán llena está tu agenda. Números claros para decidir cómo crece tu práctica.',
+    title: 'Estadísticas',
+    desc: 'Cuántas consultas hiciste, cuántos pacientes nuevos entraron, la tasa de asistencia y qué tipo de consulta pesa más, en 30 días, 90 días o el último año.',
+    puntos: ['Consultas por mes', 'Asistencia', 'Pacientes nuevos'],
+  },
+  {
+    icon: 'chatbubbles-outline',
+    title: 'Mensajes',
+    desc: 'Mensajería con tus pacientes desde la misma plataforma, para que tu vida personal deje de compartir bandeja con tu consultorio.',
+    puntos: ['Mensajes con pacientes', 'Plantillas'],
+    pronto: true,
+  },
+  {
+    icon: 'card-outline',
+    title: 'Facturación',
+    desc: 'Cada consulta cerrada genera su cargo, con cobros online y mutualistas. Sabés quién pagó y quién no sin sentarte a sumar a fin de mes.',
+    puntos: ['Cargo por consulta', 'Cobros online', 'Mutualistas'],
+    pronto: true,
+  },
+  {
+    icon: 'book-outline',
+    title: 'Recursos',
+    desc: 'Material para compartir con tus pacientes y plantillas para lo que escribís siempre, guardado en un solo lugar.',
+    puntos: ['Material para pacientes', 'Plantillas'],
+    pronto: true,
   },
 ];
 
-const ModuleTile: React.FC<{ item: ModuleCard; index: number }> = ({ item, index }) => {
-  const { ref } = useScrollAnimation({ animation: 'fade-up', delay: (index % 3) * 100, threshold: 0.1 });
+const ExploradorDeModulos: React.FC = () => {
+  const [activo, setActivo] = useState(0);
+  const detalle = MODULES[activo];
+  const { ref } = useScrollAnimation({ animation: 'fade-up', delay: 100, threshold: 0.1 });
+
   return (
     <div
       ref={ref}
-      className="group bg-white dark:bg-nightNutri-card rounded-3xl p-7 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-nutri-light/50 transition-all duration-300"
+      className="rounded-3xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-nightNutri-card shadow-lg shadow-nutri-dark/5 dark:shadow-black/40 overflow-hidden"
     >
-      <div className="w-12 h-12 rounded-2xl bg-nutri-light/20 flex items-center justify-center mb-5 group-hover:bg-nutri-light/35 transition-colors duration-300">
-        <ion-icon name={item.icon} style={{ fontSize: '24px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" title={item.title} />
+      {/* Barra de la ventana */}
+      <div className="flex items-center gap-3 px-5 py-3 border-b border-neutral-100 dark:border-white/10 bg-neutral-50/80 dark:bg-white/[0.03]">
+        <span className="flex gap-1.5" aria-hidden="true">
+          <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20" />
+          <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20" />
+          <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20" />
+        </span>
+        <span className="font-sans text-xs text-neutral dark:text-white/45 truncate">Vokkado nutri · tu consultorio</span>
       </div>
-      <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-2.5">{item.title}</h3>
-      <p className="font-sans text-sm text-neutral dark:text-white/65 leading-relaxed">{item.desc}</p>
+
+      {/* En celular la barra lateral queda colapsada a solo íconos, como en
+          cualquier app; de tablet para arriba muestra los nombres. */}
+      {/* Altura fija: al cambiar de módulo la ventana no se agranda ni se achica. */}
+      <div className="grid grid-cols-[3.75rem_1fr] md:grid-cols-[250px_1fr] lg:grid-cols-[280px_1fr] h-[540px] md:h-[500px]">
+        <nav
+          aria-label="Módulos de la plataforma"
+          className="flex flex-col gap-0.5 md:gap-1 p-2 md:p-3 border-r border-neutral-100 dark:border-white/10 bg-neutral-50/50 dark:bg-white/[0.02] overflow-hidden"
+        >
+          {MODULES.map((mod, i) => {
+            const es = i === activo;
+            return (
+              <button
+                key={mod.title}
+                type="button"
+                onClick={() => setActivo(i)}
+                onMouseEnter={() => setActivo(i)}
+                aria-current={es ? 'true' : undefined}
+                aria-label={mod.title}
+                title={mod.title}
+                className={`relative flex items-center justify-center md:justify-start gap-3 h-11 md:h-auto md:py-2 rounded-xl text-left font-sans text-sm whitespace-nowrap transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-nutri-dark dark:focus-visible:ring-nutri-light ${
+                  mod.dentroDePacientes ? 'md:pl-8 md:pr-3.5' : 'md:px-3.5'
+                } ${
+                  es
+                    ? 'bg-nutri-lightest dark:bg-white/10 text-nutri-dark dark:text-nutri-light font-semibold'
+                    : 'text-neutral-dark dark:text-white/65 hover:bg-neutral-100 dark:hover:bg-white/5'
+                }`}
+              >
+                <span
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-nutri-dark dark:bg-nutri-light transition-opacity duration-200 ${
+                    es ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  aria-hidden="true"
+                />
+                <ion-icon name={mod.icon} style={{ fontSize: '20px' }} aria-hidden="true" className={mod.pronto ? 'opacity-60' : ''} />
+                <span className={`hidden md:inline ${mod.pronto ? 'opacity-60' : ''}`}>{mod.title}</span>
+                {mod.pronto && (
+                  <span className="hidden md:inline ml-auto font-sans text-[10px] font-semibold uppercase tracking-wide text-neutral-medium dark:text-white/35">
+                    Pronto
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Detalle del módulo elegido */}
+        <div className="p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col overflow-hidden">
+          <div className="w-11 h-11 md:w-12 md:h-12 rounded-2xl bg-nutri-light/20 flex items-center justify-center mb-5 md:mb-8">
+            <ion-icon name={detalle.icon} style={{ fontSize: '22px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" />
+          </div>
+
+          <div key={detalle.title} className="texto-entra flex-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-3 md:mb-4">
+              <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-semibold text-neutral-darkest dark:text-white">{detalle.title}</h3>
+              {detalle.pronto && (
+                <span className="font-sans text-[11px] font-semibold px-2.5 py-1 rounded-full bg-neutral-light dark:bg-white/10 text-neutral-dark dark:text-white/60">
+                  Próximamente
+                </span>
+              )}
+            </div>
+            <p className="font-sans text-sm sm:text-base md:text-lg text-neutral-dark dark:text-white/75 leading-relaxed max-w-xl">{detalle.desc}</p>
+            <ul className="flex flex-wrap gap-1.5 md:gap-2 mt-5 md:mt-7">
+              {detalle.puntos.map(pt => (
+                <li
+                  key={pt}
+                  className="font-sans text-[11px] sm:text-xs md:text-sm font-medium px-2.5 md:px-3 py-1 md:py-1.5 rounded-full border border-nutri-dark/20 dark:border-nutri-light/30 text-nutri-dark dark:text-nutri-light"
+                >
+                  {pt}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 /* ──────────────────────────────────────────────────────────────
-   3. El puente con la app que usan tus pacientes
+   3. El puente con la app que usan tus pacientes: el recorrido
+      de tu criterio y lo que ve el paciente en el súper.
    ────────────────────────────────────────────────────────────── */
 const BRIDGE = [
   {
-    icon: 'clipboard-outline',
-    title: 'Cargás la restricción una vez',
-    desc: 'La alergia, la patología o el objetivo que definís en la consulta queda en la ficha y viaja a la app del paciente vinculado.',
+    lugar: 'En tu consultorio',
+    icon: 'key-outline',
+    title: 'Vinculás a tu paciente con un código',
+    desc: 'Desde su ficha generás un código de un solo uso. Tu paciente lo carga en la app y elige qué compartir con vos: escaneos, carrito, lista de compras o restricciones.',
   },
   {
+    lugar: 'En el súper',
     icon: 'scan-outline',
-    title: 'El paciente la lleva al súper',
-    desc: 'Cuando escanea un producto, la app le responde con tu criterio: apto, precaución o no apto, y le explica por qué.',
+    title: 'Tu paciente escanea y compra como siempre',
+    desc: 'La app le dice si cada producto es apto, con precaución o no apto según sus restricciones, y le muestra los sellos de excesos. Cuando confirma el carrito, esa compra queda registrada.',
   },
   {
+    lugar: 'De vuelta en tu consultorio',
     icon: 'stats-chart-outline',
-    title: 'Vuelve como información útil',
-    desc: 'Si él lo habilita, sus compras confirmadas se resumen y se comparan con el plan. Llegás a la consulta sabiendo qué pasó.',
+    title: 'Ves lo que pasó de verdad',
+    desc: 'Con su permiso, abrís su historial de escaneos, sus carritos confirmados y su lista. En el monitoreo tenés cuánto de lo que compró desde la última consulta quedó marcado como no apto o con precaución.',
   },
 ];
 
-const BridgeCard: React.FC<{ item: typeof BRIDGE[0]; index: number }> = ({ item, index }) => {
-  const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.1 });
+const Recorrido: React.FC = () => (
+  <ol className="relative">
+    {/* La línea que une los tres pasos */}
+    <span className="absolute left-[19px] top-6 bottom-6 w-px bg-nutri-dark/15 dark:bg-white/15" aria-hidden="true" />
+    {BRIDGE.map((b, i) => (
+      <PasoRecorrido key={b.title} paso={b} index={i} />
+    ))}
+  </ol>
+);
+
+const PasoRecorrido: React.FC<{ paso: typeof BRIDGE[0]; index: number }> = ({ paso, index }) => {
+  const { ref } = useScrollAnimation<HTMLLIElement>({ animation: 'fade-up', delay: index * 120, threshold: 0.15 });
   return (
-    <div
-      ref={ref}
-      className="group bg-white dark:bg-nightNutri-card rounded-3xl p-7 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-nutri-light/50 transition-all duration-300"
-    >
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 rounded-2xl bg-nutri-light/20 flex items-center justify-center group-hover:bg-nutri-light/35 transition-colors duration-300">
-          <ion-icon name={item.icon} style={{ fontSize: '24px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" title={item.title} />
-        </div>
-        <span className="font-sans text-xs font-bold text-nutri-dark/60 dark:text-nutri-light/70">{`0${index + 1}`}</span>
+    <li ref={ref} className="relative flex gap-5 sm:gap-6 pb-10 last:pb-0">
+      <span className="relative z-10 w-10 h-10 shrink-0 rounded-full bg-white dark:bg-nightNutri-card border border-nutri-dark/20 dark:border-nutri-light/30 flex items-center justify-center text-nutri-dark dark:text-nutri-light">
+        <ion-icon name={paso.icon} style={{ fontSize: '18px' }} aria-hidden="true" />
+      </span>
+      <div className="pt-1.5">
+        <span className="font-sans text-[11px] font-bold uppercase tracking-wider text-nutri-dark/70 dark:text-nutri-light/70">
+          {paso.lugar}
+        </span>
+        <h3 className="font-display text-xl sm:text-2xl font-semibold text-neutral-darkest dark:text-white mt-1.5 mb-2 text-balance">
+          {paso.title}
+        </h3>
+        <p className="font-sans text-sm sm:text-base text-neutral-dark dark:text-white/70 leading-relaxed max-w-md">{paso.desc}</p>
       </div>
-      <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-2.5">{item.title}</h3>
-      <p className="font-sans text-sm text-neutral dark:text-white/65 leading-relaxed">{item.desc}</p>
+    </li>
+  );
+};
+
+/* Lo que ve el paciente cuando escanea: una captura real de la app,
+   en el mismo mockup que usa el inicio. */
+const PantallaDelPaciente: React.FC = () => {
+  const { ref } = useScrollAnimation({ animation: 'fade-left', delay: 150, threshold: 0.15 });
+  return (
+    <div ref={ref} className="relative">
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[80%] rounded-full bg-nutri-light/25 dark:bg-nutri/15 blur-3xl" aria-hidden="true" />
+      <IPhoneMockup className="relative">
+        <img
+          src={capturaAnalisis}
+          alt="Análisis de un producto en la app de Vokkado: no es apto por las restricciones del paciente"
+          className="w-full h-full object-cover"
+          draggable={false}
+        />
+      </IPhoneMockup>
     </div>
   );
 };
@@ -282,8 +434,8 @@ const BridgeCard: React.FC<{ item: typeof BRIDGE[0]; index: number }> = ({ item,
    ────────────────────────────────────────────────────────────── */
 const STEPS = [
   { n: '1', title: 'Creás tu cuenta', desc: 'Tu perfil profesional, tus tipos de consulta y tus horarios. En una tarde estás pronta para atender.' },
-  { n: '2', title: 'Traés tus pacientes', desc: 'Cargás las fichas que ya tenés y seguís desde donde estabas, sin empezar de cero con nadie.' },
-  { n: '3', title: 'Invitás a tus pacientes', desc: 'Le pasás a cada uno su código, lo acepta desde la app y queda vinculado a tu agenda y a tu criterio.' },
+  { n: '2', title: 'Traés tus pacientes', desc: 'Cargás la ficha de cada uno con lo que ya sabés y seguís desde donde estabas, sin empezar de cero con nadie.' },
+  { n: '3', title: 'Los vinculás con la app', desc: 'Desde la ficha generás un código de un solo uso. Tu paciente lo carga en la app y elige qué compartir con vos.' },
 ];
 
 const StepCard: React.FC<{ step: typeof STEPS[0]; index: number }> = ({ step, index }) => {
@@ -341,7 +493,7 @@ const NutritionistsPage: React.FC = () => {
                 <span className="text-nutri-dark dark:text-nutri-light">más consulta</span>
               </h1>
               <p className="font-sans text-lg md:text-xl text-neutral-dark dark:text-white/75 leading-relaxed max-w-2xl mx-auto md:mx-0 mb-8">
-                Estudiaste para acompañar personas, no para pelearte con una planilla. Tu agenda, tus fichas y tus planes, en un solo lugar.
+                Estudiaste para acompañar personas, no para pelearte con una planilla. Tu agenda, tus fichas y tus consultas, en un solo lugar.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <button
@@ -418,15 +570,11 @@ const NutritionistsPage: React.FC = () => {
               Todo tu consultorio, <span className="text-nutri-dark dark:text-nutri-light">en un lugar</span>
             </h2>
             <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
-              Cada módulo resuelve una parte de tu semana y conversa con los demás, así no cargás el mismo dato dos veces.
+              Cada parte conversa con las demás, así no cargás el mismo dato dos veces. Lo que dice "pronto" es lo que viene.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {MODULES.map((m, i) => (
-              <ModuleTile key={m.title} item={m} index={i} />
-            ))}
-          </div>
+          <ExploradorDeModulos />
         </div>
       </section>
 
@@ -443,42 +591,37 @@ const NutritionistsPage: React.FC = () => {
             con el producto en la mano
           </blockquote>
           <p className="font-sans mt-8 text-white/80 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-            En ese momento no te puede llamar, y ahí es donde el plan se cumple o se cae. Con Vokkado llegás hasta ahí: tu paciente escanea el producto y la app le responde con lo que definiste en la consulta.
+            En ese momento no te puede llamar, y ahí es donde el plan se cumple o se cae. Con Vokkado llegás hasta ahí: tu paciente escanea el producto, la app le dice si le sirve, y vos después ves qué compró.
           </p>
         </div>
       </section>
 
       {/* ── El puente con la app del paciente ── */}
-      <section className="relative py-20 sm:py-24 dark:border-white/10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-          <div ref={bridgeTitleRef} className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest dark:text-white leading-tight">
-              Tu criterio, <span className="text-nutri-dark dark:text-nutri-light">también fuera del consultorio</span>
+      <section className="relative py-20 sm:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div ref={bridgeTitleRef} className="text-center mb-14 sm:mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+              Lo que pasa en el súper, <span className="text-nutri-dark dark:text-nutri-light">también en tu consultorio</span>
             </h2>
             <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
-              Lo que definís en la consulta no se queda en la ficha, acompaña a tu paciente en cada compra.
+              Tu paciente escanea y compra con la app de Vokkado. Si él lo permite, eso llega a tu ficha.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {BRIDGE.map((b, i) => (
-              <BridgeCard key={b.title} item={b} index={i} />
-            ))}
+          <div className="grid lg:grid-cols-[1fr_auto] gap-14 lg:gap-20 items-center max-w-5xl mx-auto">
+            <Recorrido />
+            <PantallaDelPaciente />
           </div>
 
           <div
             ref={privacyRef}
-            className="bg-white dark:bg-nightNutri-card rounded-3xl border border-nutri-light/40 dark:border-white/10 shadow-sm dark:shadow-black/30 p-8 sm:p-10 flex flex-col sm:flex-row items-start gap-6"
+            className="mt-16 sm:mt-20 pt-8 border-t border-nutri-dark/15 dark:border-white/10 flex flex-col sm:flex-row gap-4 sm:gap-6 max-w-5xl mx-auto"
           >
-            <div className="w-14 h-14 rounded-2xl bg-nutri-light/20 flex items-center justify-center flex-shrink-0">
-              <ion-icon name="lock-closed-outline" style={{ fontSize: '26px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" />
-            </div>
-            <div>
-              <h3 className="font-sans text-lg font-semibold text-neutral-darkest dark:text-white mb-3">Acompañar no es vigilar</h3>
-              <p className="font-sans text-sm sm:text-base text-neutral dark:text-white/65 leading-relaxed">
-                El paciente decide qué comparte y puede dejar de compartirlo cuando quiera. Vos ves un resumen de sus compras confirmadas, nunca sus escaneos sueltos ni lo que anduvo mirando. Esa frontera es la que hace que el paciente se anime a compartir, y es lo que vuelve el dato confiable para vos.
-              </p>
-            </div>
+            <ion-icon name="lock-closed-outline" style={{ fontSize: '22px' }} className="text-nutri-dark dark:text-nutri-light shrink-0 sm:mt-0.5" aria-hidden="true" />
+            <p className="font-sans text-sm sm:text-base text-neutral-dark dark:text-white/70 leading-relaxed">
+              <span className="font-semibold text-neutral-darkest dark:text-white">Acompañar no es vigilar.</span>{' '}
+              El paciente elige qué comparte, dato por dato: escaneos, carrito, lista de compras o restricciones. Puede sacarte cualquiera de esos permisos cuando quiera, y si se desvincula se corta todo. Esa frontera es la que hace que se anime a compartir, y es lo que vuelve el dato confiable para vos.
+            </p>
           </div>
         </div>
       </section>
