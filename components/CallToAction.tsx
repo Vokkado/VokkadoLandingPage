@@ -26,12 +26,8 @@ const CallToActionSection: React.FC = () => {
   return (
     <section
       id={SECTION_IDS.participate}
-      className="relative py-20 sm:py-28 text-white overflow-hidden"
+      className="relative py-20 sm:py-28 text-white overflow-hidden fondo-luz-profunda"
     >
-      {/* ── Fondo limpio ── */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#38862E] via-primary-dark to-[#0D2A0A] dark:from-night-soft dark:via-night dark:to-night-deep" />
-      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
         <h2

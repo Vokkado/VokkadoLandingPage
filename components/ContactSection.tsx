@@ -22,7 +22,6 @@ const ContactSection: React.FC = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-24 sm:py-32 overflow-hidden">
       {/* Mismo fondo que el resto de la landing: un gradiente y nada más */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl text-center relative">
         {/* Título */}

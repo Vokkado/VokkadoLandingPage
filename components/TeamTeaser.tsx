@@ -18,7 +18,6 @@ const TeamTeaser: React.FC = () => {
   return (
     <section className="relative py-20 sm:py-28 overflow-hidden">
       {/* Mismo fondo que HowItWorks — flujo continuo */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
 

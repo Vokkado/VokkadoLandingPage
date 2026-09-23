@@ -165,7 +165,7 @@ const ReviewsSection: React.FC = () => {
   const safeRow2 = row2.length ? row2 : row1;
 
   return (
-    <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden bg-friendlyWhite dark:bg-night">
+    <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnim.ref} className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">

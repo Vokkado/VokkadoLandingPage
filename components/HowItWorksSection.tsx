@@ -283,7 +283,6 @@ const HowItWorksSection: React.FC = () => {
   return (
     <section id={SECTION_IDS.howItWorks} className="relative pt-8 pb-20 sm:pt-10 sm:pb-28">
       {/* ── Fondo limpio ── */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#f4f8ec] to-friendlyWhite dark:from-night dark:via-night-soft dark:to-night" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}

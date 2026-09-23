@@ -90,11 +90,10 @@ const IndependenciaPage: React.FC = () => {
   const { ref: howTitleRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
 
   return (
-    <div className="relative bg-friendlyWhite dark:bg-night text-neutral-dark dark:text-white/75 overflow-hidden">
+    <div className="relative text-neutral-dark dark:text-white/75 overflow-hidden">
 
       {/* ── Fondo continuo ── */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-white dark:from-night-soft dark:via-night dark:to-night-deep" />
         <div
           className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05] text-primary-dark dark:text-primary-light"
           style={{
@@ -163,20 +162,31 @@ const IndependenciaPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Bloque oscuro: por qué importa ── */}
-      <section className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-br from-[#38862E] via-primary-dark to-[#0D2A0A] dark:from-night-soft dark:via-night dark:to-night-deep">
+      {/* ── El corazón de la página: la promesa dicha en una frase ── */}
+      <section className="relative py-28 sm:py-40 overflow-hidden fondo-luz-profunda">
         <div
           className="absolute inset-0 opacity-[0.05]"
           style={{ backgroundImage: 'radial-gradient(circle, white 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }}
         />
-        <div ref={quoteRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center relative">
-          <blockquote className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug">
+        {/* Comillas enormes de fondo: sostienen la frase sin competirle */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-10 -translate-x-1/2 font-display text-white/[0.07] leading-none select-none text-[12rem] sm:text-[18rem]"
+        >
+          “
+        </span>
+
+        <div ref={quoteRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center relative">
+          <blockquote className="text-3xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.12] text-balance">
             La información en la que confiás no debería estar
             <span className="text-primary-light"> influenciada </span>
             por quien se beneficia de
             <span className="text-primary-light"> tu elección</span>
           </blockquote>
-          <p className="mt-8 text-white/65 text-base leading-relaxed max-w-xl mx-auto">
+
+          <span className="block w-16 h-px bg-primary-light/50 mx-auto mt-10" />
+
+          <p className="mt-8 text-white/80 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
             La industria alimentaria mueve miles de millones al año. Nuestra promesa es que ese dinero no va a cambiar lo que te decimos.
           </p>
         </div>

@@ -90,7 +90,7 @@ const IndependenciaPage: React.FC = () => {
   const { ref: howTitleRef }  = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
 
   return (
-    <div className="relative bg-friendlyWhite dark:bg-night text-neutral-dark dark:text-white/75 overflow-hidden">
+    <div className="relative text-neutral-dark dark:text-white/75 overflow-hidden">
 
       {/* ── Fondo continuo ── */}
       <div className="absolute inset-0 -z-10">

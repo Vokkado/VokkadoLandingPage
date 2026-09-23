@@ -20,7 +20,7 @@ const NutritionistTeaser: React.FC = () => {
 
   return (
     <section className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-friendlyWhite via-[#EAF5F3] to-friendlyWhite dark:from-night dark:via-nightNutri-soft dark:to-night" />
+      <div className="absolute inset-0 -z-10" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:grid md:grid-cols-5 md:gap-12 md:items-center">

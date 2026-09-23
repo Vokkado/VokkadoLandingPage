@@ -65,10 +65,6 @@ const HeroSection: React.FC = () => {
       id={SECTION_IDS.home}
       className="relative z-10 text-black dark:text-white min-h-[calc(100vh-4rem)] lg:min-h-screen flex lg:items-center pt-32 pb-20 lg:py-28"
     >
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f4f8ec] via-friendlyWhite to-friendlyWhite dark:from-night-soft dark:via-night dark:to-night" />
-      </div>
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-5 lg:gap-12 lg:items-center">
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { useCanHover } from '../hooks/useCanHover';
 import paltaNutri from '../images/nutri/palta-nutricionista.png';
 
 const EMAIL = 'contact@vokkado.com';
@@ -9,121 +8,158 @@ const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}&su
 const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`;
 
 /* ──────────────────────────────────────────────────────────────
-   1. El día a día del consultorio: la situación adelante,
-      cómo queda resuelto del otro lado.
+   1. Frases de consultorio: en primera persona, para que la
+      nutricionista se reconozca. Marca la que le pasa y ve
+      cómo queda resuelta.
    ────────────────────────────────────────────────────────────── */
-interface Flip {
-  frontIcon: string;
-  front: string;
-  backTitle: string;
-  back: string;
+interface Frase {
+  dicho: string;
+  respuesta: string;
 }
 
-const FLIPS: Flip[] = [
+const FRASES: Frase[] = [
   {
-    frontIcon: 'logo-whatsapp',
-    front: '¿Tu agenda vive en WhatsApp y te escriben a las once de la noche?',
-    backTitle: 'La agenda se ordena sola',
-    back: 'Tus pacientes piden el turno desde la app, solo en los horarios que vos habilitás. Vos confirmás y el recordatorio sale sin que te acuerdes.',
+    dicho: 'Me escriben a las once de la noche para cambiar la hora.',
+    respuesta: 'Tus pacientes piden hora desde la app, solo en los horarios que habilitaste. El recordatorio sale solo.',
   },
   {
-    frontIcon: 'file-tray-full-outline',
-    front: '¿La ficha de un paciente de hace ocho meses está entre un cuaderno, un Excel y tres audios?',
-    backTitle: 'Una historia clínica que encontrás',
-    back: 'Anamnesis, antecedentes y la evolución de cada consulta en una sola ficha, con todo lo que escribiste guardado y fechado.',
+    dicho: 'Tengo la ficha de hace ocho meses repartida entre un cuaderno, un Excel y tres audios de WhatsApp.',
+    respuesta: 'Anamnesis, antecedentes y la evolución de cada consulta en una sola ficha, guardada y fechada.',
   },
   {
-    frontIcon: 'document-text-outline',
-    front: '¿Armás cada plan desde cero, en un Word, un domingo de noche?',
-    backTitle: 'El plan parte de lo que ya sabés',
-    back: 'Se apoya en el diagnóstico y los objetivos que cargaste en la consulta, calcula requerimientos y lo exportás en PDF con tu nombre.',
+    dicho: 'Me quedo un domingo de noche armando un plan desde cero en el Word.',
+    respuesta: 'El plan parte del diagnóstico que cargaste, calcula requerimientos y sale en PDF con tu nombre.',
   },
   {
-    frontIcon: 'analytics-outline',
-    front: '¿Pasás peso, talla y pliegues a una planilla para poder graficar la evolución?',
-    backTitle: 'La evolución se dibuja sola',
-    back: 'Cargás la medición una vez, los indicadores se calculan y la serie histórica queda lista para mostrarle al paciente en pantalla.',
+    dicho: 'En cada control paso peso, talla y pliegues a una planilla para ver si algo cambió.',
+    respuesta: 'Cargás la medición una vez, los indicadores se calculan y la curva se dibuja sola.',
   },
   {
-    frontIcon: 'help-circle-outline',
-    front: '¿El paciente vuelve a las tres semanas y la adherencia es lo que él se acuerda?',
-    backTitle: 'Sabés qué pasó entre consultas',
-    back: 'Si el paciente lo habilita, ves un resumen de lo que compró frente a lo que le indicaste. Llegás con datos, no con suposiciones.',
+    dicho: 'Vuelve a las tres semanas y lo que comió es lo que se acuerda.',
+    respuesta: 'Si el paciente lo habilita, ves un resumen de lo que compró frente a lo que le indicaste.',
   },
   {
-    frontIcon: 'camera-outline',
-    front: '¿Te llega la foto de una etiqueta un sábado, desde la góndola?',
-    backTitle: 'Respondés una vez y vale siempre',
-    back: 'Las restricciones que cargás en la consulta viajan a la app del paciente, y cuando escanea un producto le contesta con tu criterio.',
+    dicho: 'Un sábado de tarde me llega la foto de una etiqueta desde el súper: ¿esto puedo comer? ¿es mejor este producto o este?',
+    respuesta: 'Las restricciones que cargás viajan a la app del paciente y le responden con tu criterio cuando escanea.',
   },
 ];
 
-const FlipTile: React.FC<{
-  flip: Flip;
-  delay: number;
-  isOpen: boolean;
+interface FraseRowProps {
+  frase: Frase;
+  index: number;
+  marcada: boolean;
   onToggle: () => void;
-  sugerir?: boolean;
-}> = ({ flip, delay, isOpen, onToggle, sugerir = false }) => {
-  const anim = useScrollAnimation({ animation: 'fade-up', delay, threshold: 0.15 });
-  const puedeHover = useCanHover();
-  const [hovered, setHovered] = useState(false);
-  // Con mouse gira sola al pasar por encima, sin clic. Con dedo, el toque manda.
-  const shown = puedeHover ? hovered : isOpen;
+}
 
+const FraseRow: React.FC<FraseRowProps> = ({ frase, index, marcada, onToggle }) => {
+  const { ref } = useScrollAnimation<HTMLLIElement>({ animation: 'fade-up', delay: index * 70, threshold: 0.1 });
   return (
-    <div ref={anim.ref} style={{ perspective: '1200px' }}>
+    <li ref={ref} className="border-t border-nutri-dark/15 dark:border-white/10 last:border-b">
       <button
         type="button"
-        onClick={puedeHover ? undefined : onToggle}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onFocus={() => puedeHover && setHovered(true)}
-        onBlur={() => puedeHover && setHovered(false)}
-        aria-pressed={shown}
-        aria-label={`${flip.backTitle}: ${flip.back}`}
-        className="relative block w-full h-[250px] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-nutri-dark dark:focus-visible:ring-nutri-light focus-visible:ring-offset-2 focus-visible:ring-offset-friendlyWhite dark:focus-visible:ring-offset-nightNutri rounded-2xl"
+        onClick={onToggle}
+        aria-pressed={marcada}
+        className="group w-full grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] gap-x-4 sm:gap-x-8 gap-y-4 items-start py-6 sm:py-8 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-nutri-dark dark:focus-visible:ring-nutri-light rounded-lg"
       >
-        <div
-          className={`relative w-full h-full ${sugerir ? 'amague-giro' : ''}`}
-          style={{
-            transformStyle: 'preserve-3d',
-            transition: 'transform 0.6s cubic-bezier(0.4,0,0.2,1)',
-            transform: shown ? 'rotateY(180deg)' : 'rotateY(0deg)',
-          }}
+        {/* Número */}
+        <span
+          className={`font-sans text-xs font-bold tabular-nums pt-2 transition-colors duration-300 ${
+            marcada ? 'text-nutri-dark dark:text-nutri-light' : 'text-neutral-medium dark:text-white/35'
+          }`}
         >
-          {/* Frente: el día a día */}
-          <div
-            className="absolute inset-0 rounded-2xl border border-neutral-light dark:border-white/10 bg-white dark:bg-nightNutri-card shadow-sm dark:shadow-black/30 p-6 flex flex-col justify-between"
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="w-11 h-11 rounded-xl bg-neutral-light dark:bg-white/10 flex items-center justify-center">
-                <ion-icon name={flip.frontIcon} style={{ fontSize: '22px' }} className="text-neutral-dark dark:text-white/75" aria-hidden="true" />
-              </div>
-              <span className="font-sans inline-flex items-center gap-1.5 rounded-full bg-nutri-lightest dark:bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-nutri-dark dark:text-nutri-light">
-                <ion-icon name="sync-outline" style={{ fontSize: '13px' }} className="giro-lento" aria-hidden="true" />
-                {puedeHover ? 'pasá el mouse' : 'tocá la tarjeta'}
-              </span>
-            </div>
-            <p className="font-sans text-base sm:text-lg font-semibold text-neutral-darkest dark:text-white leading-snug">{flip.front}</p>
-          </div>
+          {String(index + 1).padStart(2, '0')}
+        </span>
 
-          {/* Dorso: cómo queda */}
-          <div
-            className="absolute inset-0 rounded-2xl bg-nutri-dark shadow-md p-6 flex flex-col justify-between text-white"
-            style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+        {/* La frase y, si la marcó, la respuesta */}
+        <div className="min-w-0">
+          <p
+            className={`font-display text-xl sm:text-2xl lg:text-[1.75rem] leading-snug text-balance transition-colors duration-300 ${
+              marcada
+                ? 'text-neutral-darkest dark:text-white'
+                : 'text-neutral-dark/80 dark:text-white/60 group-hover:text-neutral-darkest dark:group-hover:text-white'
+            }`}
           >
-            <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
-              <ion-icon name="checkmark-circle-outline" style={{ fontSize: '24px', color: '#FCFCFC' }} aria-hidden="true" />
-            </div>
-            <div>
-              <h3 className="font-sans text-lg font-semibold leading-snug mb-2 text-white">{flip.backTitle}</h3>
-              <p className="font-sans text-sm text-white/95 leading-relaxed">{flip.back}</p>
+            “{frase.dicho}”
+          </p>
+          <div
+            className="grid transition-[grid-template-rows] duration-500 ease-out"
+            style={{ gridTemplateRows: marcada ? '1fr' : '0fr' }}
+            aria-hidden={!marcada}
+          >
+            <div className="overflow-hidden">
+              <p
+                className={`flex items-start gap-3 pt-4 sm:pt-5 font-sans text-sm sm:text-base leading-relaxed text-neutral-dark dark:text-white/75 transition-opacity duration-500 ${
+                  marcada ? 'opacity-100 delay-150' : 'opacity-0'
+                }`}
+              >
+                <span className="mt-0.5 w-6 h-6 rounded-full bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep flex items-center justify-center shrink-0">
+                  <ion-icon name="checkmark-outline" style={{ fontSize: '15px' }} aria-hidden="true" />
+                </span>
+                <span>{frase.respuesta}</span>
+              </p>
             </div>
           </div>
         </div>
+
+        {/* "Me pasa": en celular baja a la segunda fila, debajo de la frase */}
+        <span
+          className={`col-start-2 sm:col-start-3 justify-self-start sm:justify-self-end sm:mt-1 inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 font-sans text-xs font-semibold whitespace-nowrap transition-all duration-300 ${
+            marcada
+              ? 'border-nutri-dark bg-nutri-dark text-white dark:border-nutri-light dark:bg-nutri-light dark:text-nightNutri-deep'
+              : 'border-neutral-medium/50 text-neutral-dark dark:border-white/25 dark:text-white/70 group-hover:border-nutri-dark group-hover:text-nutri-dark dark:group-hover:border-nutri-light dark:group-hover:text-nutri-light'
+          }`}
+        >
+          <span
+            className={`w-3.5 h-3.5 rounded-full border-[1.5px] flex items-center justify-center transition-colors duration-300 ${
+              marcada ? 'border-white/80 dark:border-nightNutri-deep/70' : 'border-current'
+            }`}
+            aria-hidden="true"
+          >
+            {marcada && <span className="w-1.5 h-1.5 rounded-full bg-white dark:bg-nightNutri-deep" />}
+          </span>
+          Me pasa
+        </span>
       </button>
+    </li>
+  );
+};
+
+const FrasesDeConsultorio: React.FC = () => {
+  const [marcadas, setMarcadas] = useState<Set<number>>(() => new Set());
+  const cuantas = marcadas.size;
+
+  const toggle = (i: number) =>
+    setMarcadas(prev => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+
+  const balance =
+    cuantas === 0
+      ? 'Marcá las que te pasan.'
+      : cuantas === 1
+        ? 'Te pasa una. Con una ya vale la pena seguir leyendo.'
+        : cuantas < FRASES.length
+          ? `Te pasan ${cuantas} de ${FRASES.length}. Cada una es tiempo que hoy no se cobra.`
+          : 'Te pasan todas. Esta página la hicimos pensando en vos.';
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <ul>
+        {FRASES.map((f, i) => (
+          <FraseRow key={f.dicho} frase={f} index={i} marcada={marcadas.has(i)} onToggle={() => toggle(i)} />
+        ))}
+      </ul>
+      <p
+        aria-live="polite"
+        className={`mt-6 font-sans text-sm sm:text-base transition-colors duration-300 ${
+          cuantas === 0 ? 'text-neutral dark:text-white/50' : 'text-nutri-dark dark:text-nutri-light font-medium'
+        }`}
+      >
+        {balance}
+      </p>
     </div>
   );
 };
@@ -277,15 +313,12 @@ const NutritionistsPage: React.FC = () => {
   const { ref: privacyRef } = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.15 });
   const { ref: stepsTitleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
   const { ref: ctaRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
-  const [openFlip, setOpenFlip] = useState<number | null>(null);
-  const puedeHover = useCanHover();
 
   return (
     <div className="relative bg-friendlyWhite dark:bg-nightNutri text-neutral-dark dark:text-white/75 overflow-hidden">
 
       {/* ── Fondo continuo ── */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#E3F2EF] via-friendlyWhite to-white dark:from-nightNutri-soft dark:via-nightNutri dark:to-nightNutri-deep" />
+      <div className="absolute inset-0 -z-10 fondo-luz-nutri">
         <div
           className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05] text-nutri dark:text-nutri-light"
           style={{
@@ -350,29 +383,20 @@ const NutritionistsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── El día a día del consultorio ── */}
+      {/* ── Frases de consultorio ── */}
       <section className="relative py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div ref={painTitleRef} className="text-center mb-12 sm:mb-14 max-w-3xl mx-auto">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
-              Esto también es <span className="text-nutri-dark dark:text-nutri-light">trabajo</span>
+              ¿Te suena <span className="text-nutri-dark dark:text-nutri-light">alguna?</span>
             </h2>
             <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
-              Todo lo que pasa alrededor de la consulta, coordinar, buscar, recalcular, recordar, se lleva horas que no se cobran. Girá cada tarjeta y mirá cómo queda cuando lo resolvés una sola vez.
+              Son cosas que nos contaron nutricionistas de acá. Marcá las que te pasan y mirá cómo queda cada una cuando la resolvés una sola vez.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto mb-14">
-            {FLIPS.map((flip, i) => (
-              <FlipTile
-                key={flip.backTitle}
-                flip={flip}
-                delay={(i % 3) * 100}
-                isOpen={openFlip === i}
-                onToggle={() => setOpenFlip(prev => (prev === i ? null : i))}
-                sugerir={!puedeHover && i === 0 && openFlip === null}
-              />
-            ))}
+          <div className="mb-14">
+            <FrasesDeConsultorio />
           </div>
 
           <div ref={painClosingRef} className="text-center max-w-2xl mx-auto">
@@ -425,7 +449,7 @@ const NutritionistsPage: React.FC = () => {
       </section>
 
       {/* ── El puente con la app del paciente ── */}
-      <section className="relative py-20 sm:py-24 bg-[#EDF6F4] dark:bg-nightNutri-soft border-b border-nutri-light/30 dark:border-white/10">
+      <section className="relative py-20 sm:py-24 dark:border-white/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div ref={bridgeTitleRef} className="text-center mb-14">
             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest dark:text-white leading-tight">
@@ -477,7 +501,7 @@ const NutritionistsPage: React.FC = () => {
       </section>
 
       {/* ── CTA exclusivo ── */}
-      <section className="relative py-20 sm:py-24 bg-[#E3F2EF] dark:bg-nightNutri-soft border-t border-nutri-light/30 dark:border-white/10">
+      <section className="relative py-20 sm:py-24 dark:border-white/10">
         <div ref={ctaRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-neutral-darkest dark:text-white mb-5 leading-tight">
             Estamos armando esto <span className="text-nutri-dark dark:text-nutri-light">con nutricionistas</span>

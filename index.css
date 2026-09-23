@@ -185,3 +185,62 @@ h1, h2,
     animation: none;
   }
 }
+
+
+/* ─── Fondos con luz ─── */
+/* Una sola iluminación para toda la página, anclada a la pantalla. Antes cada
+   sección repetía su propio degradé y el patrón se reiniciaba una y otra vez;
+   así la luz simplemente acompaña mientras se baja. */
+body {
+  background-color: #F1F1F1;
+  background-image:
+    radial-gradient(60% 45% at 8% 2%, rgba(184, 196, 69, 0.26), transparent 72%),
+    radial-gradient(55% 45% at 95% 22%, rgba(91, 136, 6, 0.13), transparent 74%),
+    radial-gradient(70% 50% at 45% 100%, rgba(232, 240, 212, 0.6), transparent 76%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* En la línea profesional, la misma luz pero en teal. */
+.fondo-luz-nutri {
+  /* Más teal que el resto del sitio a propósito: al entrar tiene que notarse
+     que es otro territorio, no la misma landing con otro texto. */
+  background-color: #E7F3F1;
+  background-image:
+    radial-gradient(60% 45% at 8% 2%, rgba(111, 194, 184, 0.55), transparent 72%),
+    radial-gradient(55% 45% at 95% 22%, rgba(20, 107, 99, 0.22), transparent 74%),
+    radial-gradient(70% 50% at 45% 100%, rgba(255, 255, 255, 0.7), transparent 76%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Sobre los bloques oscuros, una luz cálida arriba para que el verde respire. */
+.fondo-luz-profunda {
+  background-color: #22521D;
+  background-image:
+    radial-gradient(70% 60% at 20% 0%, rgba(184, 196, 69, 0.22), transparent 70%),
+    radial-gradient(60% 55% at 85% 100%, rgba(0, 0, 0, 0.35), transparent 70%);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #101A12;
+    background-image:
+      radial-gradient(60% 45% at 8% 2%, rgba(91, 136, 6, 0.26), transparent 72%),
+      radial-gradient(55% 45% at 95% 22%, rgba(184, 196, 69, 0.07), transparent 74%),
+      radial-gradient(70% 50% at 45% 100%, rgba(12, 21, 14, 0.85), transparent 76%);
+  }
+  .fondo-luz-nutri {
+    background-color: #0E1A18;
+    background-image:
+      radial-gradient(60% 45% at 8% 2%, rgba(20, 107, 99, 0.38), transparent 72%),
+      radial-gradient(55% 45% at 95% 22%, rgba(111, 194, 184, 0.07), transparent 74%),
+      radial-gradient(70% 50% at 45% 100%, rgba(11, 21, 19, 0.85), transparent 76%);
+  }
+  .fondo-luz-profunda {
+    background-color: #0C150E;
+    background-image:
+      radial-gradient(70% 60% at 20% 0%, rgba(91, 136, 6, 0.28), transparent 70%),
+      radial-gradient(60% 55% at 85% 100%, rgba(0, 0, 0, 0.5), transparent 70%);
+  }
+}

@@ -21,7 +21,7 @@ const Teaser: React.FC<TeaserProps> = ({ title, desc, linkTo, linkText, badge })
   const { ref: btnRef   } = useScrollAnimation({ animation: 'fade-up', delay: 300, threshold: 0.15 });
 
   return (
-    <section className="py-14 bg-[#f4f8ec] dark:bg-night-soft border-t border-primary-light/20 dark:border-white/10 text-center">
+    <section className="py-14 dark:border-white/10 text-center">
       <div className="container mx-auto px-4">
         {badge && (
           <p ref={badgeRef} className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark/70 dark:text-primary-light/80 mb-3">

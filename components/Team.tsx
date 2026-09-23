@@ -133,7 +133,7 @@ const AboutSection: React.FC = () => {
   const { ref: contentRef } = useScrollAnimation({ animation: 'fade-up', delay: 240, threshold: 0.2 });
 
   return (
-    <section className="bg-white dark:bg-night-soft border-t border-neutral-100 dark:border-white/10 pt-8 pb-16 sm:pt-10 sm:pb-20">
+    <section className="pt-8 pb-16 sm:pt-10 sm:pb-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
 
         {/* Header con líneas */}
@@ -219,7 +219,7 @@ const UruguaySection: React.FC = () => {
   const { ref: card2Ref } = useScrollAnimation({ animation: 'fade-up', delay: 220, threshold: 0.15 });
 
   return (
-    <section className="bg-white dark:bg-night-soft border-t border-neutral-100 dark:border-white/10 pt-16 pb-10 sm:pt-20 sm:pb-12">
+    <section className="pt-16 pb-10 sm:pt-20 sm:pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
 
         <div ref={titleRef} className="text-center mb-12">
@@ -273,12 +273,11 @@ const Team: React.FC = () => {
   const { ref: ctaBtnsRef  } = useScrollAnimation({ animation: 'fade-up', delay: 240, threshold: 0.2 });
 
   return (
-    <div className="bg-friendlyWhite dark:bg-night text-neutral-dark dark:text-white/75">
+    <div className="text-neutral-dark dark:text-white/75">
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden pt-32 pb-10 sm:pt-28 sm:pb-12 text-center">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#e4efcd] via-[#f4f8ec] to-friendlyWhite dark:from-night-soft dark:via-night dark:to-night-soft" />
           <div
             className="absolute inset-0 opacity-[0.05] text-primary-dark dark:text-primary-light"
             style={{ backgroundImage: 'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)', backgroundSize: '44px 44px' }}
@@ -333,7 +332,7 @@ const Team: React.FC = () => {
       />
 
       {/* ── CTA ── */}
-      <div className="bg-gradient-to-br from-[#38862E] via-primary-dark to-[#0D2A0A] dark:from-night-soft dark:via-night dark:to-night-deep py-16 text-center px-4 text-white">
+      <div className="fondo-luz-profunda py-16 text-center px-4 text-white">
         <p ref={ctaTitleRef} className="font-bold text-3xl mb-3">Escaneá. Elegí. Cuidate.</p>
         <p ref={ctaDescRef} className="text-primary-lightest text-sm mb-8">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
         <div ref={ctaBtnsRef} className="flex flex-col sm:flex-row items-center justify-center gap-3">
