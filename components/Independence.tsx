@@ -3,81 +3,76 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import Teaser from './Teaser';
 import independientePng from '../images/independiente.png';
 
-const PILLARS = [
+/* Lo que no vas a encontrar en Vokkado, y por qué. Cada renglón es una
+   promesa concreta, no un valor abstracto. */
+const NUNCA = [
   {
-    icon: 'ban-outline',
-    title: 'Sin publicidad',
-    desc: 'Vokkado no muestra publicidad ni recibe dinero de marcas por aparecer en la app.',
+    titulo: 'Publicidad adentro de la app',
+    porque: 'Ni banners, ni marcas destacadas, ni "producto sugerido" pagado. La pantalla es tuya.',
   },
   {
-    icon: 'shield-checkmark-outline',
-    title: 'Sin influencias',
-    desc: 'Ninguna empresa alimentaria tiene injerencia sobre los análisis, puntajes o recomendaciones que ve el usuario.',
+    titulo: 'Un producto mejor puntuado porque alguien pagó',
+    porque: 'El puntaje sale de la etiqueta, de la ley de rotulado y de tus restricciones. Ningún fabricante puede tocarlo.',
   },
   {
-    icon: 'eye-outline',
-    title: 'Sin sesgos comerciales',
-    desc: 'Cada resultado está basado exclusivamente en datos nutricionales. No hay acuerdos ni favores con fabricantes.',
-  },
-];
-
-const HOW = [
-  {
-    icon: 'star-outline',
-    title: 'Suscripción Premium (próximamente)',
-    desc: 'Nuestro modelo de negocio es simple: usuarios que eligen pagar por funcionalidades avanzadas. Sin intermediarios, sin marcas.',
+    titulo: 'Una alternativa recomendada por acuerdo comercial',
+    porque: 'Cuando te sugerimos otro producto, es porque le va mejor a tu perfil, no porque nos convenga a nosotros.',
   },
   {
-    icon: 'bar-chart-outline',
-    title: 'Tendencias para la industria',
-    desc: 'Compartimos tendencias y preferencias de consumo de forma anónima para ayudar a marcas y supermercados a mejorar sus productos, sin comprometer la privacidad de las personas.',
+    titulo: 'Tus datos vendidos con tu nombre',
+    porque: 'Lo que escaneás y comprás es tuyo. Si algún día compartimos tendencias con la industria, van anónimas y agregadas.',
   },
 ];
 
-/* ── Tarjeta individual pillar — tiene su propio hook para la animación escalonada ── */
-const PillarCard: React.FC<{ pillar: typeof PILLARS[0]; index: number }> = ({ pillar, index }) => {
-  const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 110, threshold: 0.1 });
+const RenglonNunca: React.FC<{ item: typeof NUNCA[0]; index: number }> = ({ item, index }) => {
+  const { ref } = useScrollAnimation<HTMLLIElement>({ animation: 'fade-up', delay: index * 90, threshold: 0.1 });
   return (
-    <div
-      ref={ref}
-      className="group bg-white dark:bg-night-card rounded-3xl p-8 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-primary-light/40 transition-all duration-300"
-    >
-      <div className="w-14 h-14 rounded-2xl bg-primary-light/15 flex items-center justify-center mb-6 group-hover:bg-primary-light/30 transition-colors duration-300">
-        <ion-icon
-          name={pillar.icon}
-          style={{ fontSize: '26px' }}
-          className="text-primary-dark dark:text-primary-light"
-          aria-hidden="true"
-          title={pillar.title}
-        />
+    <li ref={ref} className="grid grid-cols-[auto_1fr] gap-x-5 sm:gap-x-7 py-7 sm:py-8 border-t border-primary-dark/15 dark:border-white/10 last:border-b">
+      <span
+        className="mt-1 w-8 h-8 rounded-full border border-primary-dark/25 dark:border-primary-light/40 text-primary-dark dark:text-primary-light flex items-center justify-center shrink-0"
+        aria-hidden="true"
+      >
+        <ion-icon name="close-outline" style={{ fontSize: '18px' }} />
+      </span>
+      <div>
+        <h3 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-semibold leading-snug text-neutral-darkest dark:text-white text-balance">
+          {item.titulo}
+        </h3>
+        <p className="mt-2.5 text-sm sm:text-base text-neutral-dark dark:text-white/70 leading-relaxed max-w-2xl">{item.porque}</p>
       </div>
-      <h3 className="text-lg font-bold text-neutral-darkest dark:text-white mb-3">{pillar.title}</h3>
-      <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">{pillar.desc}</p>
-    </div>
+    </li>
   );
 };
 
-/* ── Tarjeta individual HOW ── */
-const HowCard: React.FC<{ item: typeof HOW[0]; index: number }> = ({ item, index }) => {
+/* De dónde sale la plata. Dicho sin vueltas, porque es parte de la promesa. */
+const SOSTEN = [
+  {
+    n: '01',
+    titulo: 'Vos, si querés más',
+    estado: 'Próximamente',
+    desc: 'Una suscripción para quien quiera funciones avanzadas. La app de todos los días sigue siendo gratis, y nadie que pague ve un análisis distinto.',
+  },
+  {
+    n: '02',
+    titulo: 'Tendencias para la industria',
+    desc: 'Le contamos a marcas y supermercados qué busca la gente y qué deja en la góndola, en números anónimos y agregados. Nunca quién sos ni qué compraste vos.',
+  },
+];
+
+const ColumnaSosten: React.FC<{ item: typeof SOSTEN[0]; index: number }> = ({ item, index }) => {
   const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.1 });
   return (
-    <div
-      ref={ref}
-      className="group bg-white dark:bg-night-card rounded-3xl p-8 shadow-sm dark:shadow-black/30 hover:shadow-lg border border-neutral-100 dark:border-white/10 hover:border-primary-light/40 transition-all duration-300 flex items-start gap-5"
-    >
-      <div className="w-12 h-12 rounded-2xl bg-primary-light/15 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-light/30 transition-colors duration-300">
-        <ion-icon
-          name={item.icon}
-          style={{ fontSize: '22px' }}
-          className="text-primary-dark dark:text-primary-light"
-          aria-hidden="true"
-          title={item.title}
-        />
+    <div ref={ref} className="md:border-l md:border-primary-dark/15 md:dark:border-white/10 md:pl-8">
+      <span className="font-sans text-xs font-bold tabular-nums text-primary-dark/60 dark:text-primary-light/60">{item.n}</span>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-2 mb-3">
+        <h3 className="font-display text-2xl font-semibold text-neutral-darkest dark:text-white">{item.titulo}</h3>
+        {item.estado && (
+          <span className="font-sans text-[11px] font-semibold px-2.5 py-1 rounded-full bg-neutral-light dark:bg-white/10 text-neutral-dark dark:text-white/60">
+            {item.estado}
+          </span>
+        )}
       </div>
-      <div>
-        <h3 className="font-bold text-neutral-darkest dark:text-white mb-2">{item.title}</h3>
-        <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">{item.desc}</p>
-      </div>
+      <p className="text-sm sm:text-base text-neutral-dark dark:text-white/70 leading-relaxed">{item.desc}</p>
     </div>
   );
 };
@@ -113,12 +108,11 @@ const IndependenciaPage: React.FC = () => {
             {/* Texto */}
             <div ref={heroTextRef} className="md:col-span-3 text-center md:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-darkest dark:text-white tracking-tight leading-tight mb-6">
-                La independencia <br className="hidden sm:block" />
-                es <span className="text-primary-dark dark:text-primary-light">clave</span> en <br className="hidden sm:block" />
-                nuestra misión
+                Nadie nos paga <br className="hidden sm:block" />
+                por lo que <span className="text-primary-dark dark:text-primary-light">te decimos</span>
               </h1>
               <p className="text-lg md:text-xl text-neutral-dark dark:text-white/75 leading-relaxed max-w-2xl mx-auto md:mx-0">
-                Te damos información clara y confiable para que tomes decisiones libres de cualquier influencia comercial.
+                Ni marcas, ni supermercados, ni publicidad. Lo que Vokkado dice de un producto sale de su etiqueta y de tus restricciones. De nada más.
               </p>
             </div>
 
@@ -146,19 +140,22 @@ const IndependenciaPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3 pilares ── */}
+      {/* ── Lo que nunca vas a ver ── */}
       <section className="relative pb-20 sm:pb-28">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-          <div ref={pillarsTitleRef} className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest dark:text-white">
-              Tres principios que no negociamos
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+          <div ref={pillarsTitleRef} className="mb-10 sm:mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+              Lo que nunca vas a ver <span className="text-primary-dark dark:text-primary-light">en Vokkado</span>
             </h2>
+            <p className="mt-4 text-lg text-neutral-dark dark:text-white/75 max-w-2xl">
+              Cuatro cosas que nos comprometemos a no hacer, aunque paguen bien.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PILLARS.map((p, i) => (
-              <PillarCard key={p.title} pillar={p} index={i} />
+          <ul>
+            {NUNCA.map((item, i) => (
+              <RenglonNunca key={item.titulo} item={item} index={i} />
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -178,32 +175,33 @@ const IndependenciaPage: React.FC = () => {
 
         <div ref={quoteRef} className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center relative">
           <blockquote className="text-3xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.12] text-balance">
-            La información en la que confiás no debería estar
-            <span className="text-primary-light"> influenciada </span>
-            por quien se beneficia de
-            <span className="text-primary-light"> tu elección</span>
+            Quien se beneficia de lo que elegís
+            <span className="text-primary-light"> no puede ser </span>
+            quien te lo recomienda
           </blockquote>
 
           <span className="block w-16 h-px bg-primary-light/50 mx-auto mt-10" />
 
           <p className="mt-8 text-white/80 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
-            La industria alimentaria mueve miles de millones al año. Nuestra promesa es que ese dinero no va a cambiar lo que te decimos.
+            La industria alimentaria mueve miles de millones al año. Esa plata no va a cambiar lo que Vokkado te dice de un producto. Esa es la promesa.
           </p>
         </div>
       </section>
 
-      {/* ── Cómo nos sostenemos ── */}
+      {/* ── De dónde sale la plata ── */}
       <section className="relative py-20 sm:py-28">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <div ref={howTitleRef} className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-darkest dark:text-white">¿Cómo nos sostenemos?</h2>
-            <p className="mt-4 text-neutral dark:text-white/65 max-w-2xl mx-auto">
-              Creemos que la transparencia sobre nuestro modelo de negocio es parte de ser independientes.
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+          <div ref={howTitleRef} className="mb-12 sm:mb-14 max-w-3xl">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
+              Entonces, <span className="text-primary-dark dark:text-primary-light whitespace-nowrap">¿de dónde sale la plata?</span>
+            </h2>
+            <p className="mt-4 text-lg text-neutral-dark dark:text-white/75">
+              Decirlo con claridad también es parte de ser independientes. Hay dos caminos, y ninguno pasa por venderte algo en la góndola.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {HOW.map((h, i) => (
-              <HowCard key={h.title} item={h} index={i} />
+          <div className="grid md:grid-cols-2 gap-10 md:gap-12">
+            {SOSTEN.map((item, i) => (
+              <ColumnaSosten key={item.n} item={item} index={i} />
             ))}
           </div>
         </div>
