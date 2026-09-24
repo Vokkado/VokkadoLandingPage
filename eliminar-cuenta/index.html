@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- La landing tiene las dos versiones y sigue al sistema: si el navegador
+         está en oscuro, se ve oscura, y si no, clara. No hay interruptor propio. -->
+    <meta name="color-scheme" content="light dark">
+    <!-- La barra del navegador y la del sistema toman el color de la marca, y
+         el de la línea profesional mientras estás en /nutricionistas. -->
+    <meta name="theme-color" content="#22521D">
+    <title>Eliminar tu cuenta | Vokkado</title>
+    <meta name="description" content="Cómo pedir la eliminación de tu cuenta de Vokkado y de los datos asociados a ella.">
+    <link rel="canonical" href="https://vokkado.com/eliminar-cuenta">
+    <meta name="robots" content="noindex, follow">
+    <meta name="author" content="Vokkado">
+
+    <link rel="icon" type="image/png" href="/assets/Logo-DvBcXhTG.png">
+    <link rel="apple-touch-icon" href="/assets/Logo-DvBcXhTG.png">
+
+    <!-- Open Graph. Los scrapers de WhatsApp, Facebook y LinkedIn no ejecutan
+         JavaScript, así que estas etiquetas tienen que estar escritas acá, no
+         puestas por React. Son las de la home, que es lo que más se comparte. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Vokkado">
+    <meta property="og:locale" content="es_UY">
+    <meta property="og:title" content="Eliminar tu cuenta | Vokkado">
+    <meta property="og:description" content="Cómo pedir la eliminación de tu cuenta de Vokkado y de los datos asociados a ella.">
+    <meta property="og:url" content="https://vokkado.com/eliminar-cuenta">
+    <meta property="og:image" content="https://vokkado.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Vokkado">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Eliminar tu cuenta | Vokkado">
+    <meta name="twitter:description" content="Cómo pedir la eliminación de tu cuenta de Vokkado y de los datos asociados a ella.">
+    <meta name="twitter:image" content="https://vokkado.com/og-image.png">
+
+    <!-- Datos estructurados: quién es Vokkado y qué es la app. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://vokkado.com/#organizacion",
+          "name": "Vokkado",
+          "url": "https://vokkado.com/",
+          "logo": "https://vokkado.com/images/Logo.png",
+          "email": "contact@vokkado.com",
+          "areaServed": "UY",
+          "sameAs": [
+            "https://www.instagram.com/vokkado.uy",
+            "https://www.linkedin.com/company/vokkado"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://vokkado.com/#sitio",
+          "url": "https://vokkado.com/",
+          "name": "Vokkado",
+          "inLanguage": "es-UY",
+          "publisher": { "@id": "https://vokkado.com/#organizacion" }
+        },
+        {
+          "@type": "MobileApplication",
+          "name": "Vokkado",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "iOS, Android",
+          "inLanguage": "es-UY",
+          "description": "Escaneá un producto y Vokkado traduce la etiqueta y te dice si es apto para vos y por qué, según tus alergias, condiciones de salud y objetivos.",
+          "publisher": { "@id": "https://vokkado.com/#organizacion" },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "UYU"
+          },
+          "installUrl": [
+            "https://apps.apple.com/uy/app/vokkado/id6761864995",
+            "https://play.google.com/store/apps/details?id=com.scantoeat.app"
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Rutas reales en GitHub Pages.
+         1. 404.html manda cualquier ruta profunda acá como ?/ruta, y esto la
+            devuelve a su URL verdadera antes de que React monte.
+         2. Los links viejos con #/ruta siguen funcionando: se traducen a /ruta.
+         Va antes que cualquier script de la app, a propósito. -->
+    <script>
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, '', l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+        if (l.hash.indexOf('#/') === 0) {
+          window.history.replaceState(null, '', l.hash.slice(1));
+        }
+      }(window.location));
+    </script>
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+    <link href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@400,500,600,700&display=swap" rel="stylesheet">
+    
+
+  <script type="module" crossorigin src="/assets/index-BsylwSVs.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-D4XU2rDB.css">
+</head>
+
+<body class="font-sans">
+    <div id="root"></div>  
+</body>
+</html>
