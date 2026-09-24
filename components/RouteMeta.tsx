@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { NOT_FOUND_META, OG_IMAGE, PAGE_META, SITE_URL } from '../constants/seo';
+import { claveRuta, NOT_FOUND_META, OG_IMAGE, PAGE_META, urlCanonica } from '../constants/seo';
 
 /** Crea la etiqueta si no existe y le pone el contenido. */
 const setMeta = (attr: 'name' | 'property', key: string, content: string) => {
@@ -31,9 +31,13 @@ const RouteMeta = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const conocida = PAGE_META[pathname];
+    // GitHub Pages sirve las subpáginas con barra final, así que quien entra
+    // desde Google aterriza en /equipo/ y no en /equipo. Sin normalizar, esa
+    // visita no encontraría sus metadatos y se marcaría como noindex.
+    const clave = claveRuta(pathname);
+    const conocida = PAGE_META[clave];
     const meta = conocida ?? NOT_FOUND_META;
-    const url = `${SITE_URL}${pathname === '/' ? '/' : pathname}`;
+    const url = urlCanonica(pathname);
 
     document.title = meta.title;
     setMeta('name', 'description', meta.description);
@@ -50,12 +54,12 @@ const RouteMeta = () => {
 
     // Las páginas legales y la de borrar cuenta no aportan nada en resultados
     // de búsqueda, pero tienen que seguir siendo accesibles para las tiendas.
-    const noIndex = !conocida || pathname === '/eliminar-cuenta';
+    const noIndex = !conocida || clave === '/eliminar-cuenta';
     setMeta('name', 'robots', noIndex ? 'noindex, follow' : 'index, follow');
 
     // La barra del navegador toma el color de la línea en la que estás: verde
     // en la landing, teal en la plataforma profesional.
-    setMeta('name', 'theme-color', pathname === '/nutricionistas' ? '#0C4B45' : '#22521D');
+    setMeta('name', 'theme-color', clave === '/nutricionistas' ? '#0C4B45' : '#22521D');
   }, [pathname]);
 
   return null;

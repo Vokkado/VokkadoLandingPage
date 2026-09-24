@@ -81,3 +81,23 @@ export const INDEXABLE_PATHS = [
   '/politica-privacidad',
   '/terminos-y-condiciones',
 ];
+
+/**
+ * La URL definitiva de una ruta.
+ *
+ * GitHub Pages sirve cada subpágina desde su carpeta, o sea /nutricionistas/,
+ * y redirige con un 301 la versión sin barra. Si el canonical y el sitemap
+ * declararan la versión sin barra estarían apuntando a una redirección, así
+ * que acá se normaliza a la que realmente se sirve.
+ */
+export function urlCanonica(pathname: string): string {
+  if (pathname === '/') return `${SITE_URL}/`;
+  const limpio = pathname.replace(/\/+$/, '');
+  return `${SITE_URL}${limpio}/`;
+}
+
+/** La clave de PAGE_META para una ruta, venga con barra final o sin ella. */
+export function claveRuta(pathname: string): string {
+  const limpio = pathname.replace(/\/+$/, '');
+  return limpio === '' ? '/' : limpio;
+}

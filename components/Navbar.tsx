@@ -4,6 +4,7 @@ import logo from '../images/Logo.png';
 import nutriWordmark from '../images/nutri/vokkado-nutri-wordmark-teal.webp';
 import nutriWordmarkLight from '../images/nutri/vokkado-nutri-wordmark-light.webp';
 import { NAV_LINKS } from '../constants';
+import { claveRuta } from '../constants/seo';
 import Icono from './common/Icono';
 
 /**
@@ -34,7 +35,10 @@ const Navbar: React.FC = () => {
 
   // Vokkado nutri tiene su propio color. Mientras estás en esa sección, la
   // barra lo toma: la marca sigue siendo la misma, cambia la línea.
-  const isNutri = location.pathname === '/nutricionistas';
+  // Normalizada, porque GitHub Pages sirve las subpáginas con barra final y
+  // quien entra desde Google aterriza en /nutricionistas/, no en /nutricionistas.
+  const rutaActual = claveRuta(location.pathname);
+  const isNutri = rutaActual === '/nutricionistas';
   // Las clases van escritas enteras a propósito: Tailwind lee el código como
   // texto plano, así que una clase armada por interpolación (`text-${x}-dark`)
   // nunca llega al CSS final.
@@ -88,7 +92,7 @@ const Navbar: React.FC = () => {
   }`;
 
   const linkClass = (activePath: string | null) => {
-    const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
+    const isActive = activePath ? rutaActual === activePath : rutaActual === '/';
     return `px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
       isActive
         ? `${acento.activo} font-bold`
@@ -97,7 +101,7 @@ const Navbar: React.FC = () => {
   };
 
   const mobileLinkClass = (activePath: string | null) => {
-    const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
+    const isActive = activePath ? rutaActual === activePath : rutaActual === '/';
     return `block px-3 py-2 rounded-md text-base transition-colors duration-200 ${
       isActive
         ? `${acento.activoMobile} font-bold`
