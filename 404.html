@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <title>Vokkado</title>
+  <!--
+    GitHub Pages no sabe de rutas de una SPA: cualquier URL que no sea un
+    archivo cae acá. Esto la guarda como ?/ruta y vuelve a la raíz, donde el
+    script de index.html la devuelve a su lugar antes de que React monte.
+    La persona no llega a ver esta página.
+  -->
+  <script>
+    (function (l) {
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/?/' +
+        l.pathname.slice(1).replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    }(window.location));
+  </script>
+</head>
+<body></body>
+</html>
