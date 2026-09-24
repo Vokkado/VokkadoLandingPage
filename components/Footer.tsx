@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { APP_NAME } from '../constants';
+import { reabrirConsentimiento } from '../constants/consentimiento';
+import Icono from './common/Icono';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -14,7 +16,7 @@ export const Footer: React.FC = () => {
               <span className="text-xl font-semibold text-white">{APP_NAME}</span>
             </Link>
             <p className="mt-2 text-sm max-w-xs">
-              Saber lo que comés, es cuidarte.
+              Saber elegir es cuidarte.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -22,8 +24,9 @@ export const Footer: React.FC = () => {
               <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Recursos</h2>
               <ul className="space-y-3">
                 <li><Link to="/equipo" className="hover:text-primary-light transition-colors">Nosotros</Link></li>
-                <li><Link to="/independencia" className="hover:text-primary-light transition-colors">Nuestra Promesa</Link></li>
+                <li><Link to="/independencia" className="hover:text-primary-light transition-colors">Nuestra promesa</Link></li>
                 <li><Link to="/nutricionistas" className="hover:text-primary-light transition-colors">Nutricionistas</Link></li>
+                <li><Link to="/preguntas-frecuentes" className="hover:text-primary-light transition-colors">Preguntas frecuentes</Link></li>
                 <li><Link to="/contacto" className="hover:text-primary-light transition-colors">Contacto</Link></li>
               </ul>
             </div>
@@ -42,19 +45,28 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <Link to="/terminos-y-condiciones" className="hover:text-primary-light transition-colors">
-                    Términos y Condiciones
+                    Términos y condiciones
                   </Link>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={reabrirConsentimiento}
+                    className="hover:text-primary-light transition-colors text-left"
+                  >
+                    Preferencias de medición
+                  </button>
                 </li>
               </ul>
             </div>
             <div>
-              <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Síguenos</h2>
+              <h2 className="mb-4 text-sm font-semibold text-neutral-lightest uppercase">Seguinos</h2>
               <div className="flex space-x-4 mt-2">
                 <a href="https://www.instagram.com/vokkado.uy" className="text-neutral-medium dark:text-white/60 hover:text-primary-light transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                  <ion-icon name="logo-instagram" style={{ fontSize: '24px' }} />
+                  <Icono name="logo-instagram" style={{ fontSize: '24px' }} />
                 </a>
                 <a href="https://www.linkedin.com/company/vokkado" className="text-neutral-medium dark:text-white/60 hover:text-primary-light transition-colors" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                  <ion-icon name="logo-linkedin" style={{ fontSize: '24px' }} />
+                  <Icono name="logo-linkedin" style={{ fontSize: '24px' }} />
                 </a>
               </div>
             </div>

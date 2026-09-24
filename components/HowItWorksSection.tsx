@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import Icono from './common/Icono';
 
 // Import step images (placeholders — drop real screenshots into images/steps/)
 const stepModules = import.meta.glob('../images/steps/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
@@ -14,106 +15,92 @@ for (const key of Object.keys(stepModules)) {
 interface StepData {
   tag: string;
   tagIcon: string;
-  tagIconType: 'ion' | 'mdi';
   title: string;
   titleAccent: string;
   description: string;
-  highlights: { icon: string; iconType: 'ion' | 'mdi'; text: string }[];
+  highlights: { icon: string; text: string }[];
   imageKey: string;
   placeholderIcon: string;
-  placeholderIconType: 'ion' | 'mdi';
 }
 
 const steps: StepData[] = [
   {
     tag: 'Paso 1',
     tagIcon: 'person-outline',
-    tagIconType: 'ion',
     title: 'Contale a Vokkado ',
     titleAccent: 'quién sos',
     description:
       'Tus alergias, condiciones de salud y objetivos nutricionales. A partir de acá, cada respuesta es sobre vos, no una respuesta genérica.',
     highlights: [
-      { icon: 'shield-checkmark-outline', iconType: 'ion', text: 'Alergias e intolerancias' },
-      { icon: 'fitness-outline', iconType: 'ion', text: 'Condiciones de salud' },
-      { icon: 'nutrition-outline', iconType: 'ion', text: 'Objetivos nutricionales' },
+      { icon: 'shield-checkmark-outline', text: 'Alergias e intolerancias' },
+      { icon: 'fitness-outline', text: 'Condiciones de salud' },
+      { icon: 'nutrition-outline', text: 'Objetivos nutricionales' },
     ],
     imageKey: 'step-1-profile',
     placeholderIcon: 'person-circle-outline',
-    placeholderIconType: 'ion',
   },
   {
     tag: 'Paso 2',
-    tagIcon: 'barcode-scan',
-    tagIconType: 'mdi',
+    tagIcon: 'barcode-outline',
     title: 'Dejá de descifrar ',
     titleAccent: 'etiquetas',
     description:
       'Apuntá la cámara al código de barras y listo. La letra chica deja de ser tu problema.',
     highlights: [
-      { icon: 'camera-outline', iconType: 'ion', text: 'Escaneo instantáneo' },
-      { icon: 'barcode-outline', iconType: 'ion', text: 'Miles de productos' },
-      { icon: 'flash-outline', iconType: 'ion', text: 'Resultados en segundos' },
+      { icon: 'camera-outline', text: 'Escaneo instantáneo' },
+      { icon: 'barcode-outline', text: 'Miles de productos' },
+      { icon: 'flash-outline', text: 'Resultados en segundos' },
     ],
     imageKey: 'step-2-scan',
     placeholderIcon: 'scan-outline',
-    placeholderIconType: 'ion',
   },
   {
     tag: 'Paso 3',
     tagIcon: 'bar-chart-outline',
-    tagIconType: 'ion',
     title: 'Entendé lo que ',
     titleAccent: 'estás comprando',
     description:
       'Apto, precaución o no apto, con la explicación en lenguaje claro. No solo qué, también por qué: así aprendés en cada compra.',
     highlights: [
-      { icon: 'checkmark-circle-outline', iconType: 'ion', text: '"Apto", "Precaución" o "No Apto"' },
-      { icon: 'alert-circle-outline', iconType: 'ion', text: 'Alertas de alérgenos' },
-      { icon: 'list-outline', iconType: 'ion', text: 'Detalle nutricional completo' },
+      { icon: 'checkmark-circle-outline', text: '"Apto", "Precaución" o "No Apto"' },
+      { icon: 'alert-circle-outline', text: 'Alertas de alérgenos' },
+      { icon: 'list-outline', text: 'Detalle nutricional completo' },
     ],
     imageKey: 'step-3-analysis',
     placeholderIcon: 'analytics-outline',
-    placeholderIconType: 'ion',
   },
   {
     tag: 'Paso 4',
     tagIcon: 'cart-outline',
-    tagIconType: 'ion',
     title: 'Elegí con confianza ',
     titleAccent: 'toda tu compra',
     description:
       'Visualizá el impacto nutricional de tu carrito completo y decidí con seguridad antes de pagar.',
     highlights: [
-      { icon: 'bag-check-outline', iconType: 'ion', text: 'Resumen de tu compra' },
-      { icon: 'trending-up-outline', iconType: 'ion', text: 'Estadísticas nutricionales' },
-      { icon: 'time-outline', iconType: 'ion', text: 'Historial de compras' },
+      { icon: 'bag-check-outline', text: 'Resumen de tu compra' },
+      { icon: 'trending-up-outline', text: 'Estadísticas nutricionales' },
+      { icon: 'time-outline', text: 'Historial de compras' },
     ],
     imageKey: 'step-4-cart',
     placeholderIcon: 'cart-outline',
-    placeholderIconType: 'ion',
   },
 ];
 
 /* ── Reusable icon renderer ── */
 const IconEl: React.FC<{
   name: string;
-  type: 'ion' | 'mdi';
   style?: React.CSSProperties;
   className?: string;
   ariaHidden?: boolean;
   title?: string;
-}> = ({ name, type, style, className, ariaHidden = true, title }) =>
-  type === 'ion' ? (
-    <ion-icon name={name} style={style} className={className} aria-hidden={ariaHidden} title={title} />
-  ) : (
-    <span className={`mdi mdi-${name} ${className ?? ''}`} style={style} aria-hidden={ariaHidden} title={title} />
-  );
+}> = ({ name, style, className, ariaHidden = true, title }) => (
+  <Icono name={name} style={style} className={className} aria-hidden={ariaHidden} title={title} />
+);
 
 /* ── Placeholder screen for a step without a screenshot ── */
-const StepPlaceholder: React.FC<{ icon: string; type: 'ion' | 'mdi' }> = ({ icon, type }) => (
+const StepPlaceholder: React.FC<{ icon: string }> = ({ icon }) => (
   <div className="w-full h-full bg-gradient-to-br from-primary to-primary-light flex flex-col items-center justify-center text-white gap-3">
-    <IconEl name={icon} type={type} style={{ fontSize: '56px', color: 'rgba(255,255,255,0.5)' }} />
+    <IconEl name={icon} style={{ fontSize: '56px', color: 'rgba(255,255,255,0.5)' }} />
     <span className="text-xs font-medium opacity-50">Captura próximamente</span>
   </div>
 );
@@ -132,9 +119,9 @@ const PhoneScreens: React.FC<{ active: number; className?: string }> = ({ active
             aria-hidden={i !== active}
           >
             {src ? (
-              <img src={src} alt={`${step.tag}: ${step.titleAccent}`} className="w-full h-full object-cover" draggable={false} />
+              <img loading="lazy" decoding="async" src={src} alt={`Pantalla de la app: ${step.title}${step.titleAccent}`} className="w-full h-full object-cover" draggable={false} />
             ) : (
-              <StepPlaceholder icon={step.placeholderIcon} type={step.placeholderIconType} />
+              <StepPlaceholder icon={step.placeholderIcon} />
             )}
           </div>
         );
@@ -157,7 +144,7 @@ const StepText: React.FC<{ step: StepData; isActive?: boolean; centered?: boolea
         ? 'bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep'
         : 'bg-primary-lightest dark:bg-primary-light/15 text-primary-dark dark:text-primary-light'}`}
     >
-      <IconEl name={step.tagIcon} type={step.tagIconType} style={{ fontSize: '16px' }} />
+      <IconEl name={step.tagIcon} style={{ fontSize: '16px' }} />
       {step.tag}
     </div>
 
@@ -174,7 +161,7 @@ const StepText: React.FC<{ step: StepData; isActive?: boolean; centered?: boolea
       {step.highlights.map((h, i) => (
         <div key={i} className="flex items-center gap-3" title={h.text}>
           <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-            <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px' }} className="text-primary dark:text-primary-light" title={h.text} />
+            <IconEl name={h.icon} style={{ fontSize: '20px' }} className="text-primary dark:text-primary-light" title={h.text} />
           </div>
           <span className="text-sm sm:text-base text-neutral-dark dark:text-white/75 font-medium">{h.text}</span>
         </div>
@@ -224,9 +211,9 @@ const StepPhoneStatic: React.FC<{ step: StepData; className?: string }> = ({ ste
   return (
     <IPhoneMockup className={className}>
       {src ? (
-        <img src={src} alt={`${step.tag}: ${step.titleAccent}`} className="w-full h-full object-cover" draggable={false} />
+        <img loading="lazy" decoding="async" src={src} alt={`Pantalla de la app: ${step.title}${step.titleAccent}`} className="w-full h-full object-cover" draggable={false} />
       ) : (
-        <StepPlaceholder icon={step.placeholderIcon} type={step.placeholderIconType} />
+        <StepPlaceholder icon={step.placeholderIcon} />
       )}
     </IPhoneMockup>
   );
@@ -254,7 +241,7 @@ const MobileStep: React.FC<{ step: StepData; number: number }> = ({ step, number
         {step.highlights.map((h, i) => (
           <div key={i} className="flex items-center gap-3" title={h.text}>
             <div className="w-9 h-9 rounded-lg bg-primary-light/15 flex items-center justify-center flex-shrink-0">
-              <IconEl name={h.icon} type={h.iconType} style={{ fontSize: '20px' }} className="text-primary dark:text-primary-light" title={h.text} />
+              <IconEl name={h.icon} style={{ fontSize: '20px' }} className="text-primary dark:text-primary-light" title={h.text} />
             </div>
             <span className="text-sm sm:text-base text-neutral-dark dark:text-white/75 font-medium">{h.text}</span>
           </div>

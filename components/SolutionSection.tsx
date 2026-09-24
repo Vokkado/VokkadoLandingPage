@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { useCanHover } from '../hooks/useCanHover';
+import Icono from './common/Icono';
 
 interface Flip {
   frontIcon: string;
@@ -84,10 +85,10 @@ const FlipTile: React.FC<{
           >
             <div className="flex items-center justify-between gap-2">
               <div className="w-11 h-11 rounded-xl bg-neutral-light dark:bg-white/10 flex items-center justify-center">
-                <ion-icon name={flip.frontIcon} style={{ fontSize: '22px' }} className="text-neutral-dark dark:text-white/75" aria-hidden />
+                <Icono name={flip.frontIcon} style={{ fontSize: '22px' }} className="text-neutral-dark dark:text-white/75" aria-hidden />
               </div>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-lightest dark:bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-primary-dark dark:text-primary-light">
-                <ion-icon name="sync-outline" style={{ fontSize: '13px' }} className="giro-lento" aria-hidden />
+                <Icono name="sync-outline" style={{ fontSize: '13px' }} className="giro-lento" aria-hidden />
                 {puedeHover ? 'pasá el mouse' : 'tocá la tarjeta'}
               </span>
             </div>
@@ -100,7 +101,7 @@ const FlipTile: React.FC<{
             style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
             <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
-              <ion-icon name="checkmark-circle-outline" style={{ fontSize: '24px', color: '#FCFCFC' }} aria-hidden />
+              <Icono name="checkmark-circle-outline" style={{ fontSize: '24px', color: '#FCFCFC' }} aria-hidden />
             </div>
             <div>
               <h3 className="text-lg font-bold leading-snug mb-1.5">{flip.backTitle}</h3>

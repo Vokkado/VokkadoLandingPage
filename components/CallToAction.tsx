@@ -40,11 +40,11 @@ const CallToActionSection: React.FC = () => {
           ref={subtitleAnim.ref}
           className="text-lg sm:text-xl text-primary-lightest max-w-2xl mx-auto mb-10"
         >
-          {APP_NAME} ya está disponible como beta pública. Descargala y convertí tu próxima compra en una decisión segura.
+          {APP_NAME} ya está en las tiendas como beta pública, y es gratis. Convertí tu próxima compra en una decisión tranquila.
         </p>
 
         <div ref={badgesAnim.ref} className="mt-12">
-          <p className="text-sm text-primary-lightest mb-4">Disponible ahora en:</p>
+          <p className="text-sm text-primary-lightest mb-4">Descargala gratis en:</p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             {/* App Store button */}
             <button

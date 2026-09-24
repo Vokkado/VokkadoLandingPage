@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import IPhoneMockup from './common/IPhoneMockup';
-import paltaNutri from '../images/nutri/palta-nutricionista.png';
-import capturaAnalisis from '../images/gallery/5alfajor.png';
+import paltaNutri from '../images/nutri/palta-nutricionista.webp';
+import capturaAnalisis from '../images/gallery/5alfajor.webp';
+import Icono from './common/Icono';
 
 const EMAIL = 'contact@vokkado.com';
 const SUBJECT = 'Quiero sumarme a Vokkado para nutricionistas';
@@ -95,7 +96,7 @@ const FraseRow: React.FC<FraseRowProps> = ({ frase, index, marcada, onToggle }) 
                 }`}
               >
                 <span className="mt-0.5 w-6 h-6 rounded-full bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep flex items-center justify-center shrink-0">
-                  <ion-icon name="checkmark-outline" style={{ fontSize: '15px' }} aria-hidden="true" />
+                  <Icono name="checkmark-outline" style={{ fontSize: '15px' }} aria-hidden="true" />
                 </span>
                 <span>{frase.respuesta}</span>
               </p>
@@ -265,14 +266,14 @@ const ExploradorDeModulos: React.FC = () => {
   return (
     <div
       ref={ref}
-      className="rounded-3xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-nightNutri-card shadow-lg shadow-nutri-dark/5 dark:shadow-black/40 overflow-hidden"
+      className="rounded-3xl border border-neutral-soft dark:border-white/10 bg-white dark:bg-nightNutri-card shadow-lg shadow-nutri-dark/5 dark:shadow-black/40 overflow-hidden"
     >
       {/* Barra de la ventana */}
-      <div className="flex items-center gap-3 px-5 py-3 border-b border-neutral-100 dark:border-white/10 bg-neutral-50/80 dark:bg-white/[0.03]">
+      <div className="flex items-center gap-3 px-5 py-3 border-b border-neutral-light dark:border-white/10 bg-neutral-lightest/80 dark:bg-white/[0.03]">
         <span className="flex gap-1.5" aria-hidden="true">
-          <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20" />
-          <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20" />
-          <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-white/20" />
+          <span className="w-2.5 h-2.5 rounded-full bg-neutral-line dark:bg-white/20" />
+          <span className="w-2.5 h-2.5 rounded-full bg-neutral-line dark:bg-white/20" />
+          <span className="w-2.5 h-2.5 rounded-full bg-neutral-line dark:bg-white/20" />
         </span>
         <span className="font-sans text-xs text-neutral dark:text-white/45 truncate">Vokkado nutri · tu consultorio</span>
       </div>
@@ -283,7 +284,7 @@ const ExploradorDeModulos: React.FC = () => {
       <div className="grid grid-cols-[3.75rem_1fr] md:grid-cols-[250px_1fr] lg:grid-cols-[280px_1fr] h-[540px] md:h-[500px]">
         <nav
           aria-label="Módulos de la plataforma"
-          className="flex flex-col gap-0.5 md:gap-1 p-2 md:p-3 border-r border-neutral-100 dark:border-white/10 bg-neutral-50/50 dark:bg-white/[0.02] overflow-hidden"
+          className="flex flex-col gap-0.5 md:gap-1 p-2 md:p-3 border-r border-neutral-light dark:border-white/10 bg-neutral-lightest/50 dark:bg-white/[0.02] overflow-hidden"
         >
           {MODULES.map((mod, i) => {
             const es = i === activo;
@@ -301,7 +302,7 @@ const ExploradorDeModulos: React.FC = () => {
                 } ${
                   es
                     ? 'bg-nutri-lightest dark:bg-white/10 text-nutri-dark dark:text-nutri-light font-semibold'
-                    : 'text-neutral-dark dark:text-white/65 hover:bg-neutral-100 dark:hover:bg-white/5'
+                    : 'text-neutral-dark dark:text-white/65 hover:bg-neutral-light dark:hover:bg-white/5'
                 }`}
               >
                 <span
@@ -310,7 +311,7 @@ const ExploradorDeModulos: React.FC = () => {
                   }`}
                   aria-hidden="true"
                 />
-                <ion-icon name={mod.icon} style={{ fontSize: '20px' }} aria-hidden="true" className={mod.pronto ? 'opacity-60' : ''} />
+                <Icono name={mod.icon} style={{ fontSize: '20px' }} aria-hidden="true" className={mod.pronto ? 'opacity-60' : ''} />
                 <span className={`hidden md:inline ${mod.pronto ? 'opacity-60' : ''}`}>{mod.title}</span>
                 {mod.pronto && (
                   <span className="hidden md:inline ml-auto font-sans text-[10px] font-semibold uppercase tracking-wide text-neutral-medium dark:text-white/35">
@@ -325,7 +326,7 @@ const ExploradorDeModulos: React.FC = () => {
         {/* Detalle del módulo elegido */}
         <div className="p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col overflow-hidden">
           <div className="w-11 h-11 md:w-12 md:h-12 rounded-2xl bg-nutri-light/20 flex items-center justify-center mb-5 md:mb-8">
-            <ion-icon name={detalle.icon} style={{ fontSize: '22px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" />
+            <Icono name={detalle.icon} style={{ fontSize: '22px' }} className="text-nutri-dark dark:text-nutri-light" aria-hidden="true" />
           </div>
 
           <div key={detalle.title} className="texto-entra flex-1">
@@ -395,7 +396,7 @@ const PasoRecorrido: React.FC<{ paso: typeof BRIDGE[0]; index: number }> = ({ pa
   return (
     <li ref={ref} className="relative flex gap-5 sm:gap-6 pb-10 last:pb-0">
       <span className="relative z-10 w-10 h-10 shrink-0 rounded-full bg-white dark:bg-nightNutri-card border border-nutri-dark/20 dark:border-nutri-light/30 flex items-center justify-center text-nutri-dark dark:text-nutri-light">
-        <ion-icon name={paso.icon} style={{ fontSize: '18px' }} aria-hidden="true" />
+        <Icono name={paso.icon} style={{ fontSize: '18px' }} aria-hidden="true" />
       </span>
       <div className="pt-1.5">
         <span className="font-sans text-[11px] font-bold uppercase tracking-wider text-nutri-dark/70 dark:text-nutri-light/70">
@@ -418,7 +419,7 @@ const PantallaDelPaciente: React.FC = () => {
     <div ref={ref} className="relative">
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[80%] rounded-full bg-nutri-light/25 dark:bg-nutri/15 blur-3xl" aria-hidden="true" />
       <IPhoneMockup className="relative">
-        <img
+        <img loading="lazy" decoding="async"
           src={capturaAnalisis}
           alt="Análisis de un producto en la app de Vokkado: no es apto por las restricciones del paciente"
           className="w-full h-full object-cover"
@@ -441,7 +442,7 @@ const STEPS = [
 const StepCard: React.FC<{ step: typeof STEPS[0]; index: number }> = ({ step, index }) => {
   const { ref } = useScrollAnimation({ animation: 'fade-up', delay: index * 120, threshold: 0.1 });
   return (
-    <div ref={ref} className="bg-white dark:bg-nightNutri-card rounded-3xl p-8 border border-neutral-100 dark:border-white/10 shadow-sm text-center">
+    <div ref={ref} className="bg-white dark:bg-nightNutri-card rounded-3xl p-8 border border-neutral-light dark:border-white/10 shadow-sm text-center">
       <div className="w-12 h-12 rounded-full bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-bold text-lg flex items-center justify-center mx-auto mb-5">
         {step.n}
       </div>
@@ -467,17 +468,17 @@ const NutritionistsPage: React.FC = () => {
   const { ref: ctaRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
 
   return (
-    <div className="relative bg-friendlyWhite dark:bg-nightNutri text-neutral-dark dark:text-white/75 overflow-hidden">
+    /* La luz teal va acá, en el envoltorio, no en una capa hija con -z-10.
+       Estaba así y no se veía: `relative` sin z-index no crea contexto de
+       apilamiento, así que la capa negativa quedaba por detrás del color de
+       fondo opaco de este mismo div. Es lo mismo que ya dice index.css sobre
+       por qué el fondo de la landing vive en el elemento raíz. */
+    <div className="relative fondo-luz-nutri text-neutral-dark dark:text-white/75 overflow-hidden">
 
-      {/* ── Fondo continuo ── */}
-      <div className="absolute inset-0 -z-10 fondo-luz-nutri">
-        <div
-          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05] text-nutri dark:text-nutri-light"
-          style={{
-            backgroundImage: 'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
-            backgroundSize: '44px 44px',
-          }}
-        />
+      {/* ── Solo luz ──
+          Acá había además una grilla de cuadraditos. Afuera: el fondo es
+          iluminación y nada más, como en el resto del sitio. */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-28 right-[-120px] w-96 h-96 rounded-full bg-nutri-light/20 dark:bg-nutri/15 blur-3xl" />
         <div className="absolute top-[45%] left-[-160px] w-80 h-80 rounded-full bg-nutri-lightest/70 dark:bg-nutri-dark/30 blur-3xl" />
       </div>
@@ -502,7 +503,7 @@ const NutritionistsPage: React.FC = () => {
                   className="inline-flex items-center gap-2 bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-nutri dark:hover:bg-nutri-light/85 hover:scale-105 transition-all duration-200 shadow-sm"
                 >
                   Ver cómo funciona
-                  <ion-icon name="arrow-down-outline" style={{ fontSize: '16px' }} />
+                  <Icono name="arrow-down-outline" style={{ fontSize: '16px' }} />
                 </button>
                 <a
                   href={GMAIL_COMPOSE}
@@ -511,7 +512,7 @@ const NutritionistsPage: React.FC = () => {
                   className="inline-flex items-center gap-2 border border-nutri-dark/25 dark:border-nutri-light/40 text-nutri-dark dark:text-nutri-light font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-nutri-lightest dark:hover:bg-white/5 hover:scale-105 transition-all duration-200"
                 >
                   Quiero probarla
-                  <ion-icon name="mail-outline" style={{ fontSize: '16px' }} />
+                  <Icono name="mail-outline" style={{ fontSize: '16px' }} />
                 </a>
               </div>
             </div>
@@ -523,7 +524,7 @@ const NutritionistsPage: React.FC = () => {
                 <div className="absolute top-3 right-10 w-3 h-3 rounded-full bg-nutri-light/50" />
                 <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-nutri/40" />
                 <div className="absolute top-1/2 right-2 w-2 h-2 rounded-full bg-nutri-light/60" />
-                <img
+                <img loading="lazy" decoding="async"
                   src={paltaNutri}
                   alt="La palta nutricionista de Vokkado"
                   className="relative z-10 w-60 sm:w-72 drop-shadow-[0_20px_40px_rgba(12,75,69,0.20)] dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.45)]"
@@ -617,7 +618,7 @@ const NutritionistsPage: React.FC = () => {
             ref={privacyRef}
             className="mt-16 sm:mt-20 pt-8 border-t border-nutri-dark/15 dark:border-white/10 flex flex-col sm:flex-row gap-4 sm:gap-6 max-w-5xl mx-auto"
           >
-            <ion-icon name="lock-closed-outline" style={{ fontSize: '22px' }} className="text-nutri-dark dark:text-nutri-light shrink-0 sm:mt-0.5" aria-hidden="true" />
+            <Icono name="lock-closed-outline" style={{ fontSize: '22px' }} className="text-nutri-dark dark:text-nutri-light shrink-0 sm:mt-0.5" aria-hidden="true" />
             <p className="font-sans text-sm sm:text-base text-neutral-dark dark:text-white/70 leading-relaxed">
               <span className="font-semibold text-neutral-darkest dark:text-white">Acompañar no es vigilar.</span>{' '}
               El paciente elige qué comparte, dato por dato: escaneos, carrito, lista de compras o restricciones. Puede sacarte cualquiera de esos permisos cuando quiera, y si se desvincula se corta todo. Esa frontera es la que hace que se anime a compartir, y es lo que vuelve el dato confiable para vos.
@@ -660,14 +661,14 @@ const NutritionistsPage: React.FC = () => {
               className="inline-flex items-center justify-center gap-2 bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-nutri dark:hover:bg-nutri-light/85 hover:scale-105 transition-all duration-200 shadow-sm"
             >
               Sumarme desde Gmail
-              <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
+              <Icono name="arrow-forward-outline" style={{ fontSize: '16px' }} />
             </a>
             <a
               href={MAILTO}
               className="inline-flex items-center justify-center gap-2 border border-nutri-dark/25 dark:border-nutri-light/40 text-nutri-dark dark:text-nutri-light font-sans font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-white dark:hover:bg-white/5 hover:scale-105 transition-all duration-200"
             >
               Escribir a {EMAIL}
-              <ion-icon name="mail-outline" style={{ fontSize: '16px' }} />
+              <Icono name="mail-outline" style={{ fontSize: '16px' }} />
             </a>
           </div>
         </div>

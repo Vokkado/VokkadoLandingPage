@@ -1,9 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../images/Logo.png';
-import nutriWordmark from '../images/nutri/vokkado-nutri-wordmark-teal.png';
-import nutriWordmarkLight from '../images/nutri/vokkado-nutri-wordmark-light.png';
+import nutriWordmark from '../images/nutri/vokkado-nutri-wordmark-teal.webp';
+import nutriWordmarkLight from '../images/nutri/vokkado-nutri-wordmark-light.webp';
 import { NAV_LINKS } from '../constants';
+import Icono from './common/Icono';
+
+/**
+ * Cada línea de la marca con sus clases escritas completas. Tailwind hace
+ * purga mirando el código fuente como texto: si la clase no aparece literal
+ * en ningún archivo, no existe en el CSS compilado.
+ */
+const ACENTO = {
+  primary: {
+    activo: 'text-primary-dark dark:text-primary-light',
+    activoMobile: 'text-primary-dark dark:text-primary-light bg-primary-lightest dark:bg-white/10',
+    hover: 'hover:text-primary dark:hover:text-primary-light',
+    superficie: 'dark:bg-night',
+  },
+  nutri: {
+    activo: 'text-nutri-dark dark:text-nutri-light',
+    activoMobile: 'text-nutri-dark dark:text-nutri-light bg-nutri-lightest dark:bg-white/10',
+    hover: 'hover:text-nutri dark:hover:text-nutri-light',
+    superficie: 'dark:bg-nightNutri',
+  },
+} as const;
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,7 +35,10 @@ const Navbar: React.FC = () => {
   // Vokkado nutri tiene su propio color. Mientras estás en esa sección, la
   // barra lo toma: la marca sigue siendo la misma, cambia la línea.
   const isNutri = location.pathname === '/nutricionistas';
-  const accent = isNutri ? 'nutri' : 'primary';
+  // Las clases van escritas enteras a propósito: Tailwind lee el código como
+  // texto plano, así que una clase armada por interpolación (`text-${x}-dark`)
+  // nunca llega al CSS final.
+  const acento = isNutri ? ACENTO.nutri : ACENTO.primary;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,7 +81,7 @@ const Navbar: React.FC = () => {
 
   // La superficie oscura también cambia de línea: verde en la landing,
   // teal en /nutricionistas. Así la barra nunca desentona con lo que tapa.
-  const surface = isNutri ? 'dark:bg-nightNutri' : 'dark:bg-night';
+  const surface = acento.superficie;
 
   const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
     isScrolled ? `bg-white ${surface} shadow-lg dark:shadow-black/40` : 'bg-transparent dark:bg-transparent'
@@ -67,8 +91,8 @@ const Navbar: React.FC = () => {
     const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
     return `px-3 py-2 rounded-md text-sm transition-colors duration-200 ${
       isActive
-        ? `text-${accent}-dark dark:text-${accent}-light font-bold`
-        : `font-medium text-neutral-dark dark:text-white/75 hover:text-${accent} dark:hover:text-${accent}-light`
+        ? `${acento.activo} font-bold`
+        : `font-medium text-neutral-dark dark:text-white/75 ${acento.hover}`
     }`;
   };
 
@@ -76,8 +100,8 @@ const Navbar: React.FC = () => {
     const isActive = activePath ? location.pathname === activePath : location.pathname === '/';
     return `block px-3 py-2 rounded-md text-base transition-colors duration-200 ${
       isActive
-        ? `text-${accent}-dark dark:text-${accent}-light font-bold bg-${accent}-lightest dark:bg-white/10`
-        : `font-medium text-neutral-dark dark:text-white/75 hover:text-${accent} dark:hover:text-${accent}-light hover:bg-neutral-light dark:hover:bg-white/5`
+        ? `${acento.activoMobile} font-bold`
+        : `font-medium text-neutral-dark dark:text-white/75 ${acento.hover} hover:bg-neutral-light dark:hover:bg-white/5`
     }`;
   };
 
@@ -119,7 +143,7 @@ const Navbar: React.FC = () => {
               Nosotros
             </Link>
             <Link to="/independencia" className={linkClass('/independencia')}>
-              Nuestra Promesa
+              Nuestra promesa
             </Link>
             <Link to="/nutricionistas" className={linkClass('/nutricionistas')}>
               Nutricionistas
@@ -133,14 +157,14 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors duration-300 text-neutral-dark dark:text-white/75 hover:text-${accent} dark:hover:text-${accent}-light`}
+              className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition-colors duration-300 text-neutral-dark dark:text-white/75 ${acento.hover}`}
               aria-label="Abrir menú principal"
               aria-expanded={isMobileMenuOpen}
             >
               <span className="sr-only">Abrir menú principal</span>
               {isMobileMenuOpen
-                ? <ion-icon name="close-outline" style={{ fontSize: '24px' }} />
-                : <ion-icon name="menu-outline" style={{ fontSize: '24px' }} />
+                ? <Icono name="close-outline" style={{ fontSize: '24px' }} />
+                : <Icono name="menu-outline" style={{ fontSize: '24px' }} />
               }
             </button>
           </div>
@@ -165,7 +189,7 @@ const Navbar: React.FC = () => {
               Nosotros
             </Link>
             <Link to="/independencia" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass('/independencia')}>
-              Nuestra Promesa
+              Nuestra promesa
             </Link>
             <Link to="/nutricionistas" onClick={() => setIsMobileMenuOpen(false)} className={mobileLinkClass('/nutricionistas')}>
               Nutricionistas

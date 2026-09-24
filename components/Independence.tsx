@@ -1,7 +1,8 @@
 import React from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import Teaser from './Teaser';
-import independientePng from '../images/independiente.png';
+import independientePng from '../images/independiente.webp';
+import Icono from './common/Icono';
 
 /* Lo que no vas a encontrar en Vokkado, y por qué. Cada renglón es una
    promesa concreta, no un valor abstracto. */
@@ -32,7 +33,7 @@ const RenglonNunca: React.FC<{ item: typeof NUNCA[0]; index: number }> = ({ item
         className="mt-1 w-8 h-8 rounded-full border border-primary-dark/25 dark:border-primary-light/40 text-primary-dark dark:text-primary-light flex items-center justify-center shrink-0"
         aria-hidden="true"
       >
-        <ion-icon name="close-outline" style={{ fontSize: '18px' }} />
+        <Icono name="close-outline" style={{ fontSize: '18px' }} />
       </span>
       <div>
         <h3 className="font-display text-xl sm:text-2xl lg:text-[1.75rem] font-semibold leading-snug text-neutral-darkest dark:text-white text-balance">
@@ -128,7 +129,7 @@ const IndependenciaPage: React.FC = () => {
                 <div className="absolute bottom-6 left-8 w-2 h-2 rounded-full bg-primary/40" />
                 <div className="absolute top-1/2 right-2 w-2 h-2 rounded-full bg-primary-light/60" />
                 {/* Imagen */}
-                <img
+                <img loading="lazy" decoding="async"
                   src={independientePng}
                   alt="Vokkado independiente"
                   className="relative z-10 w-52 sm:w-60 md:w-64 max-w-full drop-shadow-[0_20px_40px_rgba(34,82,29,0.18)] dark:drop-shadow-[0_20px_40px_rgba(0,0,0,0.45)]"

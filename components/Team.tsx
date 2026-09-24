@@ -48,10 +48,11 @@ const UruguayFlag: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-import photo1 from '../images/team/1.png';
-import photo2 from '../images/team/2.png';
-import photo3 from '../images/team/3.png';
-import photo4 from '../images/team/4.png';
+import photo1 from '../images/team/1.webp';
+import photo2 from '../images/team/2.webp';
+import photo3 from '../images/team/3.webp';
+import photo4 from '../images/team/4.webp';
+import Icono from './common/Icono';
 
 const MEMBERS = [
   {
@@ -138,11 +139,11 @@ const AboutSection: React.FC = () => {
 
         {/* Header con líneas */}
         <div ref={headerRef} className="flex items-center gap-4 mb-10">
-          <div className="flex-grow h-px bg-neutral-200 dark:bg-white/15" />
+          <div className="flex-grow h-px bg-neutral-soft dark:bg-white/15" />
           <h2 className="text-xl md:text-2xl font-extrabold uppercase tracking-widest text-primary-dark dark:text-primary-light whitespace-nowrap">
             Conocenos
           </h2>
-          <div className="flex-grow h-px bg-neutral-200 dark:bg-white/15" />
+          <div className="flex-grow h-px bg-neutral-soft dark:bg-white/15" />
         </div>
 
         {/* Pills */}
@@ -154,7 +155,7 @@ const AboutSection: React.FC = () => {
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                 active === tab.key
                   ? 'bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep'
-                  : 'bg-neutral-100 dark:bg-white/10 text-neutral dark:text-white/65 hover:bg-neutral-200 dark:hover:bg-white/15 hover:text-neutral-dark dark:hover:text-white'
+                  : 'bg-neutral-light dark:bg-white/10 text-neutral dark:text-white/65 hover:bg-neutral-soft dark:hover:bg-white/15 hover:text-neutral-dark dark:hover:text-white'
               }`}
             >
               {tab.label}
@@ -189,7 +190,7 @@ const MemberCard: React.FC<{ member: typeof MEMBERS[0]; index: number }> = ({ me
           transition-all duration-300
           group-hover:ring-primary-light"
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={member.photo}
           alt={member.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -243,7 +244,7 @@ const UruguaySection: React.FC = () => {
 
           <div ref={card2Ref} className="bg-[#f4f8ec] dark:bg-white/[0.04] rounded-2xl p-7 border border-primary-light/20 dark:border-white/10">
             <div className="w-11 h-11 rounded-xl bg-primary-light/20 flex items-center justify-center mb-4">
-              <ion-icon name="globe-outline" style={{ fontSize: '22px' }} className="text-primary-dark dark:text-primary-light" />
+              <Icono name="globe-outline" style={{ fontSize: '22px' }} className="text-primary-dark dark:text-primary-light" />
             </div>
             <h3 className="font-bold text-neutral-darkest dark:text-white mb-2">Con la mirada en el horizonte</h3>
             <p className="text-sm text-neutral dark:text-white/65 leading-relaxed">

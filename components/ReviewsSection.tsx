@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import Icono from './common/Icono';
 
 type ReviewSource = 'app_store' | 'google_play';
 
@@ -14,44 +15,6 @@ interface Review {
   date: string | null;
 }
 
-const FALLBACK_REVIEWS: Review[] = [
-  {
-    id: 'fallback-1',
-    source: 'app_store',
-    author: 'Lucía M.',
-    rating: 5,
-    title: null,
-    text: 'Encontré rapidísimo qué productos no tienen lactosa. Antes tardaba un montón leyendo etiquetas en el súper.',
-    date: null,
-  },
-  {
-    id: 'fallback-2',
-    source: 'google_play',
-    author: 'Martín P.',
-    rating: 5,
-    title: null,
-    text: 'Escaneás el código de barras y te dice al toque si el producto es apto para vos. Muy útil para mis alergias.',
-    date: null,
-  },
-  {
-    id: 'fallback-3',
-    source: 'app_store',
-    author: 'Valentina R.',
-    rating: 4,
-    title: null,
-    text: 'Me encanta poder armar mi perfil con mis restricciones. El historial del carrito también ayuda mucho.',
-    date: null,
-  },
-  {
-    id: 'fallback-4',
-    source: 'google_play',
-    author: 'Federico A.',
-    rating: 5,
-    title: null,
-    text: 'App simple y clara. La uso cada vez que voy de compras para chequear los productos nuevos.',
-    date: null,
-  },
-];
 
 const AppleLogo: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +39,7 @@ const SOURCE_LABEL: Record<ReviewSource, string> = {
 const StarRating: React.FC<{ rating: number }> = ({ rating }) => (
   <div className="flex items-center gap-0.5" aria-label={`${rating} de 5 estrellas`}>
     {[1, 2, 3, 4, 5].map((i) => (
-      <ion-icon
+      <Icono
         key={i}
         name={i <= rating ? 'star' : 'star-outline'}
         style={{ fontSize: '14px', color: '#F5A623' }}
@@ -100,8 +63,11 @@ const initials = (name: string) => {
   );
 };
 
-const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
-  <div className="shrink-0 w-[300px] sm:w-[320px] bg-white dark:bg-night-card rounded-2xl shadow-sm dark:shadow-black/30 border border-neutral-light dark:border-white/10 p-5 flex flex-col gap-3">
+const ReviewCard: React.FC<{ review: Review; duplicada?: boolean }> = ({ review, duplicada = false }) => (
+  <div
+    className="shrink-0 w-[300px] sm:w-[320px] bg-white dark:bg-night-card rounded-2xl shadow-sm dark:shadow-black/30 border border-neutral-light dark:border-white/10 p-5 flex flex-col gap-3"
+    aria-hidden={duplicada || undefined}
+  >
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0 bg-primary-lightest dark:bg-primary-light/15 text-primary-dark dark:text-primary-light">
@@ -124,19 +90,24 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
         <span className="text-[10px] font-medium text-neutral-dark dark:text-white/70">{SOURCE_LABEL[review.source]}</span>
       </div>
     </div>
-    <p className="text-sm text-neutral-dark dark:text-white/70 leading-relaxed line-clamp-3">{review.text}</p>
+    <p className="text-sm text-neutral-dark dark:text-white/70 leading-relaxed line-clamp-3" title={review.text}>
+      {review.text}
+    </p>
   </div>
 );
 
 /* Fila de marquee que se mueve sola. `reverse` la hace ir en dirección opuesta. */
 const MarqueeRow: React.FC<{ reviews: Review[]; reverse?: boolean }> = ({ reviews, reverse = false }) => {
-  /* Duplicamos las cards para que el loop sea continuo */
-  const doubled = [...reviews, ...reviews];
+  /* Duplicamos las cards para que el loop sea continuo. La segunda copia es la
+     misma reseña otra vez, así que no se la dictamos de nuevo a un lector. */
   return (
-    <div className="overflow-hidden">
+    <div className="marquee-fila overflow-hidden">
       <div className={`flex gap-5 w-max ${reverse ? 'marquee-reverse' : 'marquee'}`}>
-        {doubled.map((review, i) => (
-          <ReviewCard key={`${review.id}-${i}`} review={review} />
+        {reviews.map((review) => (
+          <ReviewCard key={review.id} review={review} />
+        ))}
+        {reviews.map((review) => (
+          <ReviewCard key={`copia-${review.id}`} review={review} duplicada />
         ))}
       </div>
     </div>
@@ -144,7 +115,11 @@ const MarqueeRow: React.FC<{ reviews: Review[]; reverse?: boolean }> = ({ review
 };
 
 const ReviewsSection: React.FC = () => {
-  const [reviews, setReviews] = useState<Review[]>(FALLBACK_REVIEWS);
+  // Arranca vacío a propósito. Antes había cuatro reseñas inventadas de
+  // respaldo, con nombres y textos que no existen, debajo de un título que
+  // dice "reseñas reales" y ahora también de un promedio calculado. Si el
+  // archivo no carga, la sección no se muestra y listo.
+  const [reviews, setReviews] = useState<Review[]>([]);
   const headerAnim = useScrollAnimation({ animation: 'fade-up', threshold: 0.2 });
   const rowsAnim = useScrollAnimation({ animation: 'fade-up', delay: 150, threshold: 0.1 });
 
@@ -152,10 +127,14 @@ const ReviewsSection: React.FC = () => {
     fetch('/reviews.json')
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data?.reviews?.length) setReviews(data.reviews);
+        if (Array.isArray(data?.reviews)) setReviews(data.reviews);
       })
       .catch(() => {});
   }, []);
+
+  const promedio = reviews.length
+    ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
+    : 0;
 
   /* Fila 1: todas las reseñas en orden
      Fila 2: mismas reseñas pero rotadas a la mitad, así siempre se ven tarjetas distintas */
@@ -163,6 +142,8 @@ const ReviewsSection: React.FC = () => {
   const row1 = reviews;
   const row2 = [...reviews.slice(offset), ...reviews.slice(0, offset)];
   const safeRow2 = row2.length ? row2 : row1;
+
+  if (reviews.length === 0) return null;
 
   return (
     <section id={SECTION_IDS.reviews} className="relative py-20 sm:py-28 overflow-hidden">
@@ -174,6 +155,21 @@ const ReviewsSection: React.FC = () => {
           <p className="mt-5 text-lg text-neutral-dark dark:text-white/75">
             Reseñas reales, actualizadas automáticamente desde las tiendas.
           </p>
+
+          {/* El número sale de las mismas reseñas que se muestran abajo, no de
+              una constante escrita a mano: el día que baje, baja acá solo. */}
+          {reviews.length > 0 && (
+            <div className="mt-7 inline-flex items-center gap-3 rounded-full bg-white dark:bg-night-card border border-neutral-light dark:border-white/10 px-5 py-2.5 shadow-sm dark:shadow-black/30">
+              <StarRating rating={Math.round(promedio)} />
+              <span className="text-sm font-semibold text-neutral-darkest dark:text-white">
+                {promedio.toFixed(1).replace('.', ',')} de 5
+              </span>
+              <span className="w-px h-4 bg-neutral-soft dark:bg-white/15" aria-hidden="true" />
+              <span className="text-sm text-neutral-dark dark:text-white/70">
+                {reviews.length} {reviews.length === 1 ? 'reseña' : 'reseñas'} en App Store y Google Play
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

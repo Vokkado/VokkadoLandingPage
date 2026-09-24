@@ -1,9 +1,33 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS } from '../constants';
+import { usePrefiereMenosMovimiento } from '../hooks/usePrefiereMenosMovimiento';
+import Icono from './common/Icono';
 
 const galleryModules = import.meta.glob('../images/gallery/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
-const galleryImages: string[] = Object.keys(galleryModules).sort().map((k) => galleryModules[k]);
+const galleryKeys = Object.keys(galleryModules).sort();
+const galleryImages: string[] = galleryKeys.map((k) => galleryModules[k]);
+
+/**
+ * Qué se ve en cada captura. Un alt que dice "captura 3" no le sirve a nadie:
+ * quien no ve la imagen se queda sin saber qué muestra la app.
+ */
+const DESCRIPCIONES: Record<string, string> = {
+  '1bienvenida': 'Pantalla de bienvenida de Vokkado',
+  '2camara': 'La cámara de Vokkado apuntando al código de barras de una leche sin lactosa en la góndola',
+  '3perfil': 'Tu perfil en Vokkado, con tus datos de salud, tus objetivos y tus preferencias',
+  '4leche 0 lactosa': 'Análisis de una leche sin lactosa, con su puntaje y el detalle de por qué',
+  '5alfajor': 'Análisis de un alfajor, con su puntaje y el detalle nutricional',
+  '6colet': 'Análisis de una leche chocolatada marcada como precaución, con la explicación y su aporte nutricional',
+  '7carrito': 'El carrito actual con el puntaje de la compra, y los carritos anteriores',
+  '8carrito': 'Resumen de un carrito con su puntaje promedio y el análisis del conjunto',
+  '9historial': 'Historial de productos escaneados, cada uno con su puntaje',
+};
+
+const galleryAlts: string[] = galleryKeys.map((k) => {
+  const nombre = k.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '';
+  return DESCRIPCIONES[nombre] ?? 'Captura de la app de Vokkado';
+});
 
 const AppleLogo: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -30,7 +54,11 @@ const HeroSection: React.FC = () => {
   // nueva termina de entrar. Así el cruce nunca deja ver las dos a medias.
   const [previa, setPrevia] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  // Pausa explícita: la del botón. Sobrevive a que el mouse entre y salga.
+  const [pausaManual, setPausaManual] = useState(false);
+  const prefiereMenosMovimiento = usePrefiereMenosMovimiento();
   const touchStartX = useRef<number | null>(null);
+  const corriendo = !isPaused && !pausaManual && !prefiereMenosMovimiento && n > 1;
 
   // Hacia dónde se mueve la tira de capturas, para que el gesto y el automático
   // se deslicen en el sentido correcto.
@@ -39,16 +67,27 @@ const HeroSection: React.FC = () => {
   const goPrev = useCallback(() => { setHaciaAdelante(false); setIdx(i => (i - 1 + n) % n); }, [n]);
 
   useEffect(() => {
-    if (isPaused || n <= 1) return;
+    if (!corriendo) return;
     const id = setInterval(goNext, 4000);
     return () => clearInterval(id);
-  }, [isPaused, n, goNext]);
+  }, [corriendo, goNext]);
 
   useEffect(() => {
     if (idx === previa) return;
     const id = setTimeout(() => setPrevia(idx), 520);
     return () => clearTimeout(id);
   }, [idx, previa]);
+
+  // Se precarga solo la captura que viene y la anterior, no las nueve. Antes
+  // estaban todas montadas en un div oculto, así que la página no terminaba de
+  // cargar hasta bajar la galería entera antes de mostrar nada.
+  useEffect(() => {
+    if (n <= 1) return;
+    [(idx + 1) % n, (idx - 1 + n) % n].forEach((i) => {
+      const img = new Image();
+      img.src = galleryImages[i];
+    });
+  }, [idx, n]);
 
   const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; setIsPaused(true); };
   const onTouchEnd   = (e: React.TouchEvent) => {
@@ -108,26 +147,30 @@ const HeroSection: React.FC = () => {
                   </div>
                 </button>
               </div>
+
+              {/* Que la app es gratis era la objeción que nadie contestaba:
+                  el dato vivía enterrado en /independencia. */}
+              <p className="mt-5 text-sm text-neutral dark:text-white/55">
+                Gratis, para iPhone y Android.
+              </p>
+
             </div>
           </div>
 
           {/* ── Teléfono único con crossfade ── */}
           <div
-            className="lg:col-span-2 mt-16 lg:mt-0 flex items-center justify-center"
+            className="lg:col-span-2 mt-16 lg:mt-0 flex flex-col items-center justify-center"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            role="group"
+            aria-roledescription="carrusel"
+            aria-label="Capturas de la app de Vokkado"
           >
             <IPhoneMockup>
               {galleryImages.length > 0 ? (
                 <div className="relative w-full h-full select-none">
-                  {/* Todas montadas y ocultas: así ya están cargadas cuando les toca */}
-                  <div className="hidden" aria-hidden="true">
-                    {galleryImages.map((src, i) => (
-                      <img key={i} src={src} alt="" />
-                    ))}
-                  </div>
                   {previa !== idx && (
                     <img
                       key={`sale-${previa}`}
@@ -143,7 +186,7 @@ const HeroSection: React.FC = () => {
                   <img
                     key={`entra-${idx}`}
                     src={galleryImages[idx]}
-                    alt={`Vokkado captura ${idx + 1}`}
+                    alt={galleryAlts[idx]}
                     className={`absolute inset-0 w-full h-full object-cover ${
                       previa === idx
                         ? ''
@@ -152,6 +195,8 @@ const HeroSection: React.FC = () => {
                           : 'captura-entra-izquierda'
                     }`}
                     draggable={false}
+                    fetchPriority={idx === 0 ? 'high' : 'auto'}
+                    decoding="async"
                   />
                 </div>
               ) : (
@@ -161,6 +206,48 @@ const HeroSection: React.FC = () => {
                 </div>
               )}
             </IPhoneMockup>
+
+            {/* ── Controles ──
+                Antes esto avanzaba solo cada 4 segundos y no había forma de
+                pararlo ni de saber en qué captura estabas, salvo pasando el
+                mouse por encima, que con el dedo no existe. */}
+            {n > 1 && (
+              /* El ancho es el mismo del teléfono y los puntos van centrados
+                 ahí adentro, así quedan alineados con el centro de la pantalla.
+                 El botón va absoluto a la izquierda a propósito: si fuera parte
+                 del flujo, correría los puntos hacia la derecha. */
+              <div className="mt-6 relative w-[260px] sm:w-[280px] lg:w-[300px]">
+                <button
+                  type="button"
+                  onClick={() => setPausaManual((p) => !p)}
+                  aria-label={pausaManual || prefiereMenosMovimiento ? 'Reanudar las capturas' : 'Pausar las capturas'}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-primary-dark dark:text-white bg-primary-dark/[0.07] hover:bg-primary-dark/[0.14] dark:bg-white/10 dark:hover:bg-white/20 border border-primary-dark/25 dark:border-white/30 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark dark:focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-friendlyWhite dark:focus-visible:ring-offset-night"
+                >
+                  <Icono
+                    name={corriendo ? 'pause' : 'play'}
+                    style={{ fontSize: '16px' }}
+                    aria-hidden="true"
+                  />
+                </button>
+
+                <div className="flex items-center justify-center gap-2 h-9">
+                  {galleryImages.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => { setHaciaAdelante(i > idx); setIdx(i); }}
+                      aria-label={`Ver captura ${i + 1} de ${n}: ${galleryAlts[i]}`}
+                      aria-current={i === idx ? 'true' : undefined}
+                      className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark dark:focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-friendlyWhite dark:focus-visible:ring-offset-night ${
+                        i === idx
+                          ? 'w-6 bg-primary-dark dark:bg-primary-light'
+                          : 'w-2 bg-primary-dark/25 dark:bg-white/30 hover:bg-primary-dark/45 dark:hover:bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
         </div>

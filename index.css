@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ─── Tema ─── */
 /* La landing está diseñada en claro y en oscuro, y quien elige es el navegador:
    no hay interruptor en la página. Al declarar los dos esquemas, los controles
@@ -93,6 +97,26 @@ html {
 }
 .marquee-reverse {
   animation: marquee-reverse 60s linear infinite;
+}
+
+/* Se frena al pasar el mouse o al llegar con el teclado. Una reseña que pasa
+   de largo mientras la estás leyendo no sirve de nada. */
+.marquee-fila:hover .marquee,
+.marquee-fila:hover .marquee-reverse,
+.marquee-fila:focus-within .marquee,
+.marquee-fila:focus-within .marquee-reverse {
+  animation-play-state: paused;
+}
+
+/* Con movimiento reducido no se mueve nada: la fila se recorre a mano. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .marquee-reverse {
+    animation: none;
+  }
+  .marquee-fila {
+    overflow-x: auto;
+  }
 }
 
 /* ─── Utilidades varias ─── */

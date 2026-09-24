@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import Icono from './common/Icono';
 
 interface TeaserProps {
   title: string;
@@ -40,7 +41,7 @@ const Teaser: React.FC<TeaserProps> = ({ title, desc, linkTo, linkText, badge })
             className="inline-flex items-center gap-2 bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep font-semibold text-sm px-6 py-3 rounded-xl hover:bg-primary dark:hover:bg-primary-light/85 hover:scale-105 transition-all duration-200 shadow-sm"
           >
             {linkText}
-            <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
+            <Icono name="arrow-forward-outline" style={{ fontSize: '16px' }} />
           </Link>
         </div>
       </div>

@@ -1,14 +1,13 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
+// Acá había un `define` que metía GEMINI_API_KEY en el bundle del cliente.
+// La landing no usa Gemini, y todo lo que se define así queda escrito en
+// texto plano dentro del JS público. Si alguna vez hace falta una clave, va
+// del lado del servidor, nunca acá.
+export default defineConfig(() => {
   return {
-    base: '/', 
-    define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
+    base: '/',
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

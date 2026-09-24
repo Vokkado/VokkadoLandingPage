@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /eliminar-cuenta
+
+Sitemap: https://vokkado.com/sitemap.xml

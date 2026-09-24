@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import paltaNutri from '../images/nutri/palta-nutricionista.png';
+import paltaNutri from '../images/nutri/palta-nutricionista.webp';
+import Icono from './common/Icono';
 
 const PROOFS = [
   { icon: 'calendar-outline', text: 'Turnos pedidos desde la app' },
@@ -30,7 +31,7 @@ const NutritionistTeaser: React.FC = () => {
             <div className="relative flex items-center justify-center w-60 h-60 sm:w-72 sm:h-72">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-nutri-light/30 via-[#cfe9e4]/50 to-nutri-lightest/40 dark:from-nutri/25 dark:via-nutri-dark/30 dark:to-nutri-dark/20 blur-2xl" />
               <div className="absolute inset-4 rounded-full border border-nutri-light/35 dark:border-nutri-light/20 border-dashed" />
-              <img
+              <img loading="lazy" decoding="async"
                 src={paltaNutri}
                 alt="La palta nutricionista de Vokkado"
                 className="relative z-10 w-52 sm:w-60 drop-shadow-[0_18px_36px_rgba(12,75,69,0.20)] dark:drop-shadow-[0_18px_36px_rgba(0,0,0,0.45)]"
@@ -51,7 +52,7 @@ const NutritionistTeaser: React.FC = () => {
               {PROOFS.map((p) => (
                 <div key={p.text} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-nutri-light/20 flex items-center justify-center flex-shrink-0">
-                    <ion-icon name={p.icon} style={{ fontSize: '19px' }} className="text-nutri dark:text-nutri-light" aria-hidden="true" />
+                    <Icono name={p.icon} style={{ fontSize: '19px' }} className="text-nutri dark:text-nutri-light" aria-hidden="true" />
                   </div>
                   <span className="font-sans text-sm sm:text-base text-neutral-dark dark:text-white/75 font-medium">{p.text}</span>
                 </div>
@@ -64,7 +65,7 @@ const NutritionistTeaser: React.FC = () => {
                 className="inline-flex items-center gap-2 bg-nutri-dark dark:bg-nutri-light text-white dark:text-nightNutri-deep font-sans font-semibold text-sm px-6 py-3 rounded-xl hover:bg-nutri dark:hover:bg-nutri-light/85 hover:scale-105 transition-all duration-200 shadow-sm"
               >
                 Conocer la plataforma
-                <ion-icon name="arrow-forward-outline" style={{ fontSize: '16px' }} />
+                <Icono name="arrow-forward-outline" style={{ fontSize: '16px' }} />
               </Link>
             </div>
           </div>
