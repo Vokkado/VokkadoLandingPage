@@ -592,7 +592,7 @@ const NutritionistsPage: React.FC = () => {
             con el producto en la mano
           </blockquote>
           <p className="font-sans mt-8 text-white/80 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-            En ese momento no te puede llamar, y ahí es donde el plan se cumple o se cae. Con Vokkado llegás hasta ahí: tu paciente escanea el producto, la app le dice si le sirve, y vos después ves qué compró.
+            En ese momento no te puede llamar, y ahí es donde el plan se cumple o se cae. Vokkado está ahí con él: escanea, y la app le dice si le sirve. Y lo que pasa en esa góndola no se pierde.
           </p>
         </div>
       </section>
@@ -602,10 +602,10 @@ const NutritionistsPage: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div ref={bridgeTitleRef} className="text-center mb-14 sm:mb-16 max-w-3xl mx-auto">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-darkest dark:text-white leading-tight">
-              Lo que pasa en el súper, <span className="text-nutri-dark dark:text-nutri-light">también en tu consultorio</span>
+              De la góndola <span className="text-nutri-dark dark:text-nutri-light">a tu ficha</span>
             </h2>
             <p className="font-sans mt-5 text-lg text-neutral-dark dark:text-white/75 max-w-2xl mx-auto">
-              Tu paciente escanea y compra con la app de Vokkado. Si él lo permite, eso llega a tu ficha.
+              Tres pasos, y tu paciente decide qué te muestra. Llegás a la próxima consulta sabiendo qué pasó, sin tener que preguntar.
             </p>
           </div>
 
