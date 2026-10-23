@@ -5,6 +5,10 @@ import { EVENTO_CONSENTIMIENTO, guardarConsentimiento, leerConsentimiento } from
 /**
  * Antes Analytics cargaba en el head, sin preguntar nada. Ahora la medición
  * arranca denegada y esto es lo que la habilita, solo si la persona dice que sí.
+ * Lo mismo vale para el pixel de Meta, que ni siquiera se baja hasta que acepta.
+ *
+ * El detalle de qué recoge cada herramienta vive en la política de privacidad,
+ * no acá: el banner dice la verdad en una línea y deja elegir.
  *
  * Las dos opciones pesan igual a propósito: un "rechazar" escondido o en gris
  * no es una elección, es un trámite.
@@ -37,7 +41,7 @@ const CookieBanner: React.FC = () => {
     >
       <div className="container mx-auto max-w-3xl bg-white dark:bg-night-card border border-neutral-soft dark:border-white/10 rounded-2xl shadow-lg dark:shadow-black/50 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-5">
         <p className="text-sm text-neutral-dark dark:text-white/75 leading-relaxed flex-grow">
-          Medimos cómo se usa el sitio para mejorarlo. Sin publicidad ni terceros.{' '}
+          Usamos cookies para medir el sitio y nuestros anuncios.{' '}
           <Link
             to="/politica-privacidad"
             className="text-primary-dark dark:text-primary-light font-semibold hover:underline"

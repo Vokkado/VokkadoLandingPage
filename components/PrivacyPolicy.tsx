@@ -146,7 +146,7 @@ const PrivacyPolicy: React.FC = () => {
                 Servicios utilizados
               </h3>
               <p className="mb-4">
-                Podemos utilizar servicios de terceros que procesan datos en nuestro nombre, como herramientas de analítica, infraestructura o envío de emails. Estos proveedores cumplen con estándares adecuados de protección de datos.
+                Podemos utilizar servicios de terceros que procesan datos en nuestro nombre, como herramientas de analítica, de medición publicitaria, infraestructura o envío de emails. Estos proveedores cumplen con estándares adecuados de protección de datos.
                 </p>
                 <h3 className="text-2xl font-bold text-primary dark:text-primary-light mb-4">
                 Google Analytics
@@ -163,6 +163,27 @@ const PrivacyPolicy: React.FC = () => {
                 <p className="mt-4">
                     Toda la información se utiliza únicamente con fines estadísticos y para mejorar la experiencia del usuario. Google puede almacenar esta información en servidores fuera de Uruguay, aplicando sus propias políticas de privacidad.
                     El usuario puede obtener más información en la Política de Privacidad de Google.
+                </p>
+                <h3 className="text-2xl font-bold text-primary dark:text-primary-light mb-4 mt-8">
+                Pixel de Meta
+              </h3>
+              <p className="mb-4">
+                Utilizamos el pixel de Meta, la empresa de Facebook e Instagram, para medir los resultados de nuestros anuncios y para mostrar avisos a personas que ya visitaron este sitio. El pixel recopila información como:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>Páginas visitadas dentro de la landing</li>
+                <li>Dispositivo y navegador</li>
+                <li>Acciones básicas, por ejemplo el clic al botón de descarga de la app</li>
+                <li>Un identificador guardado en una cookie propia del pixel</li>
+              </ul>
+                <p className="mt-4">
+                    El pixel se carga únicamente si aceptaste la medición en el aviso del inicio. Si la rechazaste, o si todavía no respondiste, no se carga y no se envía ninguna información a Meta. Podés cambiar tu decisión cuando quieras desde el pie del sitio.
+                </p>
+                <p className="mt-4">
+                    Meta Platforms Ireland Limited puede almacenar y procesar esta información en servidores fuera de Uruguay, aplicando sus propias políticas de privacidad.
+                </p>
+                <p className="mt-4">
+                    No enviamos a Meta ninguna información de salud. Las alergias, condiciones y restricciones que cargás en la aplicación no salen de la aplicación y no se comparten con esta herramienta ni con ninguna otra de medición.
                 </p>
             </section>
 

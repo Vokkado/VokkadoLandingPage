@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import GoogleAnalytics from './components/GoogleAnalytics';
+import MetaPixel from './components/MetaPixel';
 import RouteMeta from './components/RouteMeta';
 
 const ScrollToTop: React.FC = () => {
@@ -74,6 +75,7 @@ const App: React.FC = () => {
         <ScrollToTop />
         <RouteMeta />
         <GoogleAnalytics />
+        <MetaPixel />
         <Navbar />
         <main className="flex-grow">
           <Suspense fallback={<Cargando />}>
