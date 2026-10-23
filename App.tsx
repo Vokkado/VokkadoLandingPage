@@ -17,6 +17,7 @@ import ReviewsSection from './components/ReviewsSection';
 import CallToActionSection from './components/CallToAction';
 import { Footer } from './components/Footer';
 import TeamTeaser from './components/TeamTeaser';
+import Apoyos from './components/Apoyos';
 import NutritionistTeaser from './components/NutritionistTeaser';
 import CookieBanner from './components/CookieBanner';
 
@@ -64,6 +65,7 @@ const HomePage: React.FC = () => {
       <TeamTeaser />
       <CallToActionSection />
       <NutritionistTeaser />
+      <Apoyos />
     </>
   );
 };
