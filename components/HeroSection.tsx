@@ -3,6 +3,7 @@ import IPhoneMockup from './common/IPhoneMockup';
 import { SECTION_IDS } from '../constants';
 import { usePrefiereMenosMovimiento } from '../hooks/usePrefiereMenosMovimiento';
 import Icono from './common/Icono';
+import { eventoMetaPropio } from './MetaPixel';
 
 const galleryModules = import.meta.glob('../images/gallery/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }) as Record<string, string>;
 const galleryKeys = Object.keys(galleryModules).sort();
@@ -123,7 +124,10 @@ const HeroSection: React.FC = () => {
             <div className="mb-8">
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
                 <button
-                  onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
+                  onClick={() => {
+                    eventoMetaPropio('DescargaApp', { tienda: 'app_store' });
+                    window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer');
+                  }}
                   className="group flex items-center gap-3 bg-primary-dark/[0.07] hover:bg-primary-dark/[0.14] dark:bg-white/10 dark:hover:bg-white/20 text-primary-dark dark:text-white rounded-2xl px-4 py-3 border border-primary-dark/30 hover:border-primary-dark/50 dark:border-white/35 dark:hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
                   aria-label="Descargar Vokkado en App Store"
                   title="Descargar Vokkado beta pública en App Store"
@@ -135,7 +139,10 @@ const HeroSection: React.FC = () => {
                   </div>
                 </button>
                 <button
-                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
+                  onClick={() => {
+                    eventoMetaPropio('DescargaApp', { tienda: 'google_play' });
+                    window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer');
+                  }}
                   className="group flex items-center gap-3 bg-primary-dark/[0.07] hover:bg-primary-dark/[0.14] dark:bg-white/10 dark:hover:bg-white/20 text-primary-dark dark:text-white rounded-2xl px-4 py-3 border border-primary-dark/30 hover:border-primary-dark/50 dark:border-white/35 dark:hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[230px]"
                   aria-label="Descargar Vokkado en Google Play"
                   title="Descargar Vokkado beta pública en Google Play"

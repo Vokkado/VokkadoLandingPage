@@ -1,6 +1,7 @@
 import React from 'react';
 import { APP_NAME, SECTION_IDS } from '../constants';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { eventoMetaPropio } from './MetaPixel';
 
 /* ── Inline SVG logos ── */
 const AppleLogo: React.FC<{ className?: string }> = ({ className }) => (
@@ -48,7 +49,10 @@ const CallToActionSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             {/* App Store button */}
             <button
-              onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
+              onClick={() => {
+                    eventoMetaPropio('DescargaApp', { tienda: 'app_store' });
+                    window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer');
+                  }}
               className="group flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-3 border border-white/35 hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[200px]"
               aria-label="Descargar beta pública en App Store"
             >
@@ -61,7 +65,10 @@ const CallToActionSection: React.FC = () => {
 
             {/* Google Play button */}
             <button
-              onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
+              onClick={() => {
+                    eventoMetaPropio('DescargaApp', { tienda: 'google_play' });
+                    window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer');
+                  }}
               className="group flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-3 border border-white/35 hover:border-white/60 hover:scale-105 transition-all duration-200 cursor-pointer w-[200px]"
               aria-label="Descargar beta pública en Google Play"
             >

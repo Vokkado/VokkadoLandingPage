@@ -53,6 +53,7 @@ import photo2 from '../images/team/2.webp';
 import photo3 from '../images/team/3.webp';
 import photo4 from '../images/team/4.webp';
 import Icono from './common/Icono';
+import { eventoMetaPropio } from './MetaPixel';
 
 const MEMBERS = [
   {
@@ -338,7 +339,10 @@ const Team: React.FC = () => {
         <p ref={ctaDescRef} className="text-primary-lightest text-sm mb-8">Descargá Vokkado y empezá a tomar mejores decisiones hoy.</p>
         <div ref={ctaBtnsRef} className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
-            onClick={() => window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer')}
+            onClick={() => {
+                    eventoMetaPropio('DescargaApp', { tienda: 'app_store' });
+                    window.open('https://apps.apple.com/uy/app/vokkado/id6761864995?l=es-MX', '_blank', 'noopener,noreferrer');
+                  }}
             className="flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-5 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[190px]"
             aria-label="Descargar en App Store"
           >
@@ -349,7 +353,10 @@ const Team: React.FC = () => {
             </div>
           </button>
           <button
-            onClick={() => window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer')}
+            onClick={() => {
+                    eventoMetaPropio('DescargaApp', { tienda: 'google_play' });
+                    window.open('https://play.google.com/store/apps/details?id=com.scantoeat.app&pcampaignid=web_share', '_blank', 'noopener,noreferrer');
+                  }}
             className="flex items-center gap-2.5 bg-black hover:bg-neutral-darkest text-white rounded-xl px-5 py-2.5 border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-200 cursor-pointer w-[190px]"
             aria-label="Descargar en Google Play"
           >

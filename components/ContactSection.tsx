@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import Icono from './common/Icono';
+import { eventoMeta } from './MetaPixel';
 
 const ContactSection: React.FC = () => {
   const { ref: titleRef } = useScrollAnimation({ animation: 'fade-up', threshold: 0.15 });
@@ -53,6 +54,7 @@ const ContactSection: React.FC = () => {
             <p className="text-sm sm:text-base text-neutral dark:text-white/65 mb-3 font-medium">Mandanos un email a</p>
             <a
               href={MAILTO}
+              onClick={() => eventoMeta('Contact', { metodo: 'mailto' })}
               title={`Escribir a ${EMAIL}`}
               className="text-2xl sm:text-3xl font-bold text-primary-dark dark:text-primary-light hover:text-primary-light dark:hover:text-primary transition-colors duration-200 break-all"
             >
@@ -67,6 +69,7 @@ const ContactSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
             <a
               href={MAILTO}
+              onClick={() => eventoMeta('Contact', { metodo: 'mailto' })}
               title={`Escribir a ${EMAIL}`}
               className="inline-flex items-center justify-center gap-2.5 bg-primary-dark dark:bg-primary-light text-white dark:text-night-deep font-semibold text-sm px-7 py-3.5 rounded-xl hover:bg-primary dark:hover:bg-primary-light/85 hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap"
             >

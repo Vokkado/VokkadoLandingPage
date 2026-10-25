@@ -44,6 +44,25 @@ function ensureFbq(): Fbq {
   return fbq;
 }
 
+/**
+ * Eventos que dispara el resto del sitio. Si la persona no aceptó la medición
+ * no hay pixel al que avisarle, así que la llamada se descarta sin tocar la red.
+ */
+function enviar(metodo: 'track' | 'trackCustom', nombre: string, parametros?: Record<string, unknown>) {
+  if (leerConsentimiento() !== 'aceptado' || !window.fbq) return;
+  window.fbq(metodo, nombre, parametros);
+}
+
+/** Evento del catálogo de Meta, por ejemplo Contact o ViewContent. */
+export function eventoMeta(nombre: string, parametros?: Record<string, unknown>) {
+  enviar('track', nombre, parametros);
+}
+
+/** Evento propio, para lo que el catálogo de Meta no contempla. */
+export function eventoMetaPropio(nombre: string, parametros?: Record<string, unknown>) {
+  enviar('trackCustom', nombre, parametros);
+}
+
 const MetaPixel = () => {
   const { pathname, search } = useLocation();
   const cargado = useRef(false);
@@ -90,9 +109,16 @@ const MetaPixel = () => {
 
   // Una vista por ruta, igual que en Analytics. Con navegación de SPA el pixel
   // solo contaría la primera pantalla.
+  //
+  // La pantalla de nutricionistas además manda ViewContent: es la única del
+  // sitio que vale como señal de interés, y es la que se usa para el público
+  // de remarketing tibio.
   useEffect(() => {
     if (!cargado.current) return;
     ensureFbq()('track', 'PageView');
+    if (pathname === '/nutricionistas') {
+      ensureFbq()('track', 'ViewContent', { content_name: 'Nutricionistas' });
+    }
   }, [pathname, search]);
 
   return null;
